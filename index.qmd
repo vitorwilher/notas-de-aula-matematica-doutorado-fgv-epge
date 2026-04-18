@@ -1,0 +1,33 @@
+---
+title: |
+  \includegraphics[width=3.8cm]{AM.png}\par\vspace{1em}
+  Notas de Aula -- Matemática para Doutorado em Economia
+author: "Vitor Wilher\\footnote{Bacharel e Mestre em Economia pela UFF, Candidato ao PhD em Economia pela EPGE/FGV. É Especialista em Ciências de Dados e Inteligência Artificial Generativa pela PUC-Rio. Atualmente, exerce a função de Data Tech Lead na Análise Macro (\\url{http://analisemacro.com.br}). Saiba mais em \\url{https://github.com/vitorwilher}.}"
+subtitle: |
+  EPGE/FGV
+
+  Professora: Silvia Matos
+date: ""
+lang: pt-BR
+bibliography: referencias.bib
+reference-section-title: "Referências"
+format:
+  pdf:
+    pdf-engine: xelatex
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    geometry:
+      - margin=2.5cm
+    fontsize: 11pt
+header-includes:
+  - |
+    \usepackage{etoolbox}
+    \pretocmd{\tableofcontents}{\begingroup\small}{}{}
+    \apptocmd{\tableofcontents}{\endgroup\clearpage}{}{}
+execute:
+  warning: false
+  message: false
+---
+
+{{< include funcoes_varias_variaveis.qmd >}}
