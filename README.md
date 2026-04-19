@@ -9,7 +9,7 @@
 
 As notas são compiladas em um único PDF, atualizado ao longo do curso:
 
-**[Baixar PDF (versão mais recente)](https://github.com/vitorwilher/notas-de-aula-matematica-doutorado-fgv-epge/raw/main/index.pdf)**
+**[Ver PDF (versão mais recente)](https://github.com/vitorwilher/notas-de-aula-matematica-doutorado-fgv-epge/blob/main/index.pdf)**
 
 ---
 
