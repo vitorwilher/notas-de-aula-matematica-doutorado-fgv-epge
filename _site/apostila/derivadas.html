@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Vitor Wilher">
+
+<title>quarto-inputbccee07c85334c42 – Matemática — EPGE/FGV</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1b8143a5af30aa0587ead8c64582f750.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Matemática — EPGE/FGV</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Procurar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Alternar de navegação" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Início</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-apostila" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Apostila</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-apostila">    
+        <li>
+    <a class="dropdown-item" href="../apostila/introducao.html">
+ <span class="dropdown-text">Introdução</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/nivelamento.html">
+ <span class="dropdown-text">Nivelamento</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/limites.html">
+ <span class="dropdown-text">Limites e Continuidade</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/derivadas.html">
+ <span class="dropdown-text">Derivadas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/antiderivada.html">
+ <span class="dropdown-text">Antiderivadas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/integral.html">
+ <span class="dropdown-text">Integral Definida</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/log_natural.html">
+ <span class="dropdown-text">Logaritmo Natural</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/funcao_inversa.html">
+ <span class="dropdown-text">Função Inversa</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/exponencial.html">
+ <span class="dropdown-text">Funções Exponenciais</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/integracao_por_partes.html">
+ <span class="dropdown-text">Integração por Partes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/edo.html">
+ <span class="dropdown-text">EDO</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../apostila/funcoes_varias_variaveis.html">
+ <span class="dropdown-text">Funções de Várias Variáveis</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../monitorias/index.html"> 
+<span class="menu-text">Monitorias</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../testes/index.html"> 
+<span class="menu-text">Testes</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../apostila/derivadas.html"></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/introducao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/nivelamento.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/limites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/derivadas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/antiderivada.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/integral.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/log_natural.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/funcao_inversa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/exponencial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/integracao_por_partes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/edo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apostila/funcoes_varias_variaveis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Nesta página</h2>
+   
+  <ul>
+  <li><a href="#derivadas" id="toc-derivadas" class="nav-link active" data-scroll-target="#derivadas"><span class="header-section-number">1</span> Derivadas</a>
+  <ul class="collapse">
+  <li><a href="#motivação-econômica" id="toc-motivação-econômica" class="nav-link" data-scroll-target="#motivação-econômica"><span class="header-section-number">1.1</span> Motivação Econômica</a></li>
+  <li><a href="#definição-formal" id="toc-definição-formal" class="nav-link" data-scroll-target="#definição-formal"><span class="header-section-number">1.2</span> Definição Formal</a>
+  <ul class="collapse">
+  <li><a href="#taxa-de-variação-média" id="toc-taxa-de-variação-média" class="nav-link" data-scroll-target="#taxa-de-variação-média"><span class="header-section-number">1.2.1</span> Taxa de Variação Média</a></li>
+  <li><a href="#derivada" id="toc-derivada" class="nav-link" data-scroll-target="#derivada"><span class="header-section-number">1.2.2</span> Derivada</a></li>
+  <li><a href="#notação" id="toc-notação" class="nav-link" data-scroll-target="#notação"><span class="header-section-number">1.2.3</span> Notação</a></li>
+  <li><a href="#exemplo-fx-x2" id="toc-exemplo-fx-x2" class="nav-link" data-scroll-target="#exemplo-fx-x2"><span class="header-section-number">1.2.4</span> Exemplo: <span class="math inline">\(f(x) = x^2\)</span></a></li>
+  </ul></li>
+  <li><a href="#interpretação-econômica" id="toc-interpretação-econômica" class="nav-link" data-scroll-target="#interpretação-econômica"><span class="header-section-number">1.3</span> Interpretação Econômica</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-custo-marginal" id="toc-exemplo-custo-marginal" class="nav-link" data-scroll-target="#exemplo-custo-marginal"><span class="header-section-number">1.3.1</span> Exemplo: Custo Marginal</a></li>
+  </ul></li>
+  <li><a href="#regras-de-derivação" id="toc-regras-de-derivação" class="nav-link" data-scroll-target="#regras-de-derivação"><span class="header-section-number">1.4</span> Regras de Derivação</a>
+  <ul class="collapse">
+  <li><a href="#derivadas-elementares" id="toc-derivadas-elementares" class="nav-link" data-scroll-target="#derivadas-elementares"><span class="header-section-number">1.4.1</span> Derivadas Elementares</a></li>
+  <li><a href="#regras-algébricas" id="toc-regras-algébricas" class="nav-link" data-scroll-target="#regras-algébricas"><span class="header-section-number">1.4.2</span> Regras Algébricas</a></li>
+  <li><a href="#exemplos" id="toc-exemplos" class="nav-link" data-scroll-target="#exemplos"><span class="header-section-number">1.4.3</span> Exemplos</a></li>
+  <li><a href="#derivadas-pela-definição-de-limite" id="toc-derivadas-pela-definição-de-limite" class="nav-link" data-scroll-target="#derivadas-pela-definição-de-limite"><span class="header-section-number">1.4.4</span> Derivadas pela Definição de Limite</a></li>
+  </ul></li>
+  <li><a href="#regra-da-cadeia" id="toc-regra-da-cadeia" class="nav-link" data-scroll-target="#regra-da-cadeia"><span class="header-section-number">1.5</span> Regra da Cadeia</a>
+  <ul class="collapse">
+  <li><a href="#definição" id="toc-definição" class="nav-link" data-scroll-target="#definição"><span class="header-section-number">1.5.1</span> Definição</a></li>
+  <li><a href="#prova" id="toc-prova" class="nav-link" data-scroll-target="#prova"><span class="header-section-number">1.5.2</span> Prova</a></li>
+  <li><a href="#intuição-geométrica" id="toc-intuição-geométrica" class="nav-link" data-scroll-target="#intuição-geométrica"><span class="header-section-number">1.5.3</span> Intuição Geométrica</a></li>
+  <li><a href="#exemplos-1" id="toc-exemplos-1" class="nav-link" data-scroll-target="#exemplos-1"><span class="header-section-number">1.5.4</span> Exemplos</a></li>
+  <li><a href="#aplicação-econômica-elasticidade" id="toc-aplicação-econômica-elasticidade" class="nav-link" data-scroll-target="#aplicação-econômica-elasticidade"><span class="header-section-number">1.5.5</span> Aplicação Econômica: Elasticidade</a></li>
+  </ul></li>
+  <li><a href="#derivada-segunda-e-concavidade" id="toc-derivada-segunda-e-concavidade" class="nav-link" data-scroll-target="#derivada-segunda-e-concavidade"><span class="header-section-number">1.6</span> Derivada Segunda e Concavidade</a>
+  <ul class="collapse">
+  <li><a href="#definição-1" id="toc-definição-1" class="nav-link" data-scroll-target="#definição-1"><span class="header-section-number">1.6.1</span> Definição</a></li>
+  <li><a href="#concavidade" id="toc-concavidade" class="nav-link" data-scroll-target="#concavidade"><span class="header-section-number">1.6.2</span> Concavidade</a></li>
+  <li><a href="#exemplo-fx-x3---3x2" id="toc-exemplo-fx-x3---3x2" class="nav-link" data-scroll-target="#exemplo-fx-x3---3x2"><span class="header-section-number">1.6.3</span> Exemplo: <span class="math inline">\(f(x) = x^3 - 3x^2\)</span></a></li>
+  </ul></li>
+  <li><a href="#gráficos-de-funções" id="toc-gráficos-de-funções" class="nav-link" data-scroll-target="#gráficos-de-funções"><span class="header-section-number">1.7</span> Gráficos de Funções</a>
+  <ul class="collapse">
+  <li><a href="#critérios-de-análise" id="toc-critérios-de-análise" class="nav-link" data-scroll-target="#critérios-de-análise"><span class="header-section-number">1.7.1</span> Critérios de Análise</a></li>
+  <li><a href="#exemplo-completo-fx-x3---3x2" id="toc-exemplo-completo-fx-x3---3x2" class="nav-link" data-scroll-target="#exemplo-completo-fx-x3---3x2"><span class="header-section-number">1.7.2</span> Exemplo Completo: <span class="math inline">\(f(x) = x^3 - 3x^2\)</span></a></li>
+  <li><a href="#condições-necessárias-vs.-suficientes" id="toc-condições-necessárias-vs.-suficientes" class="nav-link" data-scroll-target="#condições-necessárias-vs.-suficientes"><span class="header-section-number">1.7.3</span> Condições Necessárias vs.&nbsp;Suficientes</a></li>
+  <li><a href="#funções-definidas-por-partes" id="toc-funções-definidas-por-partes" class="nav-link" data-scroll-target="#funções-definidas-por-partes"><span class="header-section-number">1.7.4</span> Funções Definidas por Partes</a></li>
+  <li><a href="#exemplos-adicionais-de-análise-completa" id="toc-exemplos-adicionais-de-análise-completa" class="nav-link" data-scroll-target="#exemplos-adicionais-de-análise-completa"><span class="header-section-number">1.7.5</span> Exemplos Adicionais de Análise Completa</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">
+<p>Derivadas</p></h1>
+<p class="subtitle lead">Notas de Aula – Matemática para Doutorado em Economia, EPGE/FGV<br>
+Professora: Silvia Matos</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor</div>
+    <div class="quarto-title-meta-contents">
+             <p>Vitor Wilher </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="derivadas" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Derivadas</h1>
+<section id="motivação-econômica" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="motivação-econômica"><span class="header-section-number">1.1</span> Motivação Econômica</h2>
+<p>O conceito de derivada surge da necessidade de medir a <strong>taxa de variação instantânea</strong> de uma função. Em Economia, essa ideia está presente em toda parte: o custo marginal é a taxa de variação do custo total em relação à quantidade produzida; a utilidade marginal é a variação da utilidade ao consumir uma unidade adicional de um bem; a produtividade marginal do trabalho mede o acréscimo de produto decorrente de uma unidade extra de trabalho.</p>
+<p>A derivada generaliza o conceito de <strong>inclinação de uma reta</strong> para funções arbitrárias: em vez de medir a inclinação entre dois pontos fixos, medimos a inclinação da reta tangente ao gráfico em um ponto.</p>
+<p><strong>Exemplos econômicos centrais:</strong></p>
+<ul>
+<li><strong>Maximização de lucro.</strong> A firma maximiza <span class="math inline">\(\pi(q) = R(q) - C(q)\)</span> igualando receita marginal e custo marginal: <span class="math inline">\(\pi'(q^*) = R'(q^*) - C'(q^*) = 0\)</span>. A condição de segunda ordem (<span class="math inline">\(\pi''(q^*) &lt; 0\)</span>) garante que é máximo.</li>
+<li><strong>Elasticidade.</strong> A elasticidade-preço da demanda mede a sensibilidade percentual da quantidade ao preço: <span class="math inline">\(\varepsilon = \dfrac{dq}{dp} \cdot \dfrac{p}{q}\)</span>. Bens com <span class="math inline">\(|\varepsilon| &gt; 1\)</span> são elásticos; com <span class="math inline">\(|\varepsilon| &lt; 1\)</span>, inelásticos.</li>
+<li><strong>Estática comparativa.</strong> Como o equilíbrio <span class="math inline">\(q^*(p, m)\)</span> muda quando o preço <span class="math inline">\(p\)</span> ou a renda <span class="math inline">\(m\)</span> mudam? A resposta é dada pelas derivadas <span class="math inline">\(\partial q^*/\partial p\)</span> e <span class="math inline">\(\partial q^*/\partial m\)</span>.</li>
+<li><strong>Produtividade marginal decrescente.</strong> Na função de produção <span class="math inline">\(Q(L)\)</span>, a hipótese <span class="math inline">\(Q'' &lt; 0\)</span> captura a lei dos rendimentos decrescentes: cada unidade adicional de trabalho contribui menos que a anterior.</li>
+</ul>
+</section>
+<section id="definição-formal" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="definição-formal"><span class="header-section-number">1.2</span> Definição Formal</h2>
+<section id="taxa-de-variação-média" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="taxa-de-variação-média"><span class="header-section-number">1.2.1</span> Taxa de Variação Média</h3>
+<p>Dada uma função <span class="math inline">\(f : D \subseteq \mathbb{R} \to \mathbb{R}\)</span>, a <strong>taxa de variação média</strong> de <span class="math inline">\(f\)</span> no intervalo <span class="math inline">\([x_0, x_0 + h]\)</span> é:</p>
+<p><span class="math display">\[\frac{\Delta f}{\Delta x} = \frac{f(x_0 + h) - f(x_0)}{h}, \quad h \neq 0.\]</span></p>
+<p>Geometricamente, essa é a inclinação da <strong>reta secante</strong> que passa pelos pontos <span class="math inline">\((x_0, f(x_0))\)</span> e <span class="math inline">\((x_0 + h, f(x_0 + h))\)</span>.</p>
+</section>
+<section id="derivada" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="derivada"><span class="header-section-number">1.2.2</span> Derivada</h3>
+<p>A <strong>derivada de <span class="math inline">\(f\)</span> no ponto <span class="math inline">\(x_0\)</span></strong> é o limite da taxa de variação média quando <span class="math inline">\(h \to 0\)</span>:</p>
+<p><span class="math display">\[\boxed{f'(x_0) = \lim_{h \to 0} \frac{f(x_0 + h) - f(x_0)}{h},}\]</span></p>
+<p>desde que esse limite exista. Quando existe, dizemos que <span class="math inline">\(f\)</span> é <strong>diferenciável</strong> em <span class="math inline">\(x_0\)</span>.</p>
+<p>A derivada é a inclinação da <strong>reta tangente</strong> ao gráfico de <span class="math inline">\(f\)</span> no ponto <span class="math inline">\((x_0, f(x_0))\)</span>.</p>
+</section>
+<section id="notação" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="notação"><span class="header-section-number">1.2.3</span> Notação</h3>
+<p>Para <span class="math inline">\(y = f(x)\)</span>, todas as notações abaixo são equivalentes:</p>
+<p><span class="math display">\[f'(x) = \frac{dy}{dx} = \frac{df}{dx} = Df(x) = \dot{y}.\]</span></p>
+</section>
+<section id="exemplo-fx-x2" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="exemplo-fx-x2"><span class="header-section-number">1.2.4</span> Exemplo: <span class="math inline">\(f(x) = x^2\)</span></h3>
+<p>Aplicando a definição:</p>
+<p><span class="math display">\[f'(x) = \lim_{h \to 0} \frac{(x+h)^2 - x^2}{h} = \lim_{h \to 0} \frac{2xh + h^2}{h} = \lim_{h \to 0} (2x + h) = 2x.\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x   <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x0  <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>fx0 <span class="ot">&lt;-</span> x0<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>fp0 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> x0   <span class="co"># f'(1) = 2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>df_f   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>df_tan <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> fp0 <span class="sc">*</span> (x <span class="sc">-</span> x0) <span class="sc">+</span> fx0)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_f,   <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_tan, <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x0, <span class="at">y =</span> fx0), <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.1</span>, <span class="at">y =</span> <span class="fl">4.5</span>, <span class="at">label =</span> <span class="st">"f(x) = x²"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.1</span>, <span class="at">y =</span> <span class="fl">3.3</span>, <span class="at">label =</span> <span class="st">"tangente: y = 2x - 1"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="dv">6</span>)) <span class="sc">+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"y"</span>) <span class="sc">+</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-tangente" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tangente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-tangente-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tangente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Reta tangente a <span class="math inline">\(f(x) = x^2\)</span> no ponto <span class="math inline">\(x_0 = 1\)</span>: inclinação <span class="math inline">\(f'(1) = 2\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="interpretação-econômica" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="interpretação-econômica"><span class="header-section-number">1.3</span> Interpretação Econômica</h2>
+<p>A derivada é a formalização matemática do conceito de <strong>marginal</strong> em Economia.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Função <span class="math inline">\(f(x)\)</span></th>
+<th>Derivada <span class="math inline">\(f'(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Custo total <span class="math inline">\(C(q)\)</span></td>
+<td>Custo marginal <span class="math inline">\(CMg(q)\)</span></td>
+</tr>
+<tr class="even">
+<td>Receita total <span class="math inline">\(R(q)\)</span></td>
+<td>Receita marginal <span class="math inline">\(RMg(q)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Lucro <span class="math inline">\(\pi(q)\)</span></td>
+<td>Lucro marginal <span class="math inline">\(\pi'(q)\)</span></td>
+</tr>
+<tr class="even">
+<td>Função de produção <span class="math inline">\(Q(L)\)</span></td>
+<td>Produto marginal do trabalho <span class="math inline">\(PMgL\)</span></td>
+</tr>
+<tr class="odd">
+<td>Função utilidade <span class="math inline">\(U(x)\)</span></td>
+<td>Utilidade marginal <span class="math inline">\(UMg(x)\)</span></td>
+</tr>
+</tbody>
+</table>
+<section id="exemplo-custo-marginal" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="exemplo-custo-marginal"><span class="header-section-number">1.3.1</span> Exemplo: Custo Marginal</h3>
+<p>Seja o custo total <span class="math inline">\(C(q) = q^3 - 6q^2 + 15q + 10\)</span>. O custo marginal é:</p>
+<p><span class="math display">\[CMg(q) = C'(q) = 3q^2 - 12q + 15.\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">6</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">q   =</span> q,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">CT  =</span> q<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span>q<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">15</span><span class="sc">*</span>q <span class="sc">+</span> <span class="dv">10</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">CMg =</span> <span class="dv">3</span><span class="sc">*</span>q<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">12</span><span class="sc">*</span>q <span class="sc">+</span> <span class="dv">15</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> CT)) <span class="sc">+</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Custo Total"</span>, <span class="at">x =</span> <span class="st">"q"</span>, <span class="at">y =</span> <span class="st">"C(q)"</span>) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> q, <span class="at">y =</span> CMg)) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray60"</span>) <span class="sc">+</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Custo Marginal"</span>, <span class="at">x =</span> <span class="st">"q"</span>, <span class="at">y =</span> <span class="st">"C'(q)"</span>) <span class="sc">+</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-custo-marginal" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-custo-marginal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-custo-marginal-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-custo-marginal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2: Custo total e custo marginal
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="regras-de-derivação" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="regras-de-derivação"><span class="header-section-number">1.4</span> Regras de Derivação</h2>
+<section id="derivadas-elementares" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="derivadas-elementares"><span class="header-section-number">1.4.1</span> Derivadas Elementares</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Função <span class="math inline">\(f(x)\)</span></th>
+<th>Derivada <span class="math inline">\(f'(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(c\)</span> (constante)</td>
+<td><span class="math inline">\(0\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(x^n\)</span></td>
+<td><span class="math inline">\(nx^{n-1}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(e^x\)</span></td>
+<td><span class="math inline">\(e^x\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(a^x\)</span></td>
+<td><span class="math inline">\(a^x \ln a\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\ln x\)</span></td>
+<td><span class="math inline">\(\dfrac{1}{x}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\log_a x\)</span></td>
+<td><span class="math inline">\(\dfrac{1}{x \ln a}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\sin x\)</span></td>
+<td><span class="math inline">\(\cos x\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\cos x\)</span></td>
+<td><span class="math inline">\(-\sin x\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="regras-algébricas" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="regras-algébricas"><span class="header-section-number">1.4.2</span> Regras Algébricas</h3>
+<p>Sejam <span class="math inline">\(f\)</span> e <span class="math inline">\(g\)</span> funções diferenciáveis e <span class="math inline">\(c \in \mathbb{R}\)</span>.</p>
+<p><strong>Soma e diferença:</strong> <span class="math display">\[[f(x) \pm g(x)]' = f'(x) \pm g'(x).\]</span></p>
+<p><strong>Multiplicação por escalar:</strong> <span class="math display">\[[c \cdot f(x)]' = c \cdot f'(x).\]</span></p>
+<p><strong>Produto:</strong> <span class="math display">\[[f(x) \cdot g(x)]' = f'(x)\,g(x) + f(x)\,g'(x).\]</span></p>
+<p><strong>Quociente:</strong> <span class="math display">\[\left[\frac{f(x)}{g(x)}\right]' = \frac{f'(x)\,g(x) - f(x)\,g'(x)}{[g(x)]^2}, \quad g(x) \neq 0.\]</span></p>
+<section id="provas-a-partir-da-definição" class="level4" data-number="1.4.2.1">
+<h4 data-number="1.4.2.1" class="anchored" data-anchor-id="provas-a-partir-da-definição"><span class="header-section-number">1.4.2.1</span> Provas a partir da Definição</h4>
+<p><strong>Prova — Regra da Soma.</strong></p>
+<p><span class="math display">\[[f+g]'(x) = \lim_{h \to 0} \frac{[f(x+h)+g(x+h)] - [f(x)+g(x)]}{h}\]</span> <span class="math display">\[= \lim_{h \to 0} \frac{f(x+h)-f(x)}{h} + \lim_{h \to 0} \frac{g(x+h)-g(x)}{h} = f'(x) + g'(x). \qquad \blacksquare\]</span></p>
+<p><strong>Prova — Regra do Produto.</strong> <span class="math inline">\(\bigstar\)</span> <em>Esta prova cai na prova.</em></p>
+<p>O truque é somar e subtrair o termo <span class="math inline">\(f(x)\,g(x+h)\)</span> no numerador:</p>
+<p><span class="math display">\[[fg]'(x) = \lim_{h \to 0} \frac{f(x+h)g(x+h) - f(x)g(x)}{h}\]</span></p>
+<p><span class="math display">\[= \lim_{h \to 0} \frac{[\,f(x+h)-f(x)\,]\,g(x+h) + f(x)\,[\,g(x+h)-g(x)\,]}{h}\]</span></p>
+<p><span class="math display">\[= \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}\cdot g(x+h) \;+\; f(x)\cdot\lim_{h \to 0}\frac{g(x+h)-g(x)}{h}\]</span></p>
+<p><span class="math display">\[= f'(x)\cdot g(x) + f(x)\cdot g'(x). \qquad \blacksquare\]</span></p>
+<p>(Usamos que <span class="math inline">\(g(x+h) \to g(x)\)</span> quando <span class="math inline">\(h \to 0\)</span>, pois <span class="math inline">\(g\)</span> é diferenciável e portanto contínua.)</p>
+<p><strong>Prova — Regra do Quociente.</strong></p>
+<p><span class="math display">\[\left[\frac{f}{g}\right]'(x) = \lim_{h \to 0} \frac{1}{h}\left[\frac{f(x+h)}{g(x+h)} - \frac{f(x)}{g(x)}\right] = \lim_{h \to 0} \frac{f(x+h)\,g(x) - f(x)\,g(x+h)}{h\,g(x+h)\,g(x)}.\]</span></p>
+<p>Somando e subtraindo <span class="math inline">\(f(x)\,g(x)\)</span> no numerador:</p>
+<p><span class="math display">\[= \lim_{h \to 0} \frac{[\,f(x+h)-f(x)\,]\,g(x) - f(x)\,[\,g(x+h)-g(x)\,]}{h\,g(x+h)\,g(x)}\]</span></p>
+<p><span class="math display">\[= \frac{f'(x)\,g(x) - f(x)\,g'(x)}{[g(x)]^2}. \qquad \blacksquare\]</span></p>
+</section>
+</section>
+<section id="exemplos" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="exemplos"><span class="header-section-number">1.4.3</span> Exemplos</h3>
+<section id="produto-hx-x2-ex" class="level4" data-number="1.4.3.1">
+<h4 data-number="1.4.3.1" class="anchored" data-anchor-id="produto-hx-x2-ex"><span class="header-section-number">1.4.3.1</span> Produto: <span class="math inline">\(h(x) = x^2 e^x\)</span></h4>
+<p><span class="math display">\[h'(x) = 2x \cdot e^x + x^2 \cdot e^x = xe^x(2 + x).\]</span></p>
+</section>
+<section id="quociente-hx-dfracx2-1x---1" class="level4" data-number="1.4.3.2">
+<h4 data-number="1.4.3.2" class="anchored" data-anchor-id="quociente-hx-dfracx2-1x---1"><span class="header-section-number">1.4.3.2</span> Quociente: <span class="math inline">\(h(x) = \dfrac{x^2 + 1}{x - 1}\)</span></h4>
+<p><span class="math display">\[h'(x) = \frac{2x(x-1) - (x^2+1) \cdot 1}{(x-1)^2} = \frac{x^2 - 2x - 1}{(x-1)^2}.\]</span></p>
+</section>
+</section>
+<section id="derivadas-pela-definição-de-limite" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="derivadas-pela-definição-de-limite"><span class="header-section-number">1.4.4</span> Derivadas pela Definição de Limite</h3>
+<p>Os exercícios a seguir illustram como calcular a derivada diretamente da definição, sem usar as regras algébricas — um treinamento fundamental para compreender o conceito.</p>
+<section id="fx-x3" class="level4" data-number="1.4.4.1">
+<h4 data-number="1.4.4.1" class="anchored" data-anchor-id="fx-x3"><span class="header-section-number">1.4.4.1</span> <span class="math inline">\(f(x) = x^3\)</span></h4>
+<p><span class="math display">\[f'(x) = \lim_{h \to 0} \frac{(x+h)^3 - x^3}{h} = \lim_{h \to 0} \frac{3x^2 h + 3x h^2 + h^3}{h} = \lim_{h \to 0}(3x^2 + 3xh + h^2) = 3x^2.\]</span></p>
+</section>
+<section id="fx-sqrtx---1" class="level4" data-number="1.4.4.2">
+<h4 data-number="1.4.4.2" class="anchored" data-anchor-id="fx-sqrtx---1"><span class="header-section-number">1.4.4.2</span> <span class="math inline">\(f(x) = \sqrt{x - 1}\)</span></h4>
+<p>Racionalizamos multiplicando numerador e denominador por <span class="math inline">\(\sqrt{x+h-1}+\sqrt{x-1}\)</span>:</p>
+<p><span class="math display">\[f'(x) = \lim_{h \to 0} \frac{\sqrt{x+h-1} - \sqrt{x-1}}{h} = \lim_{h \to 0} \frac{(x+h-1)-(x-1)}{h\bigl(\sqrt{x+h-1}+\sqrt{x-1}\bigr)} = \frac{1}{2\sqrt{x-1}}.\]</span></p>
+</section>
+<section id="fx-dfrac1sqrtx" class="level4" data-number="1.4.4.3">
+<h4 data-number="1.4.4.3" class="anchored" data-anchor-id="fx-dfrac1sqrtx"><span class="header-section-number">1.4.4.3</span> <span class="math inline">\(f(x) = \dfrac{1}{\sqrt{x}}\)</span></h4>
+<p><span class="math display">\[f'(x) = \lim_{h \to 0} \frac{\dfrac{1}{\sqrt{x+h}} - \dfrac{1}{\sqrt{x}}}{h} = \lim_{h \to 0} \frac{\sqrt{x} - \sqrt{x+h}}{h\sqrt{x}\sqrt{x+h}}.\]</span></p>
+<p>Racionalizando o numerador:</p>
+<p><span class="math display">\[= \lim_{h \to 0} \frac{x - (x+h)}{h\sqrt{x}\sqrt{x+h}\bigl(\sqrt{x}+\sqrt{x+h}\bigr)} = \frac{-1}{\sqrt{x}\cdot\sqrt{x}\cdot 2\sqrt{x}} = -\frac{1}{2x^{3/2}}.\]</span></p>
+</section>
+<section id="fx-dfrac1sqrt2x3" class="level4" data-number="1.4.4.4">
+<h4 data-number="1.4.4.4" class="anchored" data-anchor-id="fx-dfrac1sqrt2x3"><span class="header-section-number">1.4.4.4</span> <span class="math inline">\(f(x) = \dfrac{1}{\sqrt{2x+3}}\)</span></h4>
+<p><span class="math display">\[f'(x) = \lim_{h \to 0} \frac{\sqrt{2x+3} - \sqrt{2x+2h+3}}{h\sqrt{2x+3}\sqrt{2x+2h+3}}.\]</span></p>
+<p>Racionalizando o numerador por <span class="math inline">\(\sqrt{2x+3}+\sqrt{2x+2h+3}\)</span>:</p>
+<p><span class="math display">\[= \lim_{h \to 0} \frac{-2h}{h\sqrt{2x+3}\sqrt{2x+2h+3}\bigl(\sqrt{2x+3}+\sqrt{2x+2h+3}\bigr)} = \frac{-2}{(2x+3)\cdot 2\sqrt{2x+3}} = -\frac{1}{(2x+3)^{3/2}}.\]</span></p>
+</section>
+<section id="fx-x13-e-a-reta-tangente-vertical" class="level4" data-number="1.4.4.5">
+<h4 data-number="1.4.4.5" class="anchored" data-anchor-id="fx-x13-e-a-reta-tangente-vertical"><span class="header-section-number">1.4.4.5</span> <span class="math inline">\(f(x) = x^{1/3}\)</span> e a Reta Tangente Vertical</h4>
+<p>Usamos a identidade <span class="math inline">\(a^3 - b^3 = (a-b)(a^2+ab+b^2)\)</span> com <span class="math inline">\(a = (x+h)^{1/3}\)</span> e <span class="math inline">\(b = x^{1/3}\)</span>:</p>
+<p><span class="math display">\[(x+h)^{1/3} - x^{1/3} = \frac{h}{(x+h)^{2/3} + (x+h)^{1/3}x^{1/3} + x^{2/3}}.\]</span></p>
+<p>Portanto:</p>
+<p><span class="math display">\[f'(x) = \lim_{h \to 0} \frac{(x+h)^{1/3} - x^{1/3}}{h} = \lim_{h \to 0} \frac{1}{(x+h)^{2/3} + (x+h)^{1/3}x^{1/3} + x^{2/3}} = \frac{1}{3x^{2/3}}, \quad x \neq 0.\]</span></p>
+<p><strong>Reta tangente vertical em <span class="math inline">\(x = 0\)</span>.</strong> Quando <span class="math inline">\(x \to 0\)</span>, <span class="math inline">\(f'(x) = \frac{1}{3x^{2/3}} \to +\infty\)</span>. A reta tangente existe no sentido geométrico (é a reta vertical <span class="math inline">\(x = 0\)</span>), mas a derivada não é finita. Portanto, <span class="math inline">\(f(x) = x^{1/3}\)</span> é <strong>contínua em <span class="math inline">\(\mathbb{R}\)</span></strong>, mas <strong>não é diferenciável em <span class="math inline">\(x = 0\)</span></strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>base_theme <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>x_pos <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="fl">2.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>x_neg <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="sc">-</span><span class="fl">0.001</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>df_f <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x_neg, <span class="at">y =</span> <span class="sc">-</span>(<span class="sc">-</span>x_neg)<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>)),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x_pos, <span class="at">y =</span>    x_pos<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>df_fp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x_neg, <span class="at">y =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">3</span> <span class="sc">*</span> (<span class="sc">-</span>x_neg)<span class="sc">^</span>(<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>))),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> x_pos, <span class="at">y =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">3</span> <span class="sc">*</span>   x_pos<span class="sc">^</span>(<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>)))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_f, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">0</span>), <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.25</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.9</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"tangente vertical</span><span class="sc">\n</span><span class="st">em x = 0"</span>, <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">size =</span> <span class="fl">3.2</span>) <span class="sc">+</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">f</span>(x) <span class="sc">==</span> x<span class="sc">^</span>{<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>}), <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f(x)"</span>) <span class="sc">+</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  base_theme</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_fp, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.8</span>, <span class="at">y =</span> <span class="fl">4.3</span>,</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"f'(x) → +∞ quando x → 0"</span>, <span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">size =</span> <span class="fl">3.2</span>) <span class="sc">+</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(f<span class="sc">*</span><span class="fu">minute</span>(x) <span class="sc">==</span> <span class="fu">frac</span>(<span class="dv">1</span>, <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span>{<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>}) <span class="sc">~</span> <span class="st">" (x ≠ 0)"</span>),</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f'(x)"</span>) <span class="sc">+</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  base_theme</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-tangente-vertical" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tangente-vertical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-tangente-vertical-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tangente-vertical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3: <span class="math inline">\(f(x) = x^{1/3}\)</span>: contínua em todo <span class="math inline">\(\mathbb{R}\)</span>, mas com reta tangente vertical em <span class="math inline">\(x = 0\)</span> — não diferenciável nesse ponto.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="fx-dfrac1x-12-sqrtx-linearidade-do-limite" class="level4" data-number="1.4.4.6">
+<h4 data-number="1.4.4.6" class="anchored" data-anchor-id="fx-dfrac1x-12-sqrtx-linearidade-do-limite"><span class="header-section-number">1.4.4.6</span> <span class="math inline">\(f(x) = \dfrac{1}{(x-1)^2} + \sqrt{x}\)</span> — Linearidade do Limite</h4>
+<p>Para uma soma, o limite distribui-se:</p>
+<p><span class="math display">\[f'(x) = \left[\frac{1}{(x-1)^2}\right]' + \left[\sqrt{x}\right]'.\]</span></p>
+<p><strong>Derivada de <span class="math inline">\(\frac{1}{(x-1)^2}\)</span>.</strong> Fatorando o numerador como diferença de quadrados:</p>
+<p><span class="math display">\[\left[\frac{1}{(x-1)^2}\right]' = \lim_{h \to 0}\frac{(x-1)^2-(x+h-1)^2}{h(x+h-1)^2(x-1)^2}.\]</span></p>
+<p><span class="math inline">\((x-1)^2-(x+h-1)^2 = \bigl[(x-1)-(x+h-1)\bigr]\bigl[(x-1)+(x+h-1)\bigr] = (-h)(2x+h-2).\)</span></p>
+<p><span class="math display">\[= \lim_{h \to 0}\frac{-h(2x+h-2)}{h(x+h-1)^2(x-1)^2} = \frac{-(2x-2)}{(x-1)^4} = -\frac{2}{(x-1)^3}.\]</span></p>
+<p><strong>Derivada de <span class="math inline">\(\sqrt{x}\)</span></strong>: <span class="math inline">\(\dfrac{1}{2\sqrt{x}}\)</span> (calculada anteriormente). Logo:</p>
+<p><span class="math display">\[\boxed{f'(x) = -\frac{2}{(x-1)^3} + \frac{1}{2\sqrt{x}}.}\]</span></p>
+<p><strong>Domínio:</strong> <span class="math inline">\(\sqrt{x}\)</span> exige <span class="math inline">\(x \geq 0\)</span>; <span class="math inline">\((x-1)^{-2}\)</span> exige <span class="math inline">\(x \neq 1\)</span>: <span class="math display">\[\mathrm{Dom}(f) = [0,\,1)\cup(1,\,+\infty).\]</span></p>
+<hr>
+</section>
+</section>
+</section>
+<section id="regra-da-cadeia" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="regra-da-cadeia"><span class="header-section-number">1.5</span> Regra da Cadeia</h2>
+<section id="definição" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="definição"><span class="header-section-number">1.5.1</span> Definição</h3>
+<p>Se <span class="math inline">\(g\)</span> é diferenciável em <span class="math inline">\(x\)</span> e <span class="math inline">\(f\)</span> é diferenciável em <span class="math inline">\(g(x)\)</span>, então a composição <span class="math inline">\(h(x) = f(g(x))\)</span> é diferenciável em <span class="math inline">\(x\)</span> e:</p>
+<p><span class="math display">\[\boxed{h'(x) = f'(g(x)) \cdot g'(x).}\]</span></p>
+<p>Em notação de Leibniz, com <span class="math inline">\(y = f(u)\)</span> e <span class="math inline">\(u = g(x)\)</span>:</p>
+<p><span class="math display">\[\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}.\]</span></p>
+<p>A ideia é: <strong>derivar a função externa avaliada na interna, multiplicado pela derivada da interna</strong>.</p>
+</section>
+<section id="prova" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="prova"><span class="header-section-number">1.5.2</span> Prova</h3>
+<p>Como <span class="math inline">\(f\)</span> é diferenciável em <span class="math inline">\(u = g(x)\)</span>, podemos escrever, para qualquer <span class="math inline">\(\Delta u\)</span>:</p>
+<p><span class="math display">\[f(u + \Delta u) - f(u) = f'(u)\,\Delta u + \varepsilon(\Delta u)\,\Delta u,\]</span></p>
+<p>onde <span class="math inline">\(\varepsilon(\Delta u) \to 0\)</span> quando <span class="math inline">\(\Delta u \to 0\)</span>. Isso é simplesmente a definição de derivada reescrita com um erro residual <span class="math inline">\(\varepsilon\)</span>.</p>
+<p>Agora, seja <span class="math inline">\(\Delta u = g(x + \Delta x) - g(x)\)</span>. Dividindo por <span class="math inline">\(\Delta x \neq 0\)</span>:</p>
+<p><span class="math display">\[\frac{h(x+\Delta x) - h(x)}{\Delta x} = \frac{f(g(x+\Delta x)) - f(g(x))}{\Delta x} = \bigl[f'(u) + \varepsilon(\Delta u)\bigr] \cdot \frac{\Delta u}{\Delta x}.\]</span></p>
+<p>Tomando o limite quando <span class="math inline">\(\Delta x \to 0\)</span>:</p>
+<ul>
+<li><span class="math inline">\(\dfrac{\Delta u}{\Delta x} \to g'(x)\)</span>, pois <span class="math inline">\(g\)</span> é diferenciável em <span class="math inline">\(x\)</span>.</li>
+<li><span class="math inline">\(\Delta u \to 0\)</span> (pois <span class="math inline">\(g\)</span> é contínua, consequência da diferenciabilidade).</li>
+<li>Portanto <span class="math inline">\(\varepsilon(\Delta u) \to 0\)</span>.</li>
+</ul>
+<p>Concluímos:</p>
+<p><span class="math display">\[h'(x) = \lim_{\Delta x \to 0} \frac{h(x+\Delta x)-h(x)}{\Delta x} = \bigl[f'(g(x)) + 0\bigr] \cdot g'(x) = f'(g(x))\cdot g'(x). \qquad \blacksquare\]</span></p>
+<p><strong>Observação.</strong> A “prova ingênua” multiplica e divide por <span class="math inline">\(\Delta u\)</span>, mas isso falha se <span class="math inline">\(\Delta u = 0\)</span> para algum <span class="math inline">\(\Delta x \neq 0\)</span>. A prova acima, via erro residual <span class="math inline">\(\varepsilon\)</span>, contorna esse problema.</p>
+</section>
+<section id="intuição-geométrica" class="level3" data-number="1.5.3">
+<h3 data-number="1.5.3" class="anchored" data-anchor-id="intuição-geométrica"><span class="header-section-number">1.5.3</span> Intuição Geométrica</h3>
+<p>A regra da cadeia é uma consequência direta da <strong>linearidade local</strong> das funções diferenciáveis. Perto de qualquer ponto, uma função diferenciável se comporta como uma reta — e inclinações se multiplicam ao longo de uma cadeia.</p>
+<p>Formalmente: se <span class="math inline">\(\Delta x\)</span> é pequeno,</p>
+<p><span class="math display">\[\Delta u \approx g'(x)\,\Delta x \qquad \text{e} \qquad \Delta y \approx f'(u)\,\Delta u.\]</span></p>
+<p>Substituindo:</p>
+<p><span class="math display">\[\Delta y \approx f'(u) \cdot g'(x)\,\Delta x \implies \frac{\Delta y}{\Delta x} \approx f'(g(x))\cdot g'(x).\]</span></p>
+<p>O gráfico abaixo ilustra essa amplificação em cadeia para <span class="math inline">\(g(x) = x^2\)</span> e <span class="math inline">\(f(u) = e^u\)</span>, com <span class="math inline">\(h(x) = e^{x^2}\)</span>, avaliado em <span class="math inline">\(x_0 = 1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>x0 <span class="ot">&lt;-</span> <span class="dv">1</span>; u0 <span class="ot">&lt;-</span> x0<span class="sc">^</span><span class="dv">2</span>; y0 <span class="ot">&lt;-</span> <span class="fu">exp</span>(u0)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>gp <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> x0        <span class="co"># g'(x0) = 2x0</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>fp <span class="ot">&lt;-</span> <span class="fu">exp</span>(u0)       <span class="co"># f'(u0) = e^u0</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>hp <span class="ot">&lt;-</span> fp <span class="sc">*</span> gp       <span class="co"># h'(x0) = 2e</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>dx <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Painel 1: g(x) = x^2 com tangente em x0 ---</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>x_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>df_g  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_seq, <span class="at">y =</span> x_seq<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>df_tg <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_seq, <span class="at">y =</span> u0 <span class="sc">+</span> gp <span class="sc">*</span> (x_seq <span class="sc">-</span> x0))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_g,  <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_tg, <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">0.7</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> x0, <span class="at">xend =</span> x0 <span class="sc">+</span> dx,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> u0,  <span class="at">yend =</span> u0),</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>,<span class="st">"cm"</span>)), <span class="at">color =</span> <span class="st">"#31688e"</span>) <span class="sc">+</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> x0 <span class="sc">+</span> dx, <span class="at">xend =</span> x0 <span class="sc">+</span> dx,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> u0,      <span class="at">yend =</span> u0 <span class="sc">+</span> gp <span class="sc">*</span> dx),</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>,<span class="st">"cm"</span>)), <span class="at">color =</span> <span class="st">"#35b779"</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> x0 <span class="sc">+</span> dx<span class="sc">/</span><span class="dv">2</span>, <span class="at">y =</span> u0 <span class="sc">-</span> <span class="fl">0.15</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Δx"</span>, <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> x0 <span class="sc">+</span> dx <span class="sc">+</span> <span class="fl">0.12</span>, <span class="at">y =</span> u0 <span class="sc">+</span> gp <span class="sc">*</span> dx <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Δu ≈ g'·Δx"</span>, <span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> x0, <span class="at">y =</span> u0, <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.1</span>, <span class="fl">3.5</span>)) <span class="sc">+</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">g</span>(x) <span class="sc">==</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">", "</span> <span class="sc">~</span> g<span class="sc">*</span><span class="st">"'"</span><span class="sc">*</span>(<span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span>),</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"u = g(x)"</span>) <span class="sc">+</span> base</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Painel 2: f(u) = e^u com tangente em u0 ---</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>u_seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">2.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>df_f  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">u =</span> u_seq, <span class="at">y =</span> <span class="fu">exp</span>(u_seq))</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>df_tf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">u =</span> u_seq, <span class="at">y =</span> y0 <span class="sc">+</span> fp <span class="sc">*</span> (u_seq <span class="sc">-</span> u0))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>du    <span class="ot">&lt;-</span> gp <span class="sc">*</span> dx</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_f,  <span class="fu">aes</span>(u, y), <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_tf, <span class="fu">aes</span>(u, y), <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">linewidth =</span> <span class="fl">0.7</span>,</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> u0, <span class="at">xend =</span> u0 <span class="sc">+</span> du,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> y0,  <span class="at">yend =</span> y0),</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>,<span class="st">"cm"</span>)), <span class="at">color =</span> <span class="st">"#35b779"</span>) <span class="sc">+</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> u0 <span class="sc">+</span> du, <span class="at">xend =</span> u0 <span class="sc">+</span> du,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> y0,      <span class="at">yend =</span> y0 <span class="sc">+</span> fp <span class="sc">*</span> du),</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>,<span class="st">"cm"</span>)), <span class="at">color =</span> <span class="st">"#FDE725"</span>) <span class="sc">+</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> u0 <span class="sc">+</span> du<span class="sc">/</span><span class="dv">2</span>, <span class="at">y =</span> y0 <span class="sc">-</span> <span class="fl">0.3</span>,</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Δu"</span>, <span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> u0 <span class="sc">+</span> du <span class="sc">+</span> <span class="fl">0.18</span>, <span class="at">y =</span> y0 <span class="sc">+</span> fp <span class="sc">*</span> du <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Δy ≈ f'·Δu"</span>, <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> u0, <span class="at">y =</span> y0, <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">f</span>(u) <span class="sc">==</span> e<span class="sc">^</span>u <span class="sc">~</span> <span class="st">", "</span> <span class="sc">~</span> f<span class="sc">*</span><span class="st">"'"</span><span class="sc">*</span>(<span class="dv">1</span>) <span class="sc">==</span> e),</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"u"</span>, <span class="at">y =</span> <span class="st">"y = f(u)"</span>) <span class="sc">+</span> base</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Painel 3: h(x) = e^(x^2) com tangente em x0 ---</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>df_h  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_seq, <span class="at">y =</span> <span class="fu">exp</span>(x_seq<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>df_th <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_seq, <span class="at">y =</span> y0 <span class="sc">+</span> hp <span class="sc">*</span> (x_seq <span class="sc">-</span> x0))</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>dy    <span class="ot">&lt;-</span> hp <span class="sc">*</span> dx</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_h,  <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_th, <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">linewidth =</span> <span class="fl">0.7</span>,</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> x0, <span class="at">xend =</span> x0 <span class="sc">+</span> dx,</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> y0,  <span class="at">yend =</span> y0),</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>,<span class="st">"cm"</span>)), <span class="at">color =</span> <span class="st">"#31688e"</span>) <span class="sc">+</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> x0 <span class="sc">+</span> dx, <span class="at">xend =</span> x0 <span class="sc">+</span> dx,</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> y0,      <span class="at">yend =</span> y0 <span class="sc">+</span> dy),</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>,<span class="st">"cm"</span>)), <span class="at">color =</span> <span class="st">"#440154"</span>) <span class="sc">+</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> x0 <span class="sc">+</span> dx<span class="sc">/</span><span class="dv">2</span>, <span class="at">y =</span> y0 <span class="sc">-</span> <span class="fl">0.4</span>,</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Δx"</span>, <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> x0 <span class="sc">+</span> dx <span class="sc">+</span> <span class="fl">0.2</span>, <span class="at">y =</span> y0 <span class="sc">+</span> dy <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Δy ≈ h'·Δx</span><span class="sc">\n</span><span class="st">= 2e·Δx"</span>, <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> x0, <span class="at">y =</span> y0, <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">h</span>(x) <span class="sc">==</span> e<span class="sc">^</span>{x<span class="sc">^</span><span class="dv">2</span>} <span class="sc">~</span> <span class="st">", "</span> <span class="sc">~</span> h<span class="sc">*</span><span class="st">"'"</span><span class="sc">*</span>(<span class="dv">1</span>) <span class="sc">==</span> <span class="dv">2</span><span class="sc">*</span>e),</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"y = h(x)"</span>) <span class="sc">+</span> base</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-cadeia-intuicao" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cadeia-intuicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-cadeia-intuicao-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1056">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cadeia-intuicao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4: Intuição geométrica da regra da cadeia: <span class="math inline">\(h(x) = e^{x^2}\)</span>, avaliada em <span class="math inline">\(x_0 = 1\)</span>. Uma perturbação <span class="math inline">\(\Delta x\)</span> é amplificada por <span class="math inline">\(g'(x_0) = 2\)</span> e depois por <span class="math inline">\(f'(u_0) = e\)</span>, dando <span class="math inline">\(h'(x_0) = 2e\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exemplos-1" class="level3" data-number="1.5.4">
+<h3 data-number="1.5.4" class="anchored" data-anchor-id="exemplos-1"><span class="header-section-number">1.5.4</span> Exemplos</h3>
+<section id="hx-ex2" class="level4" data-number="1.5.4.1">
+<h4 data-number="1.5.4.1" class="anchored" data-anchor-id="hx-ex2"><span class="header-section-number">1.5.4.1</span> <span class="math inline">\(h(x) = e^{x^2}\)</span></h4>
+<p>Identificamos <span class="math inline">\(f(u) = e^u\)</span> e <span class="math inline">\(g(x) = x^2\)</span>:</p>
+<p><span class="math display">\[h'(x) = e^{x^2} \cdot 2x = 2x\,e^{x^2}.\]</span></p>
+</section>
+<section id="hx-ln1-x2" class="level4" data-number="1.5.4.2">
+<h4 data-number="1.5.4.2" class="anchored" data-anchor-id="hx-ln1-x2"><span class="header-section-number">1.5.4.2</span> <span class="math inline">\(h(x) = \ln(1 + x^2)\)</span></h4>
+<p>Com <span class="math inline">\(f(u) = \ln u\)</span> e <span class="math inline">\(g(x) = 1 + x^2\)</span>:</p>
+<p><span class="math display">\[h'(x) = \frac{1}{1+x^2} \cdot 2x = \frac{2x}{1+x^2}.\]</span></p>
+</section>
+<section id="hx-3x2-54" class="level4" data-number="1.5.4.3">
+<h4 data-number="1.5.4.3" class="anchored" data-anchor-id="hx-3x2-54"><span class="header-section-number">1.5.4.3</span> <span class="math inline">\(h(x) = (3x^2 + 5)^4\)</span></h4>
+<p>Com <span class="math inline">\(f(u) = u^4\)</span> e <span class="math inline">\(g(x) = 3x^2 + 5\)</span>:</p>
+<p><span class="math display">\[h'(x) = 4(3x^2+5)^3 \cdot 6x = 24x(3x^2+5)^3.\]</span></p>
+</section>
+<section id="hx-sqrtx2-1" class="level4" data-number="1.5.4.4">
+<h4 data-number="1.5.4.4" class="anchored" data-anchor-id="hx-sqrtx2-1"><span class="header-section-number">1.5.4.4</span> <span class="math inline">\(h(x) = \sqrt{x^2 + 1}\)</span></h4>
+<p>Reescrevendo <span class="math inline">\(h(x) = (x^2+1)^{1/2}\)</span>:</p>
+<p><span class="math display">\[h'(x) = \frac{1}{2}(x^2+1)^{-1/2} \cdot 2x = \frac{x}{\sqrt{x^2+1}}.\]</span></p>
+</section>
+<section id="gx-sqrt1-sqrt1-sqrt1-x2-cadeia-tripla" class="level4" data-number="1.5.4.5">
+<h4 data-number="1.5.4.5" class="anchored" data-anchor-id="gx-sqrt1-sqrt1-sqrt1-x2-cadeia-tripla"><span class="header-section-number">1.5.4.5</span> <span class="math inline">\(g(x) = \sqrt{1 + \sqrt{1 + \sqrt{1 + x^2}}}\)</span> — Cadeia Tripla</h4>
+<p>Decompõe-se em três camadas, de dentro para fora:</p>
+<p><span class="math display">\[u_1 = 1 + x^2, \qquad u_2 = 1 + \sqrt{u_1}, \qquad u_3 = 1 + \sqrt{u_2}, \qquad g = \sqrt{u_3}.\]</span></p>
+<p>A regra da cadeia se aplica repetidamente, multiplicando as derivadas de cada camada:</p>
+<p><span class="math display">\[g'(x) = \underbrace{\frac{1}{2\sqrt{u_3}}}_{\partial g/\partial u_3} \cdot \underbrace{\frac{1}{2\sqrt{u_2}}}_{\partial u_3/\partial u_2} \cdot \underbrace{\frac{1}{2\sqrt{u_1}}}_{\partial u_2/\partial u_1} \cdot \underbrace{2x}_{u_1'(x)}\]</span></p>
+<p><span class="math display">\[= \frac{x}{4\,\sqrt{1+x^2}\;\sqrt{1+\sqrt{1+x^2}}\;\sqrt{1+\sqrt{1+\sqrt{1+x^2}}}}.\]</span></p>
+</section>
+</section>
+<section id="aplicação-econômica-elasticidade" class="level3" data-number="1.5.5">
+<h3 data-number="1.5.5" class="anchored" data-anchor-id="aplicação-econômica-elasticidade"><span class="header-section-number">1.5.5</span> Aplicação Econômica: Elasticidade</h3>
+<p>A <strong>elasticidade</strong> de <span class="math inline">\(y = f(x)\)</span> é definida como:</p>
+<p><span class="math display">\[\varepsilon = \frac{dy/y}{dx/x} = \frac{dy}{dx} \cdot \frac{x}{y} = f'(x) \cdot \frac{x}{f(x)}.\]</span></p>
+<p>Usando a regra da cadeia, a elasticidade também pode ser escrita como:</p>
+<p><span class="math display">\[\varepsilon = \frac{d \ln y}{d \ln x},\]</span></p>
+<p>pois <span class="math inline">\(\dfrac{d \ln f(x)}{d \ln x} = \dfrac{f'(x)}{f(x)} \cdot x\)</span>.</p>
+<hr>
+</section>
+</section>
+<section id="derivada-segunda-e-concavidade" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="derivada-segunda-e-concavidade"><span class="header-section-number">1.6</span> Derivada Segunda e Concavidade</h2>
+<section id="definição-1" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="definição-1"><span class="header-section-number">1.6.1</span> Definição</h3>
+<p>A <strong>derivada segunda</strong> de <span class="math inline">\(f\)</span> é a derivada da derivada primeira:</p>
+<p><span class="math display">\[f''(x) = [f'(x)]' = \frac{d^2 y}{dx^2}.\]</span></p>
+<p>Enquanto <span class="math inline">\(f'(x)\)</span> mede a taxa de variação de <span class="math inline">\(f\)</span>, <span class="math inline">\(f''(x)\)</span> mede a <strong>taxa de variação de <span class="math inline">\(f'\)</span></strong> — ou seja, como a inclinação da função está mudando.</p>
+</section>
+<section id="concavidade" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="concavidade"><span class="header-section-number">1.6.2</span> Concavidade</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 55%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Condição</th>
+<th>Interpretação geométrica</th>
+<th>Econômica</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(f''(x) &gt; 0\)</span></td>
+<td><span class="math inline">\(f\)</span> é <strong>convexa</strong> (côncava para cima)</td>
+<td>Custo marginal crescente</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(f''(x) &lt; 0\)</span></td>
+<td><span class="math inline">\(f\)</span> é <strong>côncava</strong> (côncava para baixo)</td>
+<td>Utilidade marginal decrescente</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(f''(x) = 0\)</span></td>
+<td>possível <strong>ponto de inflexão</strong></td>
+<td>Mudança na curvatura</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exemplo-fx-x3---3x2" class="level3" data-number="1.6.3">
+<h3 data-number="1.6.3" class="anchored" data-anchor-id="exemplo-fx-x3---3x2"><span class="header-section-number">1.6.3</span> Exemplo: <span class="math inline">\(f(x) = x^3 - 3x^2\)</span></h3>
+<p><span class="math display">\[f'(x) = 3x^2 - 6x = 3x(x-2),\]</span> <span class="math display">\[f''(x) = 6x - 6 = 6(x-1).\]</span></p>
+<ul>
+<li><span class="math inline">\(f''(x) &gt; 0\)</span> para <span class="math inline">\(x &gt; 1\)</span>: convexa.</li>
+<li><span class="math inline">\(f''(x) &lt; 0\)</span> para <span class="math inline">\(x &lt; 1\)</span>: côncava.</li>
+<li><span class="math inline">\(f''(1) = 0\)</span>: ponto de inflexão em <span class="math inline">\(x = 1\)</span>.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.8</span>, <span class="fl">3.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x   =</span> x,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">f   =</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fp  =</span> <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span>x,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fpp =</span> <span class="dv">6</span><span class="sc">*</span>x <span class="sc">-</span> <span class="dv">6</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, f)) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="dv">1</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span><span class="dv">1</span><span class="sc">^</span><span class="dv">2</span>, <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">f</span>(x) <span class="sc">==</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span>), <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f(x)"</span>) <span class="sc">+</span> base</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, fp)) <span class="sc">+</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(f<span class="sc">*</span><span class="fu">minute</span>(x) <span class="sc">==</span> <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">6</span><span class="sc">*</span>x), <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f'(x)"</span>) <span class="sc">+</span> base</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, fpp)) <span class="sc">+</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2.5</span>, <span class="at">y =</span> <span class="dv">8</span>, <span class="at">label =</span> <span class="st">"convexa"</span>, <span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">y =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">label =</span> <span class="st">"côncava"</span>, <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(f<span class="sc">*</span><span class="fu">second</span>(x) <span class="sc">==</span> <span class="dv">6</span><span class="sc">*</span>x <span class="sc">-</span> <span class="dv">6</span>), <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f''(x)"</span>) <span class="sc">+</span> base</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-concavidade" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-concavidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-concavidade-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-concavidade-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5: Função, derivada primeira e derivada segunda de <span class="math inline">\(f(x) = x^3 - 3x^2\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="gráficos-de-funções" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="gráficos-de-funções"><span class="header-section-number">1.7</span> Gráficos de Funções</h2>
+<p>A combinação de <span class="math inline">\(f'\)</span> e <span class="math inline">\(f''\)</span> permite esboçar o gráfico de qualquer função diferenciável de forma sistemática.</p>
+<section id="critérios-de-análise" class="level3" data-number="1.7.1">
+<h3 data-number="1.7.1" class="anchored" data-anchor-id="critérios-de-análise"><span class="header-section-number">1.7.1</span> Critérios de Análise</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Informação</th>
+<th>O que verificar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Domínio e zeros</td>
+<td>Onde <span class="math inline">\(f\)</span> está definida e onde <span class="math inline">\(f(x) = 0\)</span></td>
+</tr>
+<tr class="even">
+<td>Crescimento</td>
+<td><span class="math inline">\(f'(x) &gt; 0\)</span>: crescente; <span class="math inline">\(f'(x) &lt; 0\)</span>: decrescente</td>
+</tr>
+<tr class="odd">
+<td>Pontos críticos</td>
+<td><span class="math inline">\(f'(x) = 0\)</span> ou <span class="math inline">\(f'(x)\)</span> não existe</td>
+</tr>
+<tr class="even">
+<td>Concavidade</td>
+<td><span class="math inline">\(f''(x) &gt; 0\)</span>: convexa; <span class="math inline">\(f''(x) &lt; 0\)</span>: côncava</td>
+</tr>
+<tr class="odd">
+<td>Pontos de inflexão</td>
+<td><span class="math inline">\(f''(x) = 0\)</span> e mudança de sinal</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exemplo-completo-fx-x3---3x2" class="level3" data-number="1.7.2">
+<h3 data-number="1.7.2" class="anchored" data-anchor-id="exemplo-completo-fx-x3---3x2"><span class="header-section-number">1.7.2</span> Exemplo Completo: <span class="math inline">\(f(x) = x^3 - 3x^2\)</span></h3>
+<p><strong>Zeros:</strong> <span class="math inline">\(f(x) = x^2(x-3) = 0 \Rightarrow x = 0\)</span> ou <span class="math inline">\(x = 3\)</span>.</p>
+<p><strong>Pontos críticos:</strong> <span class="math inline">\(f'(x) = 3x(x-2) = 0 \Rightarrow x = 0\)</span> ou <span class="math inline">\(x = 2\)</span>.</p>
+<ul>
+<li><span class="math inline">\(f'(x) &gt; 0\)</span> para <span class="math inline">\(x &lt; 0\)</span> ou <span class="math inline">\(x &gt; 2\)</span>: crescente.</li>
+<li><span class="math inline">\(f'(x) &lt; 0\)</span> para <span class="math inline">\(0 &lt; x &lt; 2\)</span>: decrescente.</li>
+<li><span class="math inline">\(f(0) = 0\)</span> é <strong>máximo local</strong>; <span class="math inline">\(f(2) = -4\)</span> é <strong>mínimo local</strong>.</li>
+</ul>
+<p><strong>Concavidade:</strong> <span class="math inline">\(f''(x) = 6(x-1) = 0 \Rightarrow x = 1\)</span>.</p>
+<ul>
+<li>Ponto de inflexão em <span class="math inline">\(x = 1\)</span>: <span class="math inline">\(f(1) = -2\)</span>.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>x  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">3.8</span>, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>criticos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x     =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y     =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">4</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Máx. local</span><span class="sc">\n</span><span class="st">(0, 0)"</span>, <span class="st">"Infl.</span><span class="sc">\n</span><span class="st">(1, -2)"</span>, <span class="st">"Mín. local</span><span class="sc">\n</span><span class="st">(2, -4)"</span>),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">tipo  =</span> <span class="fu">c</span>(<span class="st">"Máximo"</span>, <span class="st">"Inflexão"</span>, <span class="st">"Mínimo"</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> criticos, <span class="fu">aes</span>(x, y, <span class="at">color =</span> tipo), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> criticos, <span class="fu">aes</span>(x, y, <span class="at">label =</span> label, <span class="at">color =</span> tipo),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.6</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Máximo"</span> <span class="ot">=</span> <span class="st">"#FDE725"</span>,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Inflexão"</span> <span class="ot">=</span> <span class="st">"#31688e"</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Mínimo"</span> <span class="ot">=</span> <span class="st">"#35b779"</span>)) <span class="sc">+</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f(x)"</span>, <span class="at">color =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">f</span>(x) <span class="sc">==</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-grafico-completo" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-grafico-completo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-grafico-completo-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-grafico-completo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6: Análise completa de <span class="math inline">\(f(x) = x^3 - 3x^2\)</span>: máximo local, mínimo local e ponto de inflexão
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="condições-necessárias-vs.-suficientes" class="level3" data-number="1.7.3">
+<h3 data-number="1.7.3" class="anchored" data-anchor-id="condições-necessárias-vs.-suficientes"><span class="header-section-number">1.7.3</span> Condições Necessárias vs.&nbsp;Suficientes</h3>
+<p>Um equívoco comum é interpretar as condições de primeira e segunda ordens como <strong>suficientes</strong> quando são apenas <strong>necessárias</strong>.</p>
+<p><strong>Máximos e mínimos:</strong> <span class="math inline">\(f'(x^*) = 0\)</span> é condição necessária para um extremo interior, mas não suficiente. Pode haver pontos em que <span class="math inline">\(f'(x^*) = 0\)</span> e <span class="math inline">\(x^*\)</span> não seja nem máximo nem mínimo (pontos de inflexão com tangente horizontal).</p>
+<p><strong>Pontos de inflexão:</strong> <span class="math inline">\(f''(x^*) = 0\)</span> é condição necessária para um ponto de inflexão, mas não suficiente. O sinal de <span class="math inline">\(f''\)</span> deve efetivamente mudar em <span class="math inline">\(x^*\)</span>.</p>
+<section id="contraexemplo-fx-x4-e-fx--x4" class="level4" data-number="1.7.3.1">
+<h4 data-number="1.7.3.1" class="anchored" data-anchor-id="contraexemplo-fx-x4-e-fx--x4"><span class="header-section-number">1.7.3.1</span> Contraexemplo: <span class="math inline">\(f(x) = x^4\)</span> e <span class="math inline">\(f(x) = -x^4\)</span></h4>
+<p>Considere <span class="math inline">\(f(x) = x^4\)</span>:</p>
+<p><span class="math display">\[f'(x) = 4x^3 \implies f'(0) = 0.\]</span> <span class="math display">\[f''(x) = 12x^2 \implies f''(0) = 0.\]</span></p>
+<p>O teste da segunda derivada é <strong>inconclusivo</strong> em <span class="math inline">\(x = 0\)</span>. No entanto, como <span class="math inline">\(f(x) = x^4 \geq 0 = f(0)\)</span> para todo <span class="math inline">\(x\)</span>, o ponto <span class="math inline">\(x = 0\)</span> é um <strong>mínimo global</strong> — não um ponto de inflexão.</p>
+<p>Para <span class="math inline">\(g(x) = -x^4\)</span>: <span class="math inline">\(g''(0) = 0\)</span> também, mas <span class="math inline">\(x = 0\)</span> é <strong>máximo global</strong>.</p>
+<p>A conclusão é: quando <span class="math inline">\(f''(x^*) = 0\)</span>, é preciso analisar o sinal de <span class="math inline">\(f'\)</span> (ou usar derivadas de ordem superior) para determinar a natureza do ponto crítico.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span>  x<span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="sc">-</span>x<span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>base_t <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df1, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">0</span>), <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.4</span>, <span class="at">y =</span> <span class="fl">0.3</span>, <span class="at">label =</span> <span class="st">"mínimo</span><span class="sc">\n</span><span class="st">f''(0) = 0"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">f</span>(x) <span class="sc">==</span> x<span class="sc">^</span><span class="dv">4</span>), <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f(x)"</span>) <span class="sc">+</span> base_t</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#35b779"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">0</span>), <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.4</span>, <span class="at">y =</span> <span class="sc">-</span><span class="fl">0.3</span>, <span class="at">label =</span> <span class="st">"máximo</span><span class="sc">\n</span><span class="st">g''(0) = 0"</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">g</span>(x) <span class="sc">==</span> <span class="sc">-</span>x<span class="sc">^</span><span class="dv">4</span>), <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"g(x)"</span>) <span class="sc">+</span> base_t</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-contraexemplo-x4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-contraexemplo-x4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-contraexemplo-x4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-contraexemplo-x4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;7: Em ambas as funções, <span class="math inline">\(f''(0) = 0\)</span>, mas <span class="math inline">\(x = 0\)</span> é mínimo global de <span class="math inline">\(x^4\)</span> e máximo global de <span class="math inline">\(-x^4\)</span> — não pontos de inflexão.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="funções-definidas-por-partes" class="level3" data-number="1.7.4">
+<h3 data-number="1.7.4" class="anchored" data-anchor-id="funções-definidas-por-partes"><span class="header-section-number">1.7.4</span> Funções Definidas por Partes</h3>
+<p>A análise de extremos e diferenciabilidade pode ser mais sutil quando a função é definida por partes, pois o ponto de junção pode ser um extremo <strong>sem que <span class="math inline">\(f' = 0\)</span></strong> (ou mesmo sem que <span class="math inline">\(f'\)</span> exista).</p>
+<section id="exemplo-fx-begincases-4---x2-x-leq-1-2-x2-x-1-endcases" class="level4" data-number="1.7.4.1">
+<h4 data-number="1.7.4.1" class="anchored" data-anchor-id="exemplo-fx-begincases-4---x2-x-leq-1-2-x2-x-1-endcases"><span class="header-section-number">1.7.4.1</span> Exemplo: <span class="math inline">\(f(x) = \begin{cases} 4 - x^2, &amp; x \leq 1 \\ 2 + x^2, &amp; x &gt; 1 \end{cases}\)</span></h4>
+<p><strong>Continuidade em <span class="math inline">\(x = 1\)</span>:</strong></p>
+<p><span class="math display">\[\lim_{x \to 1^-} f(x) = 4 - 1 = 3 = f(1), \qquad \lim_{x \to 1^+} f(x) = 2 + 1 = 3.\]</span></p>
+<p>A função é contínua em <span class="math inline">\(x = 1\)</span>.</p>
+<p><strong>Diferenciabilidade em <span class="math inline">\(x = 1\)</span>:</strong></p>
+<p><span class="math display">\[f'_-(1) = \lim_{x \to 1^-}(-2x)\big|_{x=1} = -2, \qquad f'_+(1) = \lim_{x \to 1^+}(2x)\big|_{x=1} = 2.\]</span></p>
+<p>Como <span class="math inline">\(f'_-(1) \neq f'_+(1)\)</span>, a função é <strong>não diferenciável em <span class="math inline">\(x = 1\)</span></strong> (canto no gráfico).</p>
+<p><strong>Análise de extremos:</strong></p>
+<ul>
+<li>Para <span class="math inline">\(x &lt; 1\)</span>: <span class="math inline">\(f'(x) = -2x &lt; 0\)</span> se <span class="math inline">\(x &gt; 0\)</span> e <span class="math inline">\(&gt; 0\)</span> se <span class="math inline">\(x &lt; 0\)</span>. Há máximo local em <span class="math inline">\(x = 0\)</span> com <span class="math inline">\(f(0) = 4\)</span>.</li>
+<li>Para <span class="math inline">\(x &gt; 1\)</span>: <span class="math inline">\(f'(x) = 2x &gt; 0\)</span>, função estritamente crescente.</li>
+<li>Em <span class="math inline">\(x = 1\)</span>: <span class="math inline">\(f'\)</span> passa de <span class="math inline">\(-2\)</span> (negativo) para <span class="math inline">\(+2\)</span> (positivo) — mudança de decrescente para crescente. Portanto, <span class="math inline">\(x = 1\)</span> é <strong>mínimo local</strong> com <span class="math inline">\(f(1) = 3\)</span>, <strong>sem que <span class="math inline">\(f'(1) = 0\)</span></strong>.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>x_left  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="dv">1</span>,    <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>x_right <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>,    <span class="fl">2.5</span>,  <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>df_left  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_left,  <span class="at">y =</span> <span class="dv">4</span> <span class="sc">-</span> x_left<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>df_right <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_right, <span class="at">y =</span> <span class="dv">2</span> <span class="sc">+</span> x_right<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>df_fp_left  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_left,  <span class="at">y =</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> x_left)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>df_fp_right <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x_right, <span class="at">y =</span>  <span class="dv">2</span> <span class="sc">*</span> x_right)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>base_t <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_left,  <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_right, <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="dv">4</span>), <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="dv">3</span>), <span class="at">color =</span> <span class="st">"#FDE725"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span>  <span class="dv">0</span>,   <span class="at">y =</span> <span class="fl">4.3</span>, <span class="at">label =</span> <span class="st">"Máx. local</span><span class="sc">\n</span><span class="st">(0, 4)"</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"#440154"</span>) <span class="sc">+</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span>  <span class="fl">1.5</span>, <span class="at">y =</span> <span class="fl">2.7</span>, <span class="at">label =</span> <span class="st">"Mín. local</span><span class="sc">\n</span><span class="st">(1, 3)</span><span class="sc">\n</span><span class="st">sem f'=0"</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"#31688e"</span>) <span class="sc">+</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"f(x): contínua, não diferenciável em x = 1"</span>,</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f(x)"</span>) <span class="sc">+</span> base_t</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_fp_left,  <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_fp_right, <span class="fu">aes</span>(x, y), <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"point"</span>, <span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span>  <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"#31688e"</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.6</span>, <span class="at">y =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">label =</span> <span class="st">"salto: f'(1⁻)=-2</span><span class="sc">\n</span><span class="st">f'(1⁺)=+2"</span>,</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"gray30"</span>) <span class="sc">+</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"f'(x): salto em x = 1"</span>, <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f'(x)"</span>) <span class="sc">+</span> base_t</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-funcao-partes" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-funcao-partes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-funcao-partes-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-funcao-partes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8: Função definida por partes: contínua em <span class="math inline">\(x = 1\)</span>, mas não diferenciável (canto). O mínimo local em <span class="math inline">\(x = 1\)</span> ocorre sem <span class="math inline">\(f'(1) = 0\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exemplos-adicionais-de-análise-completa" class="level3" data-number="1.7.5">
+<h3 data-number="1.7.5" class="anchored" data-anchor-id="exemplos-adicionais-de-análise-completa"><span class="header-section-number">1.7.5</span> Exemplos Adicionais de Análise Completa</h3>
+<section id="fx-x3---3x" class="level4" data-number="1.7.5.1">
+<h4 data-number="1.7.5.1" class="anchored" data-anchor-id="fx-x3---3x"><span class="header-section-number">1.7.5.1</span> <span class="math inline">\(f(x) = x^3 - 3x\)</span></h4>
+<p><strong>Zeros:</strong> <span class="math inline">\(f(x) = x(x^2-3) = 0 \Rightarrow x = 0,\, \pm\sqrt{3}\)</span>.</p>
+<p><strong>Pontos críticos:</strong> <span class="math inline">\(f'(x) = 3x^2 - 3 = 3(x^2-1) = 0 \Rightarrow x = \pm 1\)</span>.</p>
+<ul>
+<li><span class="math inline">\(f''(x) = 6x\)</span>.</li>
+<li><span class="math inline">\(f''(-1) = -6 &lt; 0\)</span>: <span class="math inline">\(x = -1\)</span> é <strong>máximo local</strong>, <span class="math inline">\(f(-1) = 2\)</span>.</li>
+<li><span class="math inline">\(f''(1) = 6 &gt; 0\)</span>: <span class="math inline">\(x = 1\)</span> é <strong>mínimo local</strong>, <span class="math inline">\(f(1) = -2\)</span>.</li>
+</ul>
+<p><strong>Concavidade:</strong> <span class="math inline">\(f''(x) = 6x = 0 \Rightarrow x = 0\)</span>. Ponto de inflexão em <span class="math inline">\((0, 0)\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x     =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y     =</span> <span class="fu">c</span>( <span class="dv">2</span>, <span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Máx. local</span><span class="sc">\n</span><span class="st">(-1, 2)"</span>, <span class="st">"Infl.</span><span class="sc">\n</span><span class="st">(0, 0)"</span>, <span class="st">"Mín. local</span><span class="sc">\n</span><span class="st">(1, -2)"</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">tipo  =</span> <span class="fu">c</span>(<span class="st">"Máximo"</span>, <span class="st">"Inflexão"</span>, <span class="st">"Mínimo"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> pts, <span class="fu">aes</span>(x, y, <span class="at">color =</span> tipo), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> pts, <span class="fu">aes</span>(x, y, <span class="at">label =</span> label, <span class="at">color =</span> tipo),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Máximo"</span> <span class="ot">=</span> <span class="st">"#FDE725"</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Inflexão"</span> <span class="ot">=</span> <span class="st">"#31688e"</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Mínimo"</span> <span class="ot">=</span> <span class="st">"#35b779"</span>)) <span class="sc">+</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f(x)"</span>, <span class="at">color =</span> <span class="cn">NULL</span>,</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">f</span>(x) <span class="sc">==</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x)) <span class="sc">+</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-x3-menos-3x" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-x3-menos-3x-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-x3-menos-3x-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-x3-menos-3x-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9: Análise completa de <span class="math inline">\(f(x) = x^3 - 3x\)</span>: máximo local em <span class="math inline">\(x = -1\)</span>, mínimo local em <span class="math inline">\(x = 1\)</span>, ponto de inflexão em <span class="math inline">\(x = 0\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="fx-x3---3x2-3" class="level4" data-number="1.7.5.2">
+<h4 data-number="1.7.5.2" class="anchored" data-anchor-id="fx-x3---3x2-3"><span class="header-section-number">1.7.5.2</span> <span class="math inline">\(f(x) = x^3 - 3x^2 + 3\)</span></h4>
+<p><strong>Zeros:</strong> <span class="math inline">\(f(x) = x^3 - 3x^2 + 3 = 0\)</span>. Não há fatoração elementar; o zero real aproximado é <span class="math inline">\(x \approx -0{,}879\)</span>.</p>
+<p><strong>Pontos críticos:</strong> <span class="math inline">\(f'(x) = 3x^2 - 6x = 3x(x-2) = 0 \Rightarrow x = 0\)</span> ou <span class="math inline">\(x = 2\)</span>.</p>
+<ul>
+<li><span class="math inline">\(f''(x) = 6x - 6\)</span>.</li>
+<li><span class="math inline">\(f''(0) = -6 &lt; 0\)</span>: <span class="math inline">\(x = 0\)</span> é <strong>máximo local</strong>, <span class="math inline">\(f(0) = 3\)</span>.</li>
+<li><span class="math inline">\(f''(2) = 6 &gt; 0\)</span>: <span class="math inline">\(x = 2\)</span> é <strong>mínimo local</strong>, <span class="math inline">\(f(2) = -1\)</span>.</li>
+</ul>
+<p><strong>Ponto de inflexão:</strong> <span class="math inline">\(f''(x) = 6(x-1) = 0 \Rightarrow x = 1\)</span>, <span class="math inline">\(f(1) = 1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>x  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">1.2</span>, <span class="fl">3.5</span>, <span class="at">length.out =</span> <span class="dv">400</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>pts <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x     =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y     =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Máx. local</span><span class="sc">\n</span><span class="st">(0, 3)"</span>, <span class="st">"Infl.</span><span class="sc">\n</span><span class="st">(1, 1)"</span>, <span class="st">"Mín. local</span><span class="sc">\n</span><span class="st">(2, -1)"</span>),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">tipo  =</span> <span class="fu">c</span>(<span class="st">"Máximo"</span>, <span class="st">"Inflexão"</span>, <span class="st">"Mínimo"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#440154"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> pts, <span class="fu">aes</span>(x, y, <span class="at">color =</span> tipo), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> pts, <span class="fu">aes</span>(x, y, <span class="at">label =</span> label, <span class="at">color =</span> tipo),</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Máximo"</span> <span class="ot">=</span> <span class="st">"#FDE725"</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Inflexão"</span> <span class="ot">=</span> <span class="st">"#31688e"</span>,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Mínimo"</span> <span class="ot">=</span> <span class="st">"#35b779"</span>)) <span class="sc">+</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"f(x)"</span>, <span class="at">color =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">f</span>(x) <span class="sc">==</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-x3-3x2-mais3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-x3-3x2-mais3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="derivadas_files/figure-html/fig-x3-3x2-mais3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-x3-3x2-mais3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10: Análise completa de <span class="math inline">\(f(x) = x^3 - 3x^2 + 3\)</span>: máximo local em <span class="math inline">\(x = 0\)</span>, mínimo local em <span class="math inline">\(x = 2\)</span>, ponto de inflexão em <span class="math inline">\(x = 1\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
