@@ -1,0 +1,184 @@
+---
+title: |
+  \includegraphics[width=3.8cm]{AM.png}\par\vspace{1em}
+  Monitoria 10
+author: "Vitor Wilher\\footnote{Bacharel e Mestre em Economia pela UFF, Candidato ao PhD em Economia pela EPGE/FGV. É Especialista em Ciências de Dados e Inteligência Artificial Generativa pela PUC-Rio. Atualmente, exerce a função de Data Tech Lead na Análise Macro (\\url{http://analisemacro.com.br}). Saiba mais em \\url{https://github.com/vitorwilher}.}"
+subtitle: |
+  Notas de Aula -- Matemática para Doutorado em Economia, EPGE/FGV
+
+  Professora: Silvia Matos
+date: ""
+---
+
+# Monitoria 10
+
+## Receita para EDO de 2ª Ordem com Coeficientes Constantes
+
+Para $a\,\ddot y + b\,\dot y + c\,y = d$ com $a, b, c, d$ constantes:
+
+1. **Solução homogênea** $y_h(t)$ — resolver o polinômio característico $a\lambda^2 + b\lambda + c = 0$. As raízes determinam o formato:
+
+   | Discriminante | Raízes | $y_h(t)$ |
+   |--------------|--------|----------|
+   | $\Delta > 0$ | $\lambda_1 \neq \lambda_2$ reais | $A\,e^{\lambda_1 t} + B\,e^{\lambda_2 t}$ |
+   | $\Delta = 0$ | $\lambda_0$ real (dupla) | $A\,e^{\lambda_0 t} + B\,t\,e^{\lambda_0 t}$ |
+   | $\Delta < 0$ | $\alpha \pm i\beta$ | $e^{\alpha t}\bigl[A\cos(\beta t) + B\sin(\beta t)\bigr]$ |
+
+2. **Solução particular** $y_p(t)$ — para termo independente **constante** $d$, basta tentar $y_p = $ constante. Com $\dot y_p = \ddot y_p = 0$, sobra $c\,y_p = d \;\Rightarrow\; y_p = d/c$ (desde que $c \neq 0$).
+
+3. **Solução geral:** $y(t) = y_h(t) + y_p(t)$.
+
+4. **Condições iniciais** $\bigl(y(0),\,\dot y(0)\bigr)$ — montar e resolver sistema linear $2 \times 2$ em $(A, B)$. Para $\dot y$, derivar $y$ explicitamente antes de avaliar em $t = 0$.
+
+---
+
+## Exercício — P1, 2025
+
+Resolva o problema de valor inicial
+
+$$
+\ddot y + 6\,\dot y + 9\,y = 5, \qquad y(0) = \tfrac{14}{9},\; \dot y(0) = 0.
+$$
+
+### Passo 1 — Solução homogênea
+
+A equação homogênea associada é $\ddot y + 6\,\dot y + 9\,y = 0$. O polinômio característico é
+
+$$
+\lambda^2 + 6\lambda + 9 = 0.
+$$
+
+Discriminante: $\Delta = 36 - 36 = 0$, então temos **raiz dupla**:
+
+$$
+\lambda = \frac{-6}{2} = -3.
+$$
+
+Pelo Caso 2 da receita,
+
+$$
+y_h(t) = A\,e^{-3t} + B\,t\,e^{-3t}.
+$$
+
+### Passo 2 — Solução particular
+
+O termo independente é constante ($d = 5$). Tentamos $y_p(t) = K$, com $\dot y_p = \ddot y_p = 0$:
+
+$$
+0 + 6\cdot 0 + 9\,K = 5 \;\Longrightarrow\; K = \frac{5}{9}.
+$$
+
+Logo $y_p(t) = 5/9$.
+
+### Passo 3 — Solução geral
+
+$$
+y(t) = A\,e^{-3t} + B\,t\,e^{-3t} + \frac{5}{9}.
+$$
+
+### Passo 4 — Condições iniciais
+
+Avaliando em $t = 0$:
+
+$$
+y(0) = A + \frac{5}{9} = \frac{14}{9} \;\Longrightarrow\; A = \frac{14}{9} - \frac{5}{9} = 1.
+$$
+
+Diferenciando $y(t)$ pela regra do produto no segundo termo,
+
+$$
+\dot y(t) = -3A\,e^{-3t} + B\,e^{-3t} - 3B\,t\,e^{-3t} = e^{-3t}\bigl[(-3A + B) - 3B\,t\bigr].
+$$
+
+Em $t = 0$:
+
+$$
+\dot y(0) = -3A + B = 0 \;\Longrightarrow\; B = 3A = 3.
+$$
+
+### Solução
+
+$$
+\boxed{\;y(t) = e^{-3t} + 3\,t\,e^{-3t} + \frac{5}{9}.\;}
+$$
+
+### Verificação
+
+Derivando a solução:
+
+$$
+\dot y(t) = -3e^{-3t} + 3e^{-3t} - 9\,t\,e^{-3t} = -9\,t\,e^{-3t},
+$$
+
+$$
+\ddot y(t) = -9\,e^{-3t} + 27\,t\,e^{-3t} = (27t - 9)\,e^{-3t}.
+$$
+
+Substituindo na EDO:
+
+$$
+\ddot y + 6\dot y + 9y = (27t - 9)e^{-3t} + 6(-9t)e^{-3t} + 9\!\left(e^{-3t} + 3te^{-3t} + \tfrac{5}{9}\right)
+$$
+
+$$
+= \bigl[(27t - 9) - 54t + 9 + 27t\bigr]e^{-3t} + 5 = 0\cdot e^{-3t} + 5 = 5. \quad\checkmark
+$$
+
+E nas condições iniciais: $y(0) = 1 + 0 + 5/9 = 14/9$ ✓, $\dot y(0) = -9 \cdot 0 \cdot 1 = 0$ ✓.
+
+---
+
+## Visualização
+
+```{r}
+#| label: fig-monitoria10
+#| fig-cap: "Solução do exercício: $y(t) = e^{-3t} + 3t\\,e^{-3t} + 5/9$ (sólida) e equilíbrio $y^* = 5/9$ (tracejada). Note que $y(t)$ converge ao equilíbrio sem oscilar — comportamento típico do caso $\\Delta = 0$ com raiz característica negativa."
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 4
+
+library(ggplot2)
+
+y_sol <- function(t) exp(-3*t) + 3*t*exp(-3*t) + 5/9
+
+t  <- seq(0, 3, length.out = 400)
+df <- data.frame(t = t, y = y_sol(t))
+
+ggplot(df, aes(t, y)) +
+  geom_hline(yintercept = 5/9, color = "#d62728",
+             linetype = "dashed", linewidth = 0.7) +
+  geom_line(color = "#1f77b4", linewidth = 1.1) +
+  annotate("point", x = 0, y = 14/9, color = "#2ca02c", size = 3) +
+  annotate("text", x = 0.05, y = 14/9 + 0.05,
+           label = "y(0) = 14/9", hjust = 0, size = 3.5) +
+  annotate("text", x = 2.7, y = 5/9 + 0.06,
+           label = "y* = 5/9", color = "#d62728", size = 3.5) +
+  labs(x = "t", y = "y(t)",
+       title = expression(ddot(y) + 6*dot(y) + 9*y == 5)) +
+  theme_minimal(base_size = 12)
+```
+
+```{python}
+import numpy as np
+
+def y_sol(t):
+    return np.exp(-3*t) + 3*t*np.exp(-3*t) + 5/9
+
+# Verificação numérica das CIs
+print(f"y(0)  = {y_sol(0):.6f}  (esperado 14/9 = {14/9:.6f})")
+
+# Verificação da EDO em alguns pontos via diferenças finitas
+def num_deriv(f, t, h=1e-5):
+    return (f(t + h) - f(t - h)) / (2 * h)
+
+def num_deriv2(f, t, h=1e-4):
+    return (f(t + h) - 2*f(t) + f(t - h)) / h**2
+
+for t0 in [0.0, 0.5, 1.0, 2.0]:
+    yp  = num_deriv(y_sol, t0)
+    ypp = num_deriv2(y_sol, t0)
+    res = ypp + 6*yp + 9*y_sol(t0)
+    print(f"t={t0:>4.1f}: y'' + 6y' + 9y = {res:.6f}  (esperado 5)")
+```
+
+A solução converge monotonicamente ao equilíbrio $y^* = 5/9$ — o caso $\Delta = 0$ com raiz negativa é o **limiar entre decaimento puro e oscilação amortecida**: qualquer perturbação no coeficiente que torne $\Delta$ positivo produz duas raízes reais negativas (decaimento exponencial sem termo $t$); qualquer perturbação que torne $\Delta$ negativo produz raízes complexas e a solução passa a oscilar enquanto decai.

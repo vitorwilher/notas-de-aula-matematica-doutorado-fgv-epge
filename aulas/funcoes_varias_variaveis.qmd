@@ -332,6 +332,78 @@ p3 <- ggplot(g3_df, aes(x, y, z = z)) +
 p1 + p2 + p3
 ```
 
+### Translações e Reflexões
+
+Pequenas modificações em $f(x, y) = x^2 + y^2$ deslocam o centro, alteram o conjunto de níveis admissíveis ou invertem a orientação da superfície. Comparemos três variantes.
+
+#### a) $f(x, y) = (x - 2)^2 + (y - 1)^2$ — centro deslocado
+
+Igualando a $c$:
+
+$$(x - 2)^2 + (y - 1)^2 = c.$$
+
+Comparando com $(x - a)^2 + (y - b)^2 = R^2$, as curvas de nível são **circunferências centradas em $(2, 1)$** com raio $R = \sqrt{c}$, $c \geq 0$. O paraboloide é o mesmo do exemplo padrão, apenas transladado para que o vértice ocorra em $(2, 1, 0)$.
+
+#### b) $f(x, y) = x^2 + y^2 - 1$ — deslocamento vertical
+
+$$x^2 + y^2 - 1 = c \;\Rightarrow\; x^2 + y^2 = c + 1 = R^2.$$
+
+As curvas de nível continuam sendo circunferências centradas na origem, mas agora $R = \sqrt{c + 1}$, com a restrição $c \geq -1$. O nível $c = -1$ corresponde ao vértice $(0, 0, -1)$ — note que $f(0, 0) = -1$, e o paraboloide fica deslocado para baixo em uma unidade.
+
+| $c$  | $R = \sqrt{c+1}$ |
+|------|------------------|
+| $-1$ | $0$              |
+| $0$  | $1$              |
+| $3$  | $2$              |
+| $8$  | $3$              |
+
+#### c) $f(x, y) = -x^2 - y^2$ — paraboloide invertido
+
+$$-x^2 - y^2 = c \;\Rightarrow\; x^2 + y^2 = -c = R^2.$$
+
+Agora o sinal se inverte: as curvas de nível existem apenas para $c \leq 0$, com $R = \sqrt{-c}$. A superfície é um **paraboloide invertido** com vértice em $(0, 0, 0)$ apontando para baixo. Os níveis com $c > 0$ são vazios.
+
+**Síntese.** Em todas as variantes do paraboloide, as curvas de nível são circunferências; o que muda é (i) o centro (translação horizontal) e (ii) o intervalo de $c$ admissível (translação vertical ou reflexão). Reconhecer essas transformações dispensa recalcular a estrutura do gráfico do zero.
+
+### Outras Formas de Superfície
+
+As variantes do paraboloide acima compartilham um traço: as curvas de nível são todas **circunferências**. Mas curvas de nível circulares **não determinam** o formato da superfície — duas funções podem ter o mesmo padrão de níveis e gráficos qualitativamente distintos. Vejamos dois casos onde isso aparece com clareza.
+
+#### d) $f(x, y) = \sqrt{x^2 + y^2}$ — cone
+
+Igualando a $c \geq 0$:
+
+$$\sqrt{x^2 + y^2} = c \;\Rightarrow\; x^2 + y^2 = c^2 = R^2.$$
+
+As curvas de nível são **circunferências centradas na origem** com raio $R = c$ — o **mesmo padrão** do paraboloide $x^2 + y^2$, exceto pelo espaçamento radial:
+
+| $c$ | $R$ no paraboloide ($\sqrt{c}$) | $R$ no cone ($c$) |
+|-----|-------------------------------|-------------------|
+| 1   | $1$                           | $1$               |
+| 4   | $2$                           | $4$               |
+| 9   | $3$                           | $9$               |
+
+No paraboloide, os raios crescem como $\sqrt{c}$ — os níveis se acumulam à medida que $c$ aumenta, e a superfície fica mais íngreme ao se afastar da origem. No cone, os raios crescem **linearmente** com $c$ — os níveis são equiespaçados, e a superfície sobe com inclinação **constante**. Geometricamente, o gráfico de $f$ é um **cone reto** com vértice em $(0, 0, 0)$.
+
+**Observação importante.** Diferentemente do paraboloide, o cone tem uma "ponta" na origem: a função não é diferenciável em $(0, 0)$ — ao tentar definir a derivada parcial $\partial f / \partial x$ em $(0,0)$, o limite pela direita ($x \to 0^+$, $y = 0$) dá $+1$, e pela esquerda dá $-1$. Mesmo padrão de curvas de nível, regularidades muito distintas.
+
+#### e) $f(x, y) = (x - 2)^2$ — calha cilíndrica
+
+A função depende **apenas de $x$**: o valor não muda quando movemos $y$. Igualando a $c$:
+
+$$(x - 2)^2 = c \;\Rightarrow\; x = 2 \pm \sqrt{c}, \quad c \geq 0.$$
+
+As curvas de nível são **pares de retas verticais** $x = 2 \pm \sqrt{c}$, paralelas ao eixo $y$ — não circunferências, não fechadas. O gráfico no $\mathbb{R}^3$ é uma **calha cilíndrica**: a parábola $z = (x - 2)^2$ no plano $xz$ varrida ao longo do eixo $y$.
+
+| $c$ | retas de nível             |
+|-----|----------------------------|
+| 0   | $x = 2$ (reta dupla)       |
+| 1   | $x = 1$ e $x = 3$          |
+| 4   | $x = 0$ e $x = 4$          |
+| 9   | $x = -1$ e $x = 5$         |
+
+**Por que isso é didático.** Mostra que (i) uma função de duas variáveis pode "ignorar" uma delas, e (ii) curvas de nível **não precisam ser fechadas** — a forma reflete a estrutura algébrica da função, não uma regra geral. Casos como esse aparecem em economia quando uma utilidade depende de um único bem (com o outro entrando livremente) ou quando uma tecnologia é insensível a um insumo na margem.
+
 ---
 
 ## Exemplo: $f(x, y) = x^2 + y^2$
@@ -961,3 +1033,546 @@ p2 <- ggplot(df2, aes(x = t)) +
 
 p1 + p2
 ```
+
+---
+
+## Aproximação Linear de uma Função
+
+### Caso Univariado
+
+A derivada $f'(x^*)$ é, por definição, o limite da razão incremental — geometricamente, a inclinação da reta tangente ao gráfico de $f$ em $x = x^*$. Para incrementos $\Delta x$ pequenos, podemos **aproximar** a variação de $f$ pela variação na reta tangente:
+
+$$
+\Delta y \approx f'(x^*)\,\Delta x \quad\Longleftrightarrow\quad \boxed{f(x^* + \Delta x) \approx f(x^*) + f'(x^*)\,\Delta x.}
+$$
+
+Esta é a **aproximação linear** ou **Taylor de primeira ordem** em torno de $x^*$. O erro $\Delta y - f'(x^*)\Delta x$ é de ordem $O(\Delta x^2)$ — pequeno comparado a $\Delta x$ quando $\Delta x \to 0$.
+
+A notação **diferencial** torna a aproximação exata no limite:
+
+$$
+dy = f'(x^*)\, dx.
+$$
+
+### Caso Multivariado
+
+Para $f : \mathbb{R}^n \to \mathbb{R}$, a aproximação linear em torno de $x^* = (x_1^*, \ldots, x_n^*)$ é:
+
+$$
+\boxed{f(x^* + \Delta x) \approx f(x^*) + \sum_{i=1}^n \frac{\partial f}{\partial x_i}(x^*)\,\Delta x_i.}
+$$
+
+Cada derivada parcial $\partial f/\partial x_i$ entra como peso da variação $\Delta x_i$ na direção $i$. Equivalentemente, em forma diferencial:
+
+$$
+df = \sum_{i=1}^n \frac{\partial f}{\partial x_i}\, dx_i.
+$$
+
+Esta é a base de toda a estática comparativa: se uma relação de equilíbrio depende de variáveis endógenas e parâmetros, diferenciar implicitamente a relação **lineariza** o problema em torno do equilíbrio inicial — e a álgebra linear (Cramer, inversa, Jacobiana) toma o controle.
+
+---
+
+## Funções Explícitas e Implícitas
+
+### Funções Explícitas
+
+Uma função é **explícita** quando podemos escrever a variável endógena $y$ isolada em função das exógenas $x$:
+
+$$
+y = f(x), \quad \text{e.g., } y = 3 x^2.
+$$
+
+### Funções Implícitas
+
+Em muitos contextos econômicos, a relação entre endógenas e exógenas vem na forma:
+
+$$
+F(y, x) = c,
+$$
+
+sem que seja possível (ou conveniente) isolar $y$. Exemplos:
+
+- **Curvas de indiferença:** $U(x_1, x_2) = \bar{U}$ — combinações de bens com mesmo nível de utilidade. Isolar $x_2$ pode ser difícil para utilidades não-separáveis.
+- **Curva IS:** $Y - C(Y - T) - I(r) - G = 0$ — relação implícita entre $Y$ e $r$.
+- **Equação de Euler em consumo:** $u'(c_t) = \beta\,(1+r)\, u'(c_{t+1})$ — relação implícita entre $c_t$ e $c_{t+1}$ dada uma função utilidade $u$.
+- **Equilíbrio de mercado:** $D(p) - S(p) = 0$ define $p^*$ implicitamente em função de parâmetros de demanda e oferta.
+
+### Por que isso importa
+
+Em todos esses casos, sabemos que **existe** uma relação $y = f(x)$ — no entorno de um equilíbrio — mesmo sem conseguir escrever $f$ em forma fechada. A pergunta é: **quanto $y$ varia quando $x$ muda?**
+
+Ou seja, queremos $f'(x)$, sem ter $f$. O **Teorema da Função Implícita** responde essa pergunta.
+
+---
+
+## O Teorema da Função Implícita
+
+### Caso de uma Equação e Duas Variáveis
+
+**Enunciado.** Seja $F : D \subseteq \mathbb{R}^2 \to \mathbb{R}$ continuamente diferenciável em torno do ponto $(y^*, x^*)$ e suponha que
+
+$$
+F(y^*, x^*) = c \qquad \text{e} \qquad \frac{\partial F}{\partial y}(y^*, x^*) \neq 0.
+$$
+
+Então existe uma vizinhança de $x^*$ e uma única função $f$ continuamente diferenciável tal que:
+
+(a) $F\bigl(f(x), x\bigr) \equiv c$ — $f$ resolve a relação implícita localmente;
+
+(b) $y^* = f(x^*)$ — $f$ passa pelo ponto de partida;
+
+(c) $\displaystyle f'(x) = -\,\frac{\partial F/\partial x}{\partial F/\partial y}.$
+
+A condição-chave é (c), que dá a derivada da função implícita **sem precisar isolar $y$**:
+
+$$
+\boxed{f'(x) = -\,\frac{\partial F/\partial x}{\partial F/\partial y}.}
+$$
+
+### Derivação
+
+Partindo de $F(y, x) = c$ e diferenciando totalmente:
+
+$$
+\frac{\partial F}{\partial y}\, dy + \frac{\partial F}{\partial x}\, dx = 0.
+$$
+
+Se $\partial F/\partial y \neq 0$, isolamos $dy/dx$:
+
+$$
+\frac{dy}{dx} = -\frac{\partial F/\partial x}{\partial F/\partial y}.
+$$
+
+Equivalentemente, partindo de $F(f(x), x) = c$ e derivando em $x$ pela regra da cadeia:
+
+$$
+\frac{\partial F}{\partial y}\, f'(x) + \frac{\partial F}{\partial x} = 0 \quad\Longrightarrow\quad f'(x) = -\frac{\partial F/\partial x}{\partial F/\partial y}.
+$$
+
+### Exemplo: O Círculo Unitário
+
+Considere $F(y, x) = x^2 + y^2 = 1$. As derivadas parciais são:
+
+$$
+\frac{\partial F}{\partial x} = 2x, \qquad \frac{\partial F}{\partial y} = 2y.
+$$
+
+Pela TFI, em qualquer ponto com $y \neq 0$ podemos escrever $y = f(x)$ localmente, com:
+
+$$
+f'(x) = -\frac{2x}{2y} = -\frac{x}{y}.
+$$
+
+A relação não define $y$ globalmente como função de $x$ — para cada $x \in (-1, 1)$ existem **dois** valores de $y$, $y = \sqrt{1 - x^2}$ (semicírculo superior) e $y = -\sqrt{1 - x^2}$ (semicírculo inferior). Localmente, em cada ponto não-extremo, há uma das duas:
+
+| Ponto | $y$ | TFI vale? | Função local |
+|-------|-----|-----------|--------------|
+| $(0, 1)$ | $1 > 0$ | Sim | $y = \sqrt{1 - x^2}$ |
+| $(0, -1)$ | $-1 < 0$ | Sim | $y = -\sqrt{1 - x^2}$ |
+| $(1, 0)$ | $0$ | **Não** | reta vertical, $y$ não é função de $x$ |
+| $(-1, 0)$ | $0$ | **Não** | reta vertical, $y$ não é função de $x$ |
+
+Nos pontos extremos $(\pm 1, 0)$, o gradiente de $F$ é horizontal (a tangente ao círculo é vertical), e nenhuma das duas funções locais é definível.
+
+```{r}
+#| label: fig-tfi-circulo
+#| fig-cap: "Círculo unitário $x^2 + y^2 = 1$. Em pontos com $y \\neq 0$ (azul/vermelho), o TFI dá $y$ como função local de $x$. Nos pontos $(\\pm 1, 0)$ (preto), $\\partial F/\\partial y = 0$ e o teorema falha."
+#| fig-align: center
+
+library(ggplot2)
+
+theta <- seq(0, 2*pi, length.out = 400)
+df <- data.frame(
+  x = cos(theta),
+  y = sin(theta),
+  parte = ifelse(sin(theta) > 0, "y = √(1-x²)",
+                 ifelse(sin(theta) < 0, "y = -√(1-x²)", "y = 0"))
+)
+
+ggplot(df, aes(x, y, color = parte)) +
+  geom_path(linewidth = 1.1) +
+  geom_point(data = data.frame(x = c(1, -1), y = c(0, 0)),
+             aes(x, y), inherit.aes = FALSE, color = "black", size = 3) +
+  annotate("text", x = 1.15, y = -0.15, label = "(1, 0)", size = 3.2) +
+  annotate("text", x = -1.15, y = -0.15, label = "(-1, 0)", size = 3.2) +
+  scale_color_manual(values = c("y = √(1-x²)" = "#d62728",
+                                "y = -√(1-x²)" = "#1f77b4",
+                                "y = 0" = "black"),
+                     name = NULL) +
+  coord_fixed() +
+  labs(title = expression(x^2 + y^2 == 1)) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+### Aplicação Econômica: Taxa Marginal de Substituição (TMS)
+
+Considere a utilidade Cobb-Douglas $U(x_1, x_2) = x_1^{\alpha}\, x_2^{1 - \alpha}$ com $\alpha \in (0, 1)$. Uma curva de indiferença é o conjunto $U(x_1, x_2) = \bar{U}$. A questão econômica é: dado um deslocamento $dx_1$, quanto $x_2$ precisa variar para manter a utilidade constante?
+
+Tratando $x_2$ como endógena (ajustada para preservar $\bar{U}$) e $x_1$ como exógena, definimos $F(x_2, x_1) = x_1^{\alpha}\, x_2^{1 - \alpha} - \bar{U}$. As derivadas parciais são:
+
+$$
+\frac{\partial F}{\partial x_1} = \alpha\, x_1^{\alpha - 1}\, x_2^{1 - \alpha}, \qquad \frac{\partial F}{\partial x_2} = (1 - \alpha)\, x_1^{\alpha}\, x_2^{-\alpha}.
+$$
+
+Pelo TFI:
+
+$$
+\frac{dx_2}{dx_1} = -\,\frac{\partial F/\partial x_1}{\partial F/\partial x_2} = -\,\frac{\alpha}{1 - \alpha}\,\frac{x_2}{x_1}.
+$$
+
+Logo a **taxa marginal de substituição** é:
+
+$$
+\boxed{\text{TMS} = -\,\frac{dx_2}{dx_1} = \frac{\alpha}{1 - \alpha}\,\frac{x_2}{x_1}.}
+$$
+
+A TMS é decrescente ao longo da curva de indiferença (à medida que $x_1$ cresce, $x_2$ cai e a TMS se reduz), capturando a convexidade das preferências Cobb-Douglas.
+
+Verificando computacionalmente em R, comparando a fórmula fechada com a TMS numérica via diferenciação implícita:
+
+```{r}
+alpha <- 0.4
+U_bar <- 10
+
+# Fórmula fechada
+TMS_formula <- function(x1, x2) (alpha / (1 - alpha)) * (x2 / x1)
+
+# Curva de indiferença implícita: x2 = (U_bar / x1^alpha)^(1/(1-alpha))
+x2_indif <- function(x1) (U_bar / x1^alpha)^(1 / (1 - alpha))
+
+# TMS numérica via diferença finita
+TMS_numerica <- function(x1, h = 1e-5) {
+  -(x2_indif(x1 + h) - x2_indif(x1 - h)) / (2 * h)
+}
+
+x1_grid <- c(2, 5, 10, 20)
+data.frame(
+  x1 = x1_grid,
+  x2 = round(x2_indif(x1_grid), 3),
+  TMS_formula  = round(TMS_formula(x1_grid, x2_indif(x1_grid)), 4),
+  TMS_numerica = round(sapply(x1_grid, TMS_numerica), 4)
+)
+```
+
+E em Python:
+
+```{python}
+import numpy as np
+
+alpha = 0.4
+U_bar = 10
+
+def x2_indif(x1):
+    return (U_bar / x1**alpha)**(1 / (1 - alpha))
+
+def TMS_formula(x1, x2):
+    return (alpha / (1 - alpha)) * (x2 / x1)
+
+def TMS_numerica(x1, h=1e-5):
+    return -(x2_indif(x1 + h) - x2_indif(x1 - h)) / (2*h)
+
+x1_grid = np.array([2, 5, 10, 20], dtype=float)
+x2_grid = x2_indif(x1_grid)
+print(f"{'x1':>5} {'x2':>10} {'TMS (fórmula)':>15} {'TMS (numérica)':>16}")
+for x1, x2 in zip(x1_grid, x2_grid):
+    print(f"{x1:>5.0f} {x2:>10.3f} {TMS_formula(x1, x2):>15.4f}"
+          f" {TMS_numerica(x1):>16.4f}")
+```
+
+A TMS analítica e a numérica coincidem até a precisão da diferença finita — confirmando o TFI sem necessidade de isolar $x_2$ como função de $x_1$ explicitamente.
+
+### Generalização: Várias Variáveis Exógenas
+
+**Enunciado.** Seja $F(y, x_1, \ldots, x_n)$ continuamente diferenciável em torno de $(y^*, x_1^*, \ldots, x_n^*)$ e suponha que
+
+$$
+F(y^*, x_1^*, \ldots, x_n^*) = c \qquad \text{e} \qquad \frac{\partial F}{\partial y}(y^*, x_1^*, \ldots, x_n^*) \neq 0.
+$$
+
+Então existe uma vizinhança de $(x_1^*, \ldots, x_n^*)$ e uma única função $g$ continuamente diferenciável tal que:
+
+(a) $F\bigl(g(x_1, \ldots, x_n), x_1, \ldots, x_n\bigr) \equiv c$;
+
+(b) $y^* = g(x_1^*, \ldots, x_n^*)$;
+
+(c) $\displaystyle \frac{\partial g}{\partial x_i} = -\,\frac{\partial F/\partial x_i}{\partial F/\partial y}, \quad i = 1, \ldots, n.$
+
+Em forma compacta, a fórmula das derivadas parciais é
+
+$$
+\boxed{\frac{\partial g}{\partial x_i} = -\,\frac{\partial F/\partial x_i}{\partial F/\partial y}, \quad i = 1, \ldots, n.}
+$$
+
+A demonstração é análoga ao caso de duas variáveis: partindo de $F(g(x_1, \ldots, x_n), x_1, \ldots, x_n) = c$ e derivando em $x_i$ pela regra da cadeia, mantendo $x_j$ fixo para $j \neq i$:
+
+$$
+\frac{\partial F}{\partial y}\,\frac{\partial g}{\partial x_i} + \frac{\partial F}{\partial x_i} = 0.
+$$
+
+---
+
+## Sistemas de Funções Implícitas
+
+### Generalização: $m$ Endógenas e $n$ Exógenas
+
+A versão mais geral do TFI trata sistemas:
+
+$$
+\begin{cases}
+F^1(y_1, \ldots, y_m, x_1, \ldots, x_n) = c_1, \\
+\quad\;\vdots \\
+F^m(y_1, \ldots, y_m, x_1, \ldots, x_n) = c_m.
+\end{cases}
+$$
+
+**Hipótese chave (condição do Jacobiano):** se a **matriz Jacobiana das endógenas**
+
+$$
+J = \begin{pmatrix}
+\dfrac{\partial F^1}{\partial y_1} & \cdots & \dfrac{\partial F^1}{\partial y_m} \\
+\vdots & \ddots & \vdots \\
+\dfrac{\partial F^m}{\partial y_1} & \cdots & \dfrac{\partial F^m}{\partial y_m}
+\end{pmatrix}
+$$
+
+tem **determinante diferente de zero** ($|J| \neq 0$) num ponto que satisfaz o sistema, então localmente as endógenas $y_i$ podem ser escritas como funções $g_i(x_1, \ldots, x_n)$ das exógenas, e suas derivadas parciais satisfazem o sistema linear:
+
+$$
+J \cdot \begin{pmatrix} \partial y_1 / \partial x_k \\ \vdots \\ \partial y_m / \partial x_k \end{pmatrix} = -\begin{pmatrix} \partial F^1 / \partial x_k \\ \vdots \\ \partial F^m / \partial x_k \end{pmatrix}, \qquad k = 1, \ldots, n.
+$$
+
+### Solução via Cramer
+
+O sistema acima é exatamente da forma $A x = b$, com $A = J$ e $b = -(\partial F^i / \partial x_k)_i$. Quando $|J| \neq 0$, a regra de Cramer dá:
+
+$$
+\boxed{\frac{\partial y_i}{\partial x_k} = \frac{|J_i|}{|J|},}
+$$
+
+onde $J_i$ é a matriz $J$ com a $i$-ésima coluna substituída por $-\bigl(\partial F^j/\partial x_k\bigr)_j$.
+
+Esta é **a fórmula que torna o TFI a ferramenta universal de estática comparativa em Economia.**
+
+### Aplicação Econômica: Estática Comparativa do IS/LM
+
+Considere o modelo IS/LM com as funções gerais:
+
+$$
+\begin{cases}
+\text{(IS):} & Y = C(Y - T) + I(r) + G, \\
+\text{(LM):} & M(Y, r) = M^s,
+\end{cases}
+$$
+
+com hipóteses de sinal:
+
+- $0 < C'(\cdot) < 1$ (propensão marginal a consumir);
+- $I'(r) < 0$ (investimento decresce com a taxa de juros);
+- $M_Y \equiv \partial M/\partial Y > 0$ e $M_r \equiv \partial M/\partial r < 0$ (demanda por moeda).
+
+**Endógenas:** $Y, r$. **Exógenas (parâmetros de política):** $T, G, M^s$.
+
+Reescrevendo na forma $F^i = c_i$:
+
+$$
+\begin{cases}
+F^1(Y, r;\, T, G) = Y - C(Y - T) - I(r) - G = 0, \\
+F^2(Y, r;\, M^s) = M(Y, r) - M^s = 0.
+\end{cases}
+$$
+
+#### Diferenciação Total
+
+Diferenciando cada equação:
+
+$$
+\begin{aligned}
+dY - C'\,(dY - dT) - I'\, dr - dG &= 0, \\
+M_Y\, dY + M_r\, dr - dM^s &= 0,
+\end{aligned}
+$$
+
+ou seja:
+
+$$
+\begin{aligned}
+(1 - C')\, dY - I'\, dr &= -C'\, dT + dG, \\
+M_Y\, dY + M_r\, dr &= dM^s.
+\end{aligned}
+$$
+
+#### Forma Matricial
+
+$$
+\underbrace{\begin{pmatrix} 1 - C' & -I' \\ M_Y & M_r \end{pmatrix}}_{J} \begin{pmatrix} dY \\ dr \end{pmatrix} = \begin{pmatrix} -C' \\ 0 \end{pmatrix} dT + \begin{pmatrix} 1 \\ 0 \end{pmatrix} dG + \begin{pmatrix} 0 \\ 1 \end{pmatrix} dM^s.
+$$
+
+#### Determinante do Jacobiano
+
+$$
+|J| = (1 - C')\, M_r + I'\, M_Y.
+$$
+
+Sob as hipóteses de sinal:
+
+- $(1 - C') > 0$ e $M_r < 0$: primeiro termo $< 0$;
+- $I' < 0$ e $M_Y > 0$: segundo termo $< 0$;
+
+logo $|J| < 0$. (Os sinais coincidem com o que já vimos para a calibração linear: $|J|$ tem sinal estabelecido pelas hipóteses gerais, tornando a análise robusta a especificações não-lineares.)
+
+#### Multiplicadores via Cramer
+
+Fixando $dT = dM^s = 0$ e $dG \neq 0$ para isolar $\partial Y/\partial G$:
+
+$$
+\frac{\partial Y}{\partial G} = \frac{1}{|J|} \begin{vmatrix} 1 & -I' \\ 0 & M_r \end{vmatrix} = \frac{M_r}{|J|} = \frac{(-)}{(-)} > 0.
+$$
+
+$$
+\frac{\partial r}{\partial G} = \frac{1}{|J|} \begin{vmatrix} 1 - C' & 1 \\ M_Y & 0 \end{vmatrix} = \frac{-M_Y}{|J|} = \frac{(-)}{(-)} > 0.
+$$
+
+Fixando $dG = dM^s = 0$ e $dT \neq 0$:
+
+$$
+\frac{\partial Y}{\partial T} = \frac{1}{|J|} \begin{vmatrix} -C' & -I' \\ 0 & M_r \end{vmatrix} = \frac{-C'\, M_r}{|J|} = \frac{(+)(-)}{(-)} < 0.
+$$
+
+Fixando $dT = dG = 0$ e $dM^s \neq 0$:
+
+$$
+\frac{\partial Y}{\partial M^s} = \frac{1}{|J|} \begin{vmatrix} 0 & -I' \\ 1 & M_r \end{vmatrix} = \frac{I'}{|J|} = \frac{(-)}{(-)} > 0.
+$$
+
+$$
+\frac{\partial r}{\partial M^s} = \frac{1}{|J|} \begin{vmatrix} 1 - C' & 0 \\ M_Y & 1 \end{vmatrix} = \frac{1 - C'}{|J|} = \frac{(+)}{(-)} < 0.
+$$
+
+#### Síntese: Tabela de Sinais
+
+| Variação | Sinal | Interpretação |
+|----------|-------|---------------|
+| $\partial Y / \partial G$ | $> 0$ | Multiplicador fiscal (expansão fiscal eleva $Y$) |
+| $\partial Y / \partial T$ | $< 0$ | Tributos contraem $Y$ |
+| $\partial Y / \partial M^s$ | $> 0$ | Expansão monetária eleva $Y$ |
+| $\partial r / \partial G$ | $> 0$ | **Crowding-out**: gasto público eleva juros |
+| $\partial r / \partial M^s$ | $< 0$ | Expansão monetária reduz juros |
+
+Os sinais saem **somente das hipóteses qualitativas** sobre $C', I', M_Y, M_r$ — não dependem da forma funcional específica de $C(\cdot)$, $I(\cdot)$ ou $M(\cdot, \cdot)$. Esta é a essência da **estática comparativa**: ir do **equilíbrio inicial** ao **novo equilíbrio** após uma mudança paramétrica, captando o sinal (e às vezes a magnitude) da resposta sem resolver explicitamente o sistema.
+
+#### Cálculo Numérico com Funções Não-Lineares
+
+Para ilustrar o uso do TFI em modelos genuinamente não-lineares, calibramos:
+
+- $C(z) = c_0 + c_1 z + c_2 \sqrt{z}$ (consumo côncavo);
+- $I(r) = I_0\, e^{-b r}$ (investimento decrescente convexo);
+- $M(Y, r) = m_1 Y - m_2 r$ (demanda por moeda linear, para simplificar).
+
+O equilíbrio $(Y^*, r^*)$ é encontrado numericamente, e os multiplicadores saem pela TFI aplicada **no equilíbrio** — a Jacobiana é avaliada usando os valores de $C'$, $I'$, $M_Y$, $M_r$ nesse ponto.
+
+Em R:
+
+```{r}
+# Funções estruturais (não-lineares)
+C_fun  <- function(z) 50 + 0.5*z + 5*sqrt(z)
+Cp     <- function(z) 0.5 + 2.5/sqrt(z)             # C'(z)
+
+I_fun  <- function(r) 200 * exp(-2*r)
+Ip     <- function(r) -400 * exp(-2*r)              # I'(r)
+
+m1 <- 0.25; m2 <- 100
+M_fun  <- function(Y, r) m1*Y - m2*r
+M_Y    <- function(Y, r) m1
+M_r    <- function(Y, r) -m2
+
+# Parâmetros (exógenas)
+T  <- 100; G  <- 200; Ms <- 50
+
+# A LM é linear em r: r = (m1 Y - Ms) / m2. Substituindo na IS, fica
+# uma equação não-linear em Y, que resolvemos com uniroot (base R).
+r_de_Y <- function(Y) (m1*Y - Ms) / m2
+IS     <- function(Y) Y - C_fun(Y - T) - I_fun(r_de_Y(Y)) - G
+
+sol  <- uniroot(IS, interval = c(200, 2000))
+Y_eq <- sol$root
+r_eq <- r_de_Y(Y_eq)
+cat(sprintf("Equilíbrio: Y* = %.2f, r* = %.4f\n", Y_eq, r_eq))
+
+# Jacobiana no equilíbrio
+J <- matrix(c(1 - Cp(Y_eq - T), -Ip(r_eq),
+              M_Y(Y_eq, r_eq), M_r(Y_eq, r_eq)),
+            nrow = 2, byrow = TRUE)
+detJ <- det(J)
+cat(sprintf("|J| = %.4f (esperado: < 0)\n", detJ))
+
+# Multiplicadores via Cramer (∂Y/∂G e ∂r/∂G via choque dG = 1)
+mult_G   <- solve(J, c(1, 0))
+mult_T   <- solve(J, c(-Cp(Y_eq - T), 0))
+mult_Ms  <- solve(J, c(0, 1))
+
+resultados <- data.frame(
+  Multiplicador = c("∂Y/∂G", "∂r/∂G", "∂Y/∂T", "∂r/∂T", "∂Y/∂Ms", "∂r/∂Ms"),
+  Valor         = round(c(mult_G[1], mult_G[2],
+                          mult_T[1], mult_T[2],
+                          mult_Ms[1], mult_Ms[2]), 4),
+  Sinal_Esperado = c("+", "+", "-", "-", "+", "-")
+)
+resultados
+```
+
+E em Python:
+
+```{python}
+import numpy as np
+from scipy.optimize import fsolve
+
+# Funções estruturais
+def C_fun(z):  return 50 + 0.5*z + 5*np.sqrt(z)
+def Cp(z):     return 0.5 + 2.5/np.sqrt(z)
+
+def I_fun(r):  return 200 * np.exp(-2*r)
+def Ip(r):     return -400 * np.exp(-2*r)
+
+m1, m2 = 0.25, 100
+def M_fun(Y, r): return m1*Y - m2*r
+def M_Y(Y, r):   return m1
+def M_r(Y, r):   return -m2
+
+# Parâmetros
+T, G, Ms = 100, 200, 50
+
+# Sistema: F(Y, r) = 0
+def sistema(par):
+    Y, r = par
+    return [Y - C_fun(Y - T) - I_fun(r) - G,
+            M_fun(Y, r) - Ms]
+
+# Equilíbrio
+Y_eq, r_eq = fsolve(sistema, x0=[800, 0.05])
+print(f"Equilíbrio: Y* = {Y_eq:.2f}, r* = {r_eq:.4f}")
+
+# Jacobiana no equilíbrio
+J = np.array([[1 - Cp(Y_eq - T), -Ip(r_eq)],
+              [M_Y(Y_eq, r_eq),   M_r(Y_eq, r_eq)]])
+detJ = np.linalg.det(J)
+print(f"|J| = {detJ:.4f} (esperado: < 0)")
+
+# Multiplicadores via Cramer
+mult_G  = np.linalg.solve(J, [1, 0])
+mult_T  = np.linalg.solve(J, [-Cp(Y_eq - T), 0])
+mult_Ms = np.linalg.solve(J, [0, 1])
+
+print(f"\n{'Multiplicador':<12} {'Valor':>10} {'Sinal':>8}")
+for label, val, sinal in [
+    ("∂Y/∂G",  mult_G[0],  "+"),
+    ("∂r/∂G",  mult_G[1],  "+"),
+    ("∂Y/∂T",  mult_T[0],  "-"),
+    ("∂r/∂T",  mult_T[1],  "-"),
+    ("∂Y/∂Ms", mult_Ms[0], "+"),
+    ("∂r/∂Ms", mult_Ms[1], "-"),
+]:
+    print(f"{label:<12} {val:>10.4f} {sinal:>8}")
+```
+
+Os sinais numéricos confirmam exatamente as previsões teóricas — independentemente da forma funcional de $C$, $I$ ou $M$, desde que as **hipóteses de sinal** ($0 < C' < 1$, $I' < 0$, $M_Y > 0$, $M_r < 0$) sejam respeitadas. Esta é a essência da estática comparativa via TFI: **resultados qualitativos robustos** que sobrevivem a mudanças de especificação do modelo.

@@ -8,4 +8,4 @@ Provas e testes de anos anteriores com soluções detalhadas.
 |-------|------|---------|
 | [Teste 1](teste1.qmd) | 2024 | Derivadas — regras de diferenciação |
 | [Teste 2](teste2.qmd) | 2024 | Integrais — antiderivadas e integral definida |
-| [Teste 3](teste3.qmd) | Abril 2024 | Derivadas e integrais — revisão geral |
+| [Teste 3](teste3.qmd) | Abril 2024 e 2026 | Derivadas e integrais — revisão geral |

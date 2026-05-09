@@ -1,0 +1,990 @@
+# Otimização sem Restrição
+
+## Motivação Econômica
+
+Otimização é o motor analítico da Economia. Praticamente todo modelo econômico repousa sobre **algum agente otimizando algo**, sujeito ou não a restrições:
+
+- **Firma competitiva:** maximiza lucro $\pi(q) = p\,q - C(q)$ escolhendo a quantidade ótima $q^*$;
+- **Monopolista:** maximiza $\pi(q) = p(q)\,q - C(q)$ levando em conta que sua escolha afeta o preço de mercado;
+- **Consumidor:** maximiza utilidade $U(x_1, \ldots, x_n)$ — neste capítulo sem restrição orçamentária; com restrições virá em capítulo seguinte;
+- **Banco central:** minimiza $L(\pi, y) = (\pi - \pi^*)^2 + \lambda\,(y - y^*)^2$ — função-perda quadrática em torno de metas de inflação e produto;
+- **Investidor:** seleciona carteira que maximiza retorno esperado dado um nível de risco — problema de média-variância de Markowitz.
+
+Em todos esses casos, a teoria precisa de:
+
+1. **Condições necessárias** que todo ótimo deve satisfazer (úteis para **encontrar** candidatos a ótimo);
+2. **Condições suficientes** que garantem que um candidato é, de fato, máximo ou mínimo;
+3. **Critérios de classificação** quando há múltiplos pontos críticos (máximos locais, mínimos locais, pontos de sela).
+
+Este capítulo desenvolve essas ferramentas a partir de três teoremas-base do cálculo (Rolle, Valor Médio e Taylor) e culmina nas condições de primeira e segunda ordem para funções de uma e várias variáveis.
+
+---
+
+## Otimização de Funções de Uma Variável
+
+### Teorema de Rolle
+
+**Enunciado.** Seja $f : [a, b] \to \mathbb{R}$ contínua em $[a, b]$, derivável em $(a, b)$, e tal que $f(a) = f(b)$. Então existe $c \in (a, b)$ com:
+
+$$
+f'(c) = 0.
+$$
+
+**Intuição geométrica.** Se uma função sai de um ponto e volta à mesma altura, em algum momento intermediário sua derivada (inclinação da tangente) precisa ser zero — caso contrário a função estaria sempre subindo ou sempre descendo, e não retornaria ao valor inicial.
+
+```{r}
+#| label: fig-rolle
+#| fig-cap: "Teorema de Rolle: $f(x) = (x-1)(x-3)$, $f(1) = f(3) = 0$. Existe $c = 2$ com $f'(c) = 0$ — o vértice da parábola, onde a tangente é horizontal."
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 4
+
+library(ggplot2)
+
+x <- seq(0.5, 3.5, length.out = 200)
+df <- data.frame(x = x, y = (x - 1) * (x - 3))
+
+ggplot(df, aes(x, y)) +
+  geom_line(linewidth = 1, color = "#1f77b4") +
+  geom_hline(yintercept = -1, linetype = "dashed", color = "gray70") +
+  geom_point(data = data.frame(x = c(1, 3), y = c(0, 0)),
+             aes(x, y), color = "#d62728", size = 3) +
+  geom_point(aes(x = 2, y = -1), color = "black", size = 3) +
+  annotate("text", x = 1, y = 0.3, label = "(a, f(a))", size = 3.5) +
+  annotate("text", x = 3, y = 0.3, label = "(b, f(b))", size = 3.5) +
+  annotate("text", x = 2, y = -1.4, label = "c (f'(c) = 0)", size = 3.5) +
+  labs(x = "x", y = "f(x)") +
+  theme_minimal(base_size = 12)
+```
+
+### Teorema do Valor Médio (TVM)
+
+**Enunciado.** Seja $f : [a, b] \to \mathbb{R}$ contínua em $[a, b]$ e derivável em $(a, b)$. Então existe $c \in (a, b)$ tal que:
+
+$$
+\boxed{f'(c) = \frac{f(b) - f(a)}{b - a},}
+$$
+
+ou, equivalentemente, $f(b) = f(a) + f'(c)\,(b - a)$.
+
+**Interpretação geométrica.** A inclinação média do gráfico entre $a$ e $b$ — ou seja, a inclinação da reta que une $(a, f(a))$ a $(b, f(b))$ — é atingida pela tangente em algum ponto interior $c$.
+
+#### Demonstração (via Rolle)
+
+Considere a função auxiliar:
+
+$$
+g(x) = f(b) - f(x) - \frac{f(b) - f(a)}{b - a}\,(b - x).
+$$
+
+Calculando os extremos:
+
+$$
+g(a) = f(b) - f(a) - \frac{f(b) - f(a)}{b - a}\,(b - a) = f(b) - f(a) - [f(b) - f(a)] = 0,
+$$
+
+$$
+g(b) = f(b) - f(b) - \frac{f(b) - f(a)}{b - a}\,(b - b) = 0.
+$$
+
+Como $g(a) = g(b) = 0$ e $g$ é contínua e derivável (porque $f$ é), por Rolle existe $c \in (a, b)$ com $g'(c) = 0$.
+
+Calculando $g'$:
+
+$$
+g'(x) = -f'(x) + \frac{f(b) - f(a)}{b - a}.
+$$
+
+Logo:
+
+$$
+g'(c) = 0 \quad\Longleftrightarrow\quad f'(c) = \frac{f(b) - f(a)}{b - a}. \quad \blacksquare
+$$
+
+#### Forma para Aproximação Local
+
+Tomando $a = x^*$ e $b = x^* + \Delta x$, o TVM diz que existe $\theta \in (0, 1)$ tal que:
+
+$$
+\boxed{f(x^* + \Delta x) = f(x^*) + f'(x^* + \theta\,\Delta x)\,\Delta x.}
+$$
+
+Esta é a forma mais útil para argumentos de otimização: **a variação de $f$ é exatamente $f'(\xi)\,\Delta x$** para algum $\xi$ entre $x^*$ e $x^* + \Delta x$. Usaremos essa forma logo abaixo.
+
+### Expansão de Taylor
+
+A expansão de Taylor de **segunda ordem** em torno de $x^*$ refina a aproximação linear vista anteriormente, adicionando o termo de curvatura:
+
+$$
+f(x^* + \Delta x) = f(x^*) + f'(x^*)\,\Delta x + \frac{f''(x^* + \theta\,\Delta x)}{2}\,(\Delta x)^2,
+$$
+
+para algum $\theta \in (0, 1)$. Aproximando $f''(x^* + \theta\,\Delta x) \approx f''(x^*)$ (válido para $\Delta x$ pequeno):
+
+$$
+\boxed{f(x^* + \Delta x) \approx f(x^*) + f'(x^*)\,\Delta x + \frac{f''(x^*)}{2}\,(\Delta x)^2.}
+$$
+
+O termo $f'(x^*)\,\Delta x$ é o efeito linear; o termo $\tfrac12 f''(x^*)\,(\Delta x)^2$ é o efeito de segunda ordem (curvatura).
+
+#### Demonstração via Função Auxiliar
+
+A demonstração segue o mesmo princípio usado no TVM: constrói-se uma função auxiliar que se anula em $a$ e $b$, aplica-se Rolle e identifica-se a constante.
+
+Considere
+
+$$
+\varphi(x) = f(b) - \bigl[f(x) + f'(x)\,(b - x) + K\,(b - x)^2\bigr],
+$$
+
+com $K$ a determinar. Por construção,
+
+$$
+\varphi(b) = f(b) - [f(b) + 0 + 0] = 0.
+$$
+
+Escolhemos $K$ de modo que também $\varphi(a) = 0$:
+
+$$
+\varphi(a) = f(b) - \bigl[f(a) + f'(a)\,(b - a) + K\,(b - a)^2\bigr] = 0,
+$$
+
+donde
+
+$$
+K = \frac{f(b) - \bigl[f(a) + f'(a)\,(b - a)\bigr]}{(b - a)^2}. \quad (\mathrm{I})
+$$
+
+Como $\varphi(a) = \varphi(b) = 0$ e $\varphi$ é derivável em $(a, b)$, pelo teorema de Rolle existe $c \in (a, b)$ com $\varphi'(c) = 0$. Calculando $\varphi'$ — ao derivar $f'(x)(b-x)$ obtemos $f''(x)(b-x) - f'(x)$ pela regra do produto:
+
+$$
+\varphi'(x) = -\bigl[f'(x) + f''(x)\,(b - x) - f'(x) - 2K\,(b - x)\bigr] = (b - x)\bigl[2K - f''(x)\bigr].
+$$
+
+Em $x = c$, com $b - c \neq 0$:
+
+$$
+\varphi'(c) = 0 \;\Longleftrightarrow\; K = \frac{f''(c)}{2}. \quad (\mathrm{II})
+$$
+
+Combinando $(\mathrm{I})$ e $(\mathrm{II})$:
+
+$$
+\frac{f''(c)}{2} = \frac{f(b) - \bigl[f(a) + f'(a)\,(b - a)\bigr]}{(b - a)^2},
+$$
+
+ou seja,
+
+$$
+\boxed{f(b) = f(a) + f'(a)\,(b - a) + \frac{f''(c)}{2}\,(b - a)^2, \quad c \in (a, b).} \quad \blacksquare
+$$
+
+Tomando $a = x^*$ e $b = x^* + \Delta x$, recupera-se a forma utilizada acima com $c = x^* + \theta\,\Delta x$ para algum $\theta \in (0, 1)$.
+
+### Condições Necessárias
+
+**Definição.** $x^*$ é **máximo local** de $f$ se $f(x^*) \geq f(x^* + \Delta x)$ para todo $\Delta x$ pequeno; é **mínimo local** se $f(x^*) \leq f(x^* + \Delta x)$.
+
+**Teorema (CN).** Se $x^*$ é extremo local de $f$ (no interior do domínio) e $f$ é duas vezes diferenciável em $x^*$, então:
+
+| Tipo | Condição de 1ª ordem | Condição de 2ª ordem |
+|------|----------------------|----------------------|
+| Máximo | $f'(x^*) = 0$ | $f''(x^*) \leq 0$ |
+| Mínimo | $f'(x^*) = 0$ | $f''(x^*) \geq 0$ |
+
+#### Por que $f'(x^*) = 0$ é necessária
+
+Pela expansão de Taylor:
+
+$$
+f(x^* + \Delta x) - f(x^*) = f'(x^*)\,\Delta x + O(\Delta x^2).
+$$
+
+Para $x^*$ máximo, $f(x^* + \Delta x) - f(x^*) \leq 0$ tanto para $\Delta x > 0$ quanto $\Delta x < 0$. Se $f'(x^*) > 0$, basta tomar $\Delta x > 0$ pequeno para violar a desigualdade. Analogamente para $f'(x^*) < 0$ com $\Delta x < 0$. Logo $f'(x^*) = 0$.
+
+#### Por que $f''(x^*) \leq 0$ é necessária para máximo
+
+Com $f'(x^*) = 0$, a expansão fica:
+
+$$
+f(x^* + \Delta x) - f(x^*) = \tfrac{1}{2} f''(x^*)\,(\Delta x)^2 + o(\Delta x^2).
+$$
+
+Como $(\Delta x)^2 > 0$, para que $f(x^* + \Delta x) - f(x^*) \leq 0$ vale para $\Delta x$ pequeno, precisamos de $f''(x^*) \leq 0$.
+
+### Condições Suficientes
+
+**Teorema (CS).** Se $f'(x^*) = 0$ e:
+
+- $f''(x^*) < 0$: $x^*$ é **máximo local estrito**;
+- $f''(x^*) > 0$: $x^*$ é **mínimo local estrito**.
+
+#### Demonstração via TVM
+
+Suponha $f'(x^*) = 0$ e $f''(x^*) < 0$. Por continuidade, $f''$ é negativa em uma vizinhança de $x^*$. Pelo TVM aplicado a $f'$ no intervalo entre $x^*$ e $x^* + \Delta x$:
+
+$$
+f'(x^* + \Delta x) - f'(x^*) = f''(x^* + \theta\,\Delta x)\,\Delta x.
+$$
+
+Como $f'(x^*) = 0$ e $f''(x^* + \theta \Delta x) < 0$:
+
+- Se $\Delta x > 0$: $f'(x^* + \Delta x) < 0$ (a derivada virou negativa);
+- Se $\Delta x < 0$: $f'(x^* + \Delta x) > 0$ (a derivada virou positiva).
+
+Em ambos os casos, $f'(x^* + \theta \Delta x)\,\Delta x < 0$. Aplicando o TVM agora a $f$ no mesmo intervalo:
+
+$$
+f(x^* + \Delta x) - f(x^*) = f'(x^* + \theta'\,\Delta x)\,\Delta x < 0,
+$$
+
+para todo $\Delta x \neq 0$ pequeno. Logo $x^*$ é máximo local estrito. $\blacksquare$
+
+A demonstração para mínimo é simétrica.
+
+#### Quando $f''(x^*) = 0$
+
+O teste de segunda ordem é **inconclusivo** quando $f''(x^*) = 0$. Casos possíveis:
+
+- $f(x) = x^4$ em $x^* = 0$: $f''(0) = 0$, mas $x^* = 0$ é mínimo (precisa olhar derivadas de ordem superior);
+- $f(x) = x^3$ em $x^* = 0$: $f'(0) = 0 = f''(0)$, mas $x^* = 0$ é **ponto de inflexão**, não extremo.
+
+Quando $f''(x^*) = 0$, recorre-se às derivadas de ordem superior ou a inspeção direta.
+
+### Exemplo Computacional
+
+Considere $f(x) = x^3 - 3x^2 - 9x + 5$. Pontos críticos:
+
+$$
+f'(x) = 3x^2 - 6x - 9 = 3(x^2 - 2x - 3) = 3(x - 3)(x + 1) = 0 \;\Rightarrow\; x = 3,\, x = -1.
+$$
+
+Segunda derivada: $f''(x) = 6x - 6$.
+
+- $f''(-1) = -12 < 0 \;\Rightarrow\; x = -1$ é **máximo local**.
+- $f''(3) = 12 > 0 \;\Rightarrow\; x = 3$ é **mínimo local**.
+
+Em R:
+
+```{r}
+#| label: fig-otim-1var
+#| fig-cap: "$f(x) = x^3 - 3x^2 - 9x + 5$ tem máximo local em $x = -1$ e mínimo local em $x = 3$."
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 4
+
+library(ggplot2)
+
+f  <- function(x) x^3 - 3*x^2 - 9*x + 5
+df <- function(x) 3*x^2 - 6*x - 9
+
+# Pontos críticos via uniroot
+crit_max <- uniroot(df, c(-2,  0))$root
+crit_min <- uniroot(df, c( 2,  4))$root
+cat(sprintf("Máximo em x = %.4f, f = %.4f\n", crit_max, f(crit_max)))
+cat(sprintf("Mínimo em x = %.4f, f = %.4f\n", crit_min, f(crit_min)))
+
+x <- seq(-3, 5, length.out = 300)
+ggplot(data.frame(x, y = f(x)), aes(x, y)) +
+  geom_line(linewidth = 1, color = "#1f77b4") +
+  geom_point(aes(x = crit_max, y = f(crit_max)), color = "#d62728", size = 3) +
+  geom_point(aes(x = crit_min, y = f(crit_min)), color = "#2ca02c", size = 3) +
+  annotate("text", x = crit_max, y = f(crit_max) + 5, label = "Máx. local", size = 3.3) +
+  annotate("text", x = crit_min, y = f(crit_min) - 6, label = "Mín. local", size = 3.3) +
+  labs(x = "x", y = "f(x)") +
+  theme_minimal(base_size = 12)
+```
+
+Em Python:
+
+```{python}
+import numpy as np
+from scipy.optimize import brentq
+
+def f(x):  return x**3 - 3*x**2 - 9*x + 5
+def df(x): return 3*x**2 - 6*x - 9
+
+x_max = brentq(df, -2, 0)
+x_min = brentq(df,  2, 4)
+print(f"Máximo em x = {x_max:.4f}, f = {f(x_max):.4f}")
+print(f"Mínimo em x = {x_min:.4f}, f = {f(x_min):.4f}")
+```
+
+---
+
+## Otimização de Funções de Várias Variáveis
+
+A generalização das condições nec/suf para $f : \mathbb{R}^n \to \mathbb{R}$ requer uma versão multivariada da expansão de Taylor de 2ª ordem, e leva à **Hessiana** como o objeto que substitui $f''$ no caso univariado.
+
+### Parametrização Direcional
+
+Para reduzir o problema multivariado a um univariado, parametrizamos uma direção. Dado $x^* \in \mathbb{R}^n$ e um deslocamento $\Delta x = (\Delta x_1, \ldots, \Delta x_n) \in \mathbb{R}^n$, considere $h \in \mathbb{R}$ pequeno e a função auxiliar:
+
+$$
+F(h) = f(x_1^* + h\,\Delta x_1, \ldots, x_n^* + h\,\Delta x_n).
+$$
+
+Quando $h = 0$, $F(0) = f(x^*)$. Quando $h = 1$, $F(1) = f(x^* + \Delta x)$. Tudo o que precisamos é estudar $F : \mathbb{R} \to \mathbb{R}$ — uma função univariada — e aplicar Taylor:
+
+$$
+F(h) = F(0) + F'(0)\,h + \tfrac{1}{2}\,F''(\theta\,h)\,h^2.
+$$
+
+### Cálculo de $F'(0)$
+
+Pela regra da cadeia:
+
+$$
+F'(h) = \sum_{i=1}^n \frac{\partial f}{\partial x_i}\bigl(x^* + h\,\Delta x\bigr)\,\Delta x_i.
+$$
+
+Em $h = 0$:
+
+$$
+\boxed{F'(0) = \sum_{i=1}^n \frac{\partial f}{\partial x_i}(x^*)\,\Delta x_i = \nabla f(x^*) \cdot \Delta x.}
+$$
+
+O resultado é o produto interno do **gradiente** $\nabla f(x^*) = \bigl(\partial f/\partial x_1, \ldots, \partial f/\partial x_n\bigr)$ com o vetor de direção $\Delta x$.
+
+### Cálculo de $F''(0)$
+
+Diferenciando $F'(h) = \sum_i (\partial f/\partial x_i)(\cdot)\,\Delta x_i$ novamente em $h$:
+
+$$
+F''(h) = \sum_{i=1}^n \left[ \sum_{j=1}^n \frac{\partial^2 f}{\partial x_i \partial x_j}(x^* + h\,\Delta x)\,\Delta x_j \right] \Delta x_i = \sum_{i=1}^n \sum_{j=1}^n f_{ij}(\cdot)\,\Delta x_i\,\Delta x_j.
+$$
+
+Em $h = 0$:
+
+$$
+\boxed{F''(0) = \sum_{i=1}^n \sum_{j=1}^n f_{ij}(x^*)\,\Delta x_i\,\Delta x_j = \Delta x^\top\, H_f(x^*)\, \Delta x,}
+$$
+
+onde $H_f(x^*) = \bigl(f_{ij}(x^*)\bigr)$ é a **matriz Hessiana** de $f$ em $x^*$ — a mesma matriz já encontrada no capítulo de derivadas parciais. A expressão $\Delta x^\top\, H\, \Delta x$ é uma **forma quadrática**.
+
+### Expansão de Taylor Multivariada
+
+Combinando $F(0)$, $F'(0)$ e $F''(0)$:
+
+$$
+\boxed{f(x^* + \Delta x) \approx f(x^*) + \nabla f(x^*) \cdot \Delta x + \tfrac{1}{2}\,\Delta x^\top\, H_f(x^*)\,\Delta x.}
+$$
+
+Esta é a **expansão de Taylor de 2ª ordem em várias variáveis**. O termo linear é o produto interno gradiente·deslocamento; o termo quadrático envolve a Hessiana e captura a curvatura local de $f$ em todas as direções simultaneamente.
+
+### Condições de Primeira Ordem
+
+**Teorema (CN, 1ª ordem).** Se $x^*$ é extremo local de $f$ no interior do domínio, então:
+
+$$
+\boxed{\nabla f(x^*) = 0 \quad\Longleftrightarrow\quad \frac{\partial f}{\partial x_i}(x^*) = 0 \;\text{ para todo } i.}
+$$
+
+Pontos onde $\nabla f = 0$ são chamados **pontos críticos** (ou estacionários) de $f$.
+
+**Por quê:** se $\nabla f(x^*) \neq 0$, escolhendo $\Delta x$ na direção do gradiente (ou contra ela) o termo linear $\nabla f \cdot \Delta x$ pode ser tornado positivo ou negativo, contradizendo a definição de extremo.
+
+### Condições de Segunda Ordem
+
+Em um ponto crítico ($\nabla f(x^*) = 0$), Taylor reduz-se a:
+
+$$
+f(x^* + \Delta x) - f(x^*) \approx \tfrac{1}{2}\,\Delta x^\top\, H_f(x^*)\,\Delta x.
+$$
+
+O sinal dessa **forma quadrática** determina o tipo do ponto crítico:
+
+| Forma quadrática $\Delta x^\top H \Delta x$ | $H$ é... | $x^*$ é... |
+|---------------------------------------------|----------|------------|
+| $> 0$ para todo $\Delta x \neq 0$ | **definida positiva** | mínimo local estrito |
+| $< 0$ para todo $\Delta x \neq 0$ | **definida negativa** | máximo local estrito |
+| Assume sinais $+$ e $-$ | **indefinida** | **ponto de sela** |
+| $\geq 0$ (com igualdade em algum $\Delta x$) | semidefinida positiva | candidato a mín. (inconclusivo) |
+| $\leq 0$ (com igualdade em algum $\Delta x$) | semidefinida negativa | candidato a máx. (inconclusivo) |
+
+#### Critério Prático (Caso $n = 2$)
+
+Para $H_f = \begin{pmatrix} f_{xx} & f_{xy} \\ f_{xy} & f_{yy} \end{pmatrix}$, o sinal da forma quadrática lê-se diretamente de:
+
+$$
+|H_f| = f_{xx}\,f_{yy} - f_{xy}^2, \qquad f_{xx}.
+$$
+
+| Caso | $\lvert H_f\rvert$ | $f_{xx}$ | Tipo |
+|------|-------|---------|------|
+| Definida positiva | $> 0$ | $> 0$ | Mínimo local |
+| Definida negativa | $> 0$ | $< 0$ | Máximo local |
+| Indefinida | $< 0$ | qualquer | Ponto de sela |
+| Inconclusivo | $= 0$ | qualquer | Verificar diretamente |
+
+#### Derivação: Completar o Quadrado
+
+Por que esses são exatamente os sinais corretos? Expandindo a forma quadrática (com a notação $F_{ij} = \partial^2 F/\partial x_i \partial x_j$ e $F_{12} = F_{21}$ por Young):
+
+$$
+\Delta x^\top H_F\, \Delta x = F_{11}\,\Delta x_1^2 + 2\, F_{12}\,\Delta x_1\, \Delta x_2 + F_{22}\,\Delta x_2^2.
+$$
+
+Supondo $F_{11} \neq 0$, fatoramos $F_{11}$ e completamos o quadrado:
+
+$$
+\Delta x^\top H_F\, \Delta x = F_{11} \left[\Delta x_1^2 + 2\,\frac{F_{12}}{F_{11}}\,\Delta x_1\,\Delta x_2 + \left(\frac{F_{12}}{F_{11}}\,\Delta x_2\right)^2\right] - \frac{F_{12}^2}{F_{11}}\,\Delta x_2^2 + F_{22}\,\Delta x_2^2.
+$$
+
+Reagrupando:
+
+$$
+\Delta x^\top H_F\, \Delta x = F_{11}\left[\Delta x_1 + \frac{F_{12}}{F_{11}}\,\Delta x_2\right]^2 + \frac{\Delta x_2^2}{F_{11}}\bigl[F_{11}\, F_{22} - F_{12}^2\bigr].
+$$
+
+O segundo colchete é exatamente o determinante $|H_F|$:
+
+$$
+\boxed{\Delta x^\top H_F\, \Delta x = F_{11}\,T^2 + \frac{\Delta x_2^2}{F_{11}}\,|H_F|, \qquad T = \Delta x_1 + \frac{F_{12}}{F_{11}}\,\Delta x_2.}
+$$
+
+**Leitura dos sinais.** A forma quadrática é uma soma de dois termos. O primeiro tem o sinal de $F_{11}$ (já que $T^2 \geq 0$); o segundo tem o sinal de $|H_F| / F_{11}$ (já que $\Delta x_2^2 \geq 0$).
+
+- **Definida negativa** (máximo): exigimos a soma $< 0$ para todo $(\Delta x_1, \Delta x_2) \neq 0$. O primeiro termo é $\leq 0$ se $F_{11} < 0$. Para que o segundo seja também $\leq 0$ com $F_{11} < 0$ no denominador, precisamos $|H_F| > 0$. Assim, $F_{11} < 0$ e $|H_F| > 0$.
+- **Definida positiva** (mínimo): simétrico. Ambos os termos $\geq 0$ exigem $F_{11} > 0$ e $|H_F| > 0$.
+- **Indefinida** (sela): se $|H_F| < 0$, os dois termos têm sinais opostos e a forma assume valores positivos e negativos.
+
+Esta derivação **demonstra** as entradas da tabela acima e mostra por que o sinal de $F_{11}$ (não de $F_{22}$) aparece — é apenas a escolha de qual variável fatoramos primeiro; por simetria, $F_{22}$ funcionaria igualmente.
+
+#### Caso Geral: Critério de Sylvester
+
+Em $n$ geral, o critério das condições de segunda ordem usa os **menores principais líderes** $D_k$ de $H_F$ — os determinantes das submatrizes superiores esquerdas $k \times k$:
+
+$$
+D_1 = F_{11}, \quad D_2 = \begin{vmatrix} F_{11} & F_{12} \\ F_{21} & F_{22} \end{vmatrix}, \quad D_3 = \begin{vmatrix} F_{11} & F_{12} & F_{13} \\ F_{21} & F_{22} & F_{23} \\ F_{31} & F_{32} & F_{33} \end{vmatrix}, \quad \ldots, \quad D_n = |H_F|.
+$$
+
+| Tipo de extremo | Condição sobre os $D_k$ |
+|-----------------|--------------------------|
+| **Mínimo local** ($H_F$ definida positiva) | $D_1 > 0,\; D_2 > 0,\; D_3 > 0,\; \ldots,\; D_n > 0$ — **todos positivos** |
+| **Máximo local** ($H_F$ definida negativa) | $D_1 < 0,\; D_2 > 0,\; D_3 < 0,\; \ldots$ — **alternam, começando negativo** |
+| **Ponto de sela** | qualquer outro padrão de sinais com $D_n \neq 0$ |
+| Inconclusivo | algum $D_k = 0$ |
+
+A condição de máximo é equivalente a dizer que $-H_F$ é definida positiva — daí a alternância: $D_k(-H) = (-1)^k D_k(H)$.
+
+Equivalentemente, via **autovalores** (todos reais por simetria de $H_F$):
+
+- Todos os autovalores $> 0$: definida positiva (mínimo);
+- Todos os autovalores $< 0$: definida negativa (máximo);
+- Autovalores de sinais opostos: indefinida (sela).
+
+### Exemplos: Formas Quadráticas Puras
+
+Antes de aplicar o critério a uma função mais elaborada, vale fixá-lo em três formas quadráticas com Hessiana constante. Em todas, a CPO dá $(x_1^*, x_2^*) = (0, 0)$ — basta classificar.
+
+**(a) $F(x_1, x_2) = x_1^2 + x_2^2$.** As parciais $\partial F/\partial x_1 = 2x_1$ e $\partial F/\partial x_2 = 2x_2$ zeram em $(0,0)$. A Hessiana é
+
+$$
+H_F = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}, \qquad |H_F| = 4 > 0,\; F_{11} = 2 > 0,
+$$
+
+logo **mínimo local** (de fato, global).
+
+**(b) $F(x_1, x_2) = -x_1^2 - x_2^2$.** Mesmo ponto crítico, e
+
+$$
+H_F = \begin{pmatrix} -2 & 0 \\ 0 & -2 \end{pmatrix}, \qquad |H_F| = 4 > 0,\; F_{11} = -2 < 0,
+$$
+
+→ **máximo local** (global).
+
+**(c) $F(x_1, x_2) = -x_1^2 + x_2^2$.** Mesmo ponto crítico, mas
+
+$$
+H_F = \begin{pmatrix} -2 & 0 \\ 0 & 2 \end{pmatrix}, \qquad |H_F| = -4 < 0,
+$$
+
+→ **ponto de sela**: a função é côncava na direção de $x_1$ e convexa na direção de $x_2$, então $(0,0)$ não é nem máximo nem mínimo.
+
+### Exemplo: Classificando Pontos Críticos
+
+Considere $f(x, y) = x^3 - 3x + y^2 - 4y$. Calculemos os pontos críticos e classifiquemos:
+
+$$
+\nabla f = \begin{pmatrix} 3x^2 - 3 \\ 2y - 4 \end{pmatrix} = 0 \quad\Longrightarrow\quad x^2 = 1,\; y = 2.
+$$
+
+Logo há dois pontos críticos: $(1, 2)$ e $(-1, 2)$.
+
+A Hessiana é:
+
+$$
+H_f(x, y) = \begin{pmatrix} 6x & 0 \\ 0 & 2 \end{pmatrix}.
+$$
+
+- Em $(1, 2)$: $H_f = \begin{pmatrix} 6 & 0 \\ 0 & 2 \end{pmatrix}$, $|H| = 12 > 0$, $f_{xx} = 6 > 0$ → **mínimo local**.
+- Em $(-1, 2)$: $H_f = \begin{pmatrix} -6 & 0 \\ 0 & 2 \end{pmatrix}$, $|H| = -12 < 0$ → **ponto de sela**.
+
+Em R:
+
+```{r}
+#| label: fig-otim-2var
+#| fig-cap: "Curvas de nível de $f(x,y) = x^3 - 3x + y^2 - 4y$. Mínimo local em $(1, 2)$ (verde) e ponto de sela em $(-1, 2)$ (vermelho)."
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 5
+
+library(ggplot2)
+
+grid <- expand.grid(x = seq(-2.5, 2.5, length.out = 200),
+                    y = seq(-1, 5, length.out = 200))
+grid$z <- grid$x^3 - 3*grid$x + grid$y^2 - 4*grid$y
+
+ggplot(grid, aes(x, y, z = z)) +
+  geom_contour_filled(bins = 14, alpha = 0.85, show.legend = FALSE) +
+  geom_contour(bins = 14, color = "white", linewidth = 0.3) +
+  geom_point(data = data.frame(x = c(1, -1), y = c(2, 2),
+                                tipo = c("Mínimo", "Sela")),
+             aes(x, y, color = tipo), inherit.aes = FALSE, size = 3) +
+  scale_color_manual(values = c("Mínimo" = "#2ca02c", "Sela" = "#d62728"),
+                     name = NULL) +
+  scale_fill_viridis_d() +
+  coord_fixed() +
+  labs(title = expression(f(x, y) == x^3 - 3*x + y^2 - 4*y)) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+Em Python:
+
+```{python}
+import numpy as np
+
+def grad(x, y):
+    return np.array([3*x**2 - 3, 2*y - 4])
+
+def hessiana(x, y):
+    return np.array([[6*x, 0],
+                     [0,   2]])
+
+for x_c, y_c in [(1, 2), (-1, 2)]:
+    H = hessiana(x_c, y_c)
+    detH = np.linalg.det(H)
+    autoval = np.linalg.eigvals(H)
+    if detH > 0 and H[0, 0] > 0:
+        tipo = "mínimo local"
+    elif detH > 0 and H[0, 0] < 0:
+        tipo = "máximo local"
+    elif detH < 0:
+        tipo = "ponto de sela"
+    else:
+        tipo = "inconclusivo"
+    print(f"Ponto ({x_c}, {y_c}): |H| = {detH:.0f}, autovalores = {autoval}, "
+          f"tipo = {tipo}")
+```
+
+---
+
+## Aplicações Econômicas
+
+### Maximização do Lucro de uma Firma Competitiva
+
+Uma firma toma o preço $p$ como dado e escolhe a quantidade $q$ que maximiza o lucro:
+
+$$
+\pi(q) = p\,q - C(q),
+$$
+
+onde $C(q) = c_0 + c_1 q + \tfrac{1}{2}\,c_2\,q^2$ é uma função custo quadrática (custo marginal crescente, $c_2 > 0$).
+
+#### Resolução Analítica
+
+**CPO:**
+
+$$
+\pi'(q) = p - C'(q) = p - c_1 - c_2\,q = 0 \quad\Longrightarrow\quad q^* = \frac{p - c_1}{c_2}.
+$$
+
+**Interpretação econômica:** $p = C'(q^*)$ — preço igual ao custo marginal. Esta é a condição de primeira ordem clássica da firma competitiva.
+
+**CSO:**
+
+$$
+\pi''(q) = -C''(q) = -c_2 < 0,
+$$
+
+confirmando $q^*$ como **máximo**. Custo marginal crescente garante a concavidade do lucro.
+
+#### Verificação Numérica
+
+```{r}
+p  <- 50
+c0 <- 10; c1 <- 5; c2 <- 2
+
+pi_func   <- function(q) p*q - (c0 + c1*q + 0.5*c2*q^2)
+pi_prime  <- function(q) p - c1 - c2*q
+pi_2prime <- function(q) -c2
+
+q_star <- (p - c1) / c2
+cat(sprintf("q* = %.2f, π(q*) = %.2f, π''(q*) = %.2f\n",
+            q_star, pi_func(q_star), pi_2prime(q_star)))
+
+# Confirmar via optimize()
+opt <- optimize(pi_func, interval = c(0, 100), maximum = TRUE)
+cat(sprintf("Verificação numérica: q* = %.4f\n", opt$maximum))
+```
+
+```{python}
+from scipy.optimize import minimize_scalar
+
+p, c0, c1, c2 = 50, 10, 5, 2
+
+def neg_pi(q):  # minimize_scalar minimiza, então passamos -π
+    return -(p*q - (c0 + c1*q + 0.5*c2*q**2))
+
+q_star = (p - c1) / c2
+print(f"q* (analítico) = {q_star:.2f}")
+res = minimize_scalar(neg_pi, bounds=(0, 100), method="bounded")
+print(f"q* (numérico)  = {res.x:.4f}")
+```
+
+### O Monopolista
+
+Um monopolista enfrenta a curva de demanda inversa $p(q) = A - B\,q$ (com $A, B > 0$) e o mesmo custo $C(q) = c_0 + c_1 q + \tfrac{1}{2}\,c_2\,q^2$. Seu lucro é:
+
+$$
+\pi_M(q) = p(q)\,q - C(q) = (A - B\,q)\,q - c_0 - c_1\,q - \tfrac{1}{2}\,c_2\,q^2.
+$$
+
+**CPO:**
+
+$$
+\pi_M'(q) = A - 2 B\,q - c_1 - c_2\,q = 0 \quad\Longrightarrow\quad q_M = \frac{A - c_1}{2B + c_2}.
+$$
+
+A condição equivalente é **receita marginal = custo marginal** ($\text{RMg} = \text{CMg}$): a derivada da receita $R(q) = (A - Bq)q$ é $R'(q) = A - 2Bq$, e a derivada do custo é $C'(q) = c_1 + c_2 q$.
+
+**CSO:**
+
+$$
+\pi_M''(q) = -2B - c_2 < 0,
+$$
+
+confirmando máximo (curva de demanda decrescente combina com custo marginal crescente para garantir concavidade).
+
+**Comparação com o competitivo:** o competitivo trataria $p$ como dado e produziria $q^* = (p - c_1)/c_2$; o monopolista internaliza o efeito de seu output sobre o preço, produzindo **menos**, $q_M < q^*$ (para parâmetros equivalentes). Esta é a **distorção monopolística** clássica.
+
+```{r}
+A <- 100; B <- 1
+c0 <- 10; c1 <- 5; c2 <- 2
+
+# Lucro do monopolista
+pi_mono <- function(q) (A - B*q) * q - (c0 + c1*q + 0.5*c2*q^2)
+
+q_M <- (A - c1) / (2*B + c2)
+p_M <- A - B*q_M
+
+cat(sprintf("Monopolista: q_M = %.2f, p_M = %.2f, π = %.2f\n",
+            q_M, p_M, pi_mono(q_M)))
+
+# Comparação com competitivo (preço = p_M, mesmo custo)
+q_C <- (p_M - c1) / c2
+cat(sprintf("Competitivo (a p = p_M): q_C = %.2f\n", q_C))
+cat(sprintf("Distorção monopolística: q_C - q_M = %.2f\n", q_C - q_M))
+```
+
+```{python}
+A, B = 100, 1
+c0, c1, c2 = 10, 5, 2
+
+def pi_mono(q):
+    return (A - B*q) * q - (c0 + c1*q + 0.5*c2*q**2)
+
+q_M = (A - c1) / (2*B + c2)
+p_M = A - B*q_M
+q_C = (p_M - c1) / c2
+
+print(f"Monopolista: q_M = {q_M:.2f}, p_M = {p_M:.2f}, π = {pi_mono(q_M):.2f}")
+print(f"Competitivo (a p = p_M): q_C = {q_C:.2f}")
+print(f"Distorção monopolística: q_C - q_M = {q_C - q_M:.2f}")
+```
+
+### Monopolista com Discriminação de Preços
+
+Considere agora um monopolista que vende em **dois mercados separados** (sem arbitragem entre eles), com demandas inversas distintas e custo conjunto. Por exemplo:
+
+$$
+P_1 = 50 - 5\,Q_1, \qquad P_2 = 100 - 10\,Q_2, \qquad C(Q_1 + Q_2) = 90 + 20\,(Q_1 + Q_2).
+$$
+
+Como o monopolista escolhe quanto produzir para cada mercado, o problema é de duas variáveis:
+
+$$
+\max_{Q_1,\,Q_2}\; \pi(Q_1, Q_2) = P_1\,Q_1 + P_2\,Q_2 - C(Q_1 + Q_2).
+$$
+
+Substituindo,
+
+$$
+\pi(Q_1, Q_2) = 50\,Q_1 - 5\,Q_1^2 + 100\,Q_2 - 10\,Q_2^2 - 90 - 20\,(Q_1 + Q_2).
+$$
+
+**CPO:**
+
+$$
+\frac{\partial \pi}{\partial Q_1} = 50 - 10\,Q_1 - 20 = 0 \;\Longrightarrow\; Q_1^* = 3,
+$$
+
+$$
+\frac{\partial \pi}{\partial Q_2} = 100 - 20\,Q_2 - 20 = 0 \;\Longrightarrow\; Q_2^* = 4.
+$$
+
+A regra geral atrás dessas equações é **receita marginal de cada mercado = custo marginal comum**: $\text{RMg}_i(Q_i) = C'(Q_1 + Q_2)$ para $i = 1, 2$.
+
+**CSO:**
+
+$$
+H_\pi = \begin{pmatrix} -10 & 0 \\ 0 & -20 \end{pmatrix}, \qquad |H_\pi| = 200 > 0,\; \pi_{Q_1 Q_1} = -10 < 0,
+$$
+
+logo $(Q_1^*, Q_2^*) = (3, 4)$ é máximo. Os preços de equilíbrio são $P_1^* = 35$ e $P_2^* = 60$, e o lucro $\pi^* = 115$.
+
+**Interpretação econômica.** O preço é maior no mercado **mais inelástico**: em $(Q_2^*, P_2^*) = (4, 60)$ a elasticidade-preço da demanda é $|\varepsilon_2| = \frac{1}{10} \cdot \frac{60}{4} = 1{,}5$, enquanto em $(Q_1^*, P_1^*) = (3, 35)$ tem-se $|\varepsilon_1| = \frac{1}{5} \cdot \frac{35}{3} \approx 2{,}33$. Esta é a **discriminação de preços de terceiro grau**: cobra-se mais de quem reage menos ao preço.
+
+```{r}
+# Parâmetros
+a1 <- 50; b1 <- 5
+a2 <- 100; b2 <- 10
+c0 <- 90; c1 <- 20
+
+# Solução analítica via CPO: Q_i* = (a_i - c1) / (2 b_i)
+Q1 <- (a1 - c1) / (2 * b1)
+Q2 <- (a2 - c1) / (2 * b2)
+P1 <- a1 - b1 * Q1
+P2 <- a2 - b2 * Q2
+
+pi_disc <- function(Q1, Q2) {
+  (a1 - b1*Q1)*Q1 + (a2 - b2*Q2)*Q2 - (c0 + c1*(Q1 + Q2))
+}
+
+cat(sprintf("Q1* = %.0f, Q2* = %.0f, P1* = %.0f, P2* = %.0f, π* = %.0f\n",
+            Q1, Q2, P1, P2, pi_disc(Q1, Q2)))
+
+# Elasticidades no equilíbrio (|ε| = (1/b_i) * P_i / Q_i)
+eps1 <- (1 / b1) * P1 / Q1
+eps2 <- (1 / b2) * P2 / Q2
+cat(sprintf("|ε1| = %.2f, |ε2| = %.2f (mais inelástico tem preço maior)\n",
+            eps1, eps2))
+```
+
+```{python}
+a1, b1 = 50, 5
+a2, b2 = 100, 10
+c0, c1 = 90, 20
+
+Q1 = (a1 - c1) / (2 * b1)
+Q2 = (a2 - c1) / (2 * b2)
+P1 = a1 - b1 * Q1
+P2 = a2 - b2 * Q2
+
+def pi_disc(Q1, Q2):
+    return (a1 - b1*Q1)*Q1 + (a2 - b2*Q2)*Q2 - (c0 + c1*(Q1 + Q2))
+
+print(f"Q1* = {Q1:.0f}, Q2* = {Q2:.0f}, "
+      f"P1* = {P1:.0f}, P2* = {P2:.0f}, π* = {pi_disc(Q1, Q2):.0f}")
+
+eps1 = (1 / b1) * P1 / Q1
+eps2 = (1 / b2) * P2 / Q2
+print(f"|ε1| = {eps1:.2f}, |ε2| = {eps2:.2f} "
+      f"(mais inelástico tem preço maior)")
+```
+
+### Maximização de Lucro com Dois Insumos: Caso Geral
+
+Antes de especializar para uma forma funcional concreta, vale tratar o problema do produtor com função de produção $f(K, L)$ **não-especificada**, mas sob **hipóteses padrão sobre as derivadas parciais**. Esta é a forma usada em toda a teoria neoclássica e a base da análise de estática comparativa.
+
+#### Setup
+
+A firma é tomadora de preços: paga $r$ pelo aluguel do capital, $w$ pelo trabalho, e vende o produto ao preço $p$ — todos exógenos. Escolhe $(K, L) \geq 0$ para maximizar
+
+$$
+\pi(K, L) = p\,f(K, L) - r\,K - w\,L.
+$$
+
+**Hipóteses sobre $f$** (produção neoclássica suave):
+
+- $f_K, f_L > 0$ — produtos marginais positivos;
+- $f_{KK}, f_{LL} < 0$ — produtos marginais decrescentes;
+- $f_{KL} > 0$ — capital e trabalho complementam-se na produção;
+- $f$ estritamente côncava: $f_{KK}\,f_{LL} - f_{KL}^2 > 0$.
+
+#### CPO
+
+$$
+\frac{\partial \pi}{\partial K} = p\,f_K - r = 0, \qquad \frac{\partial \pi}{\partial L} = p\,f_L - w = 0,
+$$
+
+ou, equivalentemente,
+
+$$
+\boxed{f_K = \frac{r}{p}, \qquad f_L = \frac{w}{p}.}
+$$
+
+**Interpretação:** o **valor do produto marginal** de cada insumo (preço $\times$ produto marginal) iguala o preço do insumo. É a condição clássica de eficiência produtiva.
+
+#### CSO
+
+A Hessiana do lucro é
+
+$$
+H_\pi = p\,\begin{pmatrix} f_{KK} & f_{KL} \\ f_{LK} & f_{LL} \end{pmatrix}, \qquad |H_\pi| = p^2\,\bigl(f_{KK}\,f_{LL} - f_{KL}^2\bigr).
+$$
+
+Pelas hipóteses, $\pi_{KK} = p\,f_{KK} < 0$ e $|H_\pi| > 0$. Logo $H_\pi$ é **definida negativa** e o ponto crítico é máximo local (de fato, global, pela concavidade de $\pi$).
+
+#### Interpretação Geométrica
+
+No plano $(L, K)$, o ótimo do produtor é uma condição de **tangência** entre duas famílias de curvas.
+
+1. **Isoquantas** $f(K, L) = \bar Q$: combinações de capital e trabalho que produzem a mesma quantidade $\bar Q$. Pela TFI, sua inclinação — a taxa marginal de substituição técnica (TMST) — é
+
+$$
+\left.\frac{dK}{dL}\right|_{f = \bar Q} = -\,\frac{f_L}{f_K}.
+$$
+
+2. **Isocustos** $w\,L + r\,K = \bar C$: combinações com mesmo custo total. Diferenciando,
+
+$$
+\left.\frac{dK}{dL}\right|_{C = \bar C} = -\,\frac{w}{r}.
+$$
+
+Quando o produtor minimiza custo para um nível de produção (ou maximiza produção para um custo dado), a isoquanta tangencia o isocusto, isto é,
+
+$$
+\boxed{\frac{f_L}{f_K} = \frac{w}{r}.}
+$$
+
+**TMST iguala razão de preços** — versão geométrica das CPOs. Reorganizando, recuperam-se $f_K = r/p$ e $f_L = w/p$, com $p$ determinando o nível $\bar Q$ ótimo.
+
+#### Estática Comparativa
+
+Como $K^*$ e $L^*$ respondem a mudanças nos preços? Diferenciando totalmente as CPOs:
+
+$$
+\begin{aligned}
+p\,f_{KK}\,dK + p\,f_{KL}\,dL &= dr - f_K\,dp, \\
+p\,f_{LK}\,dK + p\,f_{LL}\,dL &= dw - f_L\,dp.
+\end{aligned}
+$$
+
+Em forma matricial,
+
+$$
+p\,\begin{pmatrix} f_{KK} & f_{KL} \\ f_{LK} & f_{LL} \end{pmatrix} \begin{pmatrix} dK \\ dL \end{pmatrix} = \begin{pmatrix} dr - f_K\,dp \\ dw - f_L\,dp \end{pmatrix}.
+$$
+
+Como $|H_\pi| > 0$, aplica-se a regra de Cramer.
+
+**Multiplicador $\partial K/\partial r$** (com $p, w$ fixos):
+
+$$
+\frac{\partial K}{\partial r} = \frac{1}{|H_\pi|}\,\begin{vmatrix} 1 & p\,f_{KL} \\ 0 & p\,f_{LL} \end{vmatrix} = \frac{p\,f_{LL}}{p^2\,(f_{KK}\,f_{LL} - f_{KL}^2)} = \frac{f_{LL}}{p\,(f_{KK}\,f_{LL} - f_{KL}^2)}.
+$$
+
+Numerador $f_{LL} < 0$, denominador positivo $\Rightarrow \partial K/\partial r < 0$: encarecer o capital reduz a demanda por capital. Análogo $\partial L/\partial w < 0$.
+
+**Multiplicadores cruzados** $\partial K/\partial w$ e $\partial L/\partial r$ têm sinal de $-f_{KL}$. Com $f_{KL} > 0$ (complementaridade), encarecer um insumo **reduz** a demanda pelo outro — capital e trabalho são "complementos brutos" no sentido de Hicks. Sob $f_{KL} < 0$ seriam substitutos brutos.
+
+Os resultados qualitativos saem **diretamente das hipóteses de sinal**, sem qualquer especificação funcional — a álgebra dos cofatores é o que torna a análise robusta.
+
+### Caso Específico: Função Cobb-Douglas
+
+Considere uma firma que produz $Q = f(K, L) = A\,K^{\alpha} L^{\beta}$ (Cobb-Douglas, $\alpha + \beta < 1$ para garantir interior), aluga capital ao preço $r$ e contrata trabalho ao preço $w$, vendendo o produto ao preço $p$. O lucro é:
+
+$$
+\pi(K, L) = p\,A\,K^{\alpha} L^{\beta} - r\,K - w\,L.
+$$
+
+**CPO ($\nabla \pi = 0$):**
+
+$$
+\frac{\partial \pi}{\partial K} = p\,A\,\alpha\,K^{\alpha-1} L^{\beta} - r = 0,
+$$
+
+$$
+\frac{\partial \pi}{\partial L} = p\,A\,\beta\,K^{\alpha} L^{\beta-1} - w = 0.
+$$
+
+Em palavras: **valor do produto marginal = preço do fator** para cada insumo.
+
+Dividindo as duas equações:
+
+$$
+\frac{\alpha\,L}{\beta\,K} = \frac{r}{w} \quad\Longrightarrow\quad K = \frac{\alpha\,w}{\beta\,r}\,L,
+$$
+
+uma relação fixa entre capital e trabalho ótimos, dada a razão de preços.
+
+**CSO (Hessiana):**
+
+$$
+H_\pi = \begin{pmatrix}
+\alpha(\alpha - 1)\, p A K^{\alpha-2} L^{\beta} & \alpha\beta\, p A K^{\alpha-1} L^{\beta-1} \\
+\alpha\beta\, p A K^{\alpha-1} L^{\beta-1} & \beta(\beta - 1)\, p A K^{\alpha} L^{\beta-2}
+\end{pmatrix}.
+$$
+
+Para $\alpha, \beta \in (0, 1)$ e $\alpha + \beta < 1$:
+
+- $H_{\pi, KK} = \alpha(\alpha - 1)\,(\cdot) < 0$;
+- $|H_\pi| = (1 - \alpha - \beta)\,\alpha\beta\,(p A)^2\,K^{2\alpha - 2}\,L^{2\beta - 2} > 0$.
+
+Logo a Hessiana é **definida negativa** e qualquer ponto crítico é máximo. A condição $\alpha + \beta < 1$ — **rendimentos decrescentes de escala** — é essencial: com rendimentos constantes ou crescentes, o lucro não tem máximo interior (a firma quer produzir indefinidamente ou nada).
+
+```{r}
+A <- 1; alpha <- 0.4; beta <- 0.4
+p <- 10; r <- 1; w <- 1.5
+
+# CPO ótimas: dK = αpAK^(α-1)L^β = r e dL = βpAK^αL^(β-1) = w
+# Razão dá K = (α w / β r) L
+# Substituindo na primeira: αpA · (αw/βr)^(α-1) · L^(α-1+β) = r
+# Resolver para L:
+exp_L <- 1 / (1 - alpha - beta)
+L_star <- (alpha * p * A * (alpha*w/(beta*r))^(alpha - 1) / r)^exp_L
+K_star <- (alpha * w / (beta * r)) * L_star
+Q_star <- A * K_star^alpha * L_star^beta
+pi_star <- p * Q_star - r * K_star - w * L_star
+
+cat(sprintf("K* = %.3f, L* = %.3f, Q* = %.3f, π* = %.3f\n",
+            K_star, L_star, Q_star, pi_star))
+
+# Verificação Hessiana
+HKK <- alpha*(alpha-1) * p*A * K_star^(alpha-2) * L_star^beta
+HLL <- beta*(beta-1)   * p*A * K_star^alpha     * L_star^(beta-2)
+HKL <- alpha*beta      * p*A * K_star^(alpha-1) * L_star^(beta-1)
+H   <- matrix(c(HKK, HKL, HKL, HLL), 2, 2)
+cat(sprintf("|H| = %.4f (esperado > 0), HKK = %.4f (esperado < 0)\n",
+            det(H), HKK))
+```
+
+```{python}
+import numpy as np
+
+A_, alpha, beta = 1, 0.4, 0.4
+p, r, w = 10, 1, 1.5
+
+exp_L = 1 / (1 - alpha - beta)
+L_star = (alpha * p * A_ * (alpha*w / (beta*r))**(alpha - 1) / r)**exp_L
+K_star = (alpha * w / (beta * r)) * L_star
+Q_star = A_ * K_star**alpha * L_star**beta
+pi_star = p*Q_star - r*K_star - w*L_star
+
+print(f"K* = {K_star:.3f}, L* = {L_star:.3f}, "
+      f"Q* = {Q_star:.3f}, π* = {pi_star:.3f}")
+
+HKK = alpha*(alpha-1) * p*A_ * K_star**(alpha-2) * L_star**beta
+HLL = beta*(beta-1)   * p*A_ * K_star**alpha     * L_star**(beta-2)
+HKL = alpha*beta      * p*A_ * K_star**(alpha-1) * L_star**(beta-1)
+H = np.array([[HKK, HKL],
+              [HKL, HLL]])
+print(f"|H| = {np.linalg.det(H):.4f} (esperado > 0)")
+print(f"H_KK = {HKK:.4f} (esperado < 0)")
+```
+
+A escolha ótima dos insumos satisfaz simultaneamente as CPOs (valor do produto marginal = preço do fator) e a CSO (Hessiana definida negativa, garantindo máximo). Estes mesmos cálculos formam a base de toda a teoria neoclássica de produção.

@@ -1,0 +1,491 @@
+# Otimização com Restrição de Igualdade
+
+## Motivação Econômica
+
+Quase todo problema de decisão econômica envolve uma escolha **restrita**: um consumidor escolhe quanto consumir de cada bem, mas sua renda é fixa; uma firma escolhe quanto contratar de cada insumo para atingir uma dada meta de produção, com preços de fatores dados; um produtor minimiza despesa para entregar uma quantidade contratada. Em todos esses casos, há uma função-objetivo (utilidade, lucro, custo) e uma equação que **não pode ser violada** (restrição orçamentária, isoquanta, meta de produção).
+
+Formalmente, queremos resolver
+
+$$
+\max_{x_1, x_2}\; F(x_1, x_2) \quad \text{sujeito a} \quad g(x_1, x_2) = b,
+$$
+
+onde $F$ é a função-objetivo e $g(x_1, x_2) = b$ é a **restrição de igualdade**. As ferramentas desenvolvidas até aqui — CPO $\nabla F = 0$ e CSO via Hessiana — resolvem o caso **irrestrito**. Quando há restrição, o ponto que zera o gradiente da função pode simplesmente não satisfazer a restrição, e o ótimo restrito tipicamente está em outro lugar.
+
+Este capítulo desenvolve o **método dos multiplicadores de Lagrange**, que resolve o problema restrito convertendo-o numa otimização (essencialmente irrestrita) sobre uma função auxiliar — a Lagrangeana — em três variáveis: $x_1$, $x_2$ e o multiplicador $\lambda$.
+
+## Intuição via Substituição (TFI)
+
+Antes de apresentar o Lagrangeano, vale ver como a restrição "encaixa" no problema irrestrito que já sabemos resolver. Suponha que, perto do ótimo, a equação $g(x_1, x_2) = b$ define implicitamente $x_2$ como função de $x_1$ — isto é, pelo Teorema da Função Implícita, existe $h$ tal que
+
+$$
+x_2 = h(x_1), \qquad h'(x_1) = -\frac{\partial g/\partial x_1}{\partial g/\partial x_2},
+$$
+
+desde que $\partial g/\partial x_2 \neq 0$ no ponto. Substituindo na função-objetivo, o problema **vira irrestrito**:
+
+$$
+\max_{x_1}\; H(x_1) \;:=\; F\bigl(x_1,\; h(x_1)\bigr).
+$$
+
+A CPO da função composta dá, pela regra da cadeia,
+
+$$
+H'(x_1) = \frac{\partial F}{\partial x_1} + \frac{\partial F}{\partial x_2}\,h'(x_1) = 0.
+$$
+
+Substituindo $h'(x_1)$ pela expressão da TFI:
+
+$$
+\frac{\partial F}{\partial x_1} - \frac{\partial F}{\partial x_2}\,\frac{\partial g/\partial x_1}{\partial g/\partial x_2} = 0
+\quad\Longleftrightarrow\quad
+\boxed{\dfrac{\partial F/\partial x_1}{\partial F/\partial x_2} = \dfrac{\partial g/\partial x_1}{\partial g/\partial x_2}.}
+$$
+
+Esta é a **condição de tangência**: no ótimo, a curva de nível de $F$ e a curva $g(x_1, x_2) = b$ têm a **mesma inclinação**. De fato, usando diferenciação implícita em cada uma:
+
+- ao longo de $F(x_1, x_2) = C$: $\;\frac{dx_2}{dx_1}\Big|_{\bar C} = -\dfrac{\partial F/\partial x_1}{\partial F/\partial x_2}$;
+- ao longo de $g(x_1, x_2) = b$: $\;\frac{dx_2}{dx_1}\Big|_{\bar b} = -\dfrac{\partial g/\partial x_1}{\partial g/\partial x_2}$.
+
+Igualando as duas inclinações chega-se exatamente à equação acima. Geometricamente, no ótimo restrito a curva de nível mais alta da função-objetivo que ainda intercepta $g = b$ **toca** a restrição — não a corta. Se cortasse, haveria pontos da restrição em curvas de nível ainda mais altas, contradizendo a otimalidade.
+
+## A Função Lagrangeana
+
+Reescreva a condição de tangência introduzindo um número $\lambda$ definido por
+
+$$
+\lambda \;:=\; \frac{\partial F/\partial x_2}{\partial g/\partial x_2}.
+$$
+
+Substituindo de volta na CPO da substituição:
+
+$$
+\frac{\partial F}{\partial x_1} - \lambda\,\frac{\partial g}{\partial x_1} = 0,
+\qquad
+\frac{\partial F}{\partial x_2} - \lambda\,\frac{\partial g}{\partial x_2} = 0.
+$$
+
+Junto com a restrição original $g(x_1, x_2) = b$, temos um sistema de **três equações em três incógnitas** $(x_1, x_2, \lambda)$. O número $\lambda$ — que apareceu apenas como atalho algébrico — é o **multiplicador de Lagrange**, uma nova variável endógena do problema.
+
+A descoberta-chave é que essas três equações são exatamente as CPOs (irrestritas) de uma única função auxiliar, a **Lagrangeana**:
+
+$$
+\boxed{\;\mathcal{L}(x_1, x_2, \lambda) \;=\; F(x_1, x_2) \;+\; \lambda\,\bigl[\,b - g(x_1, x_2)\,\bigr].\;}
+$$
+
+De fato:
+
+$$
+\frac{\partial \mathcal{L}}{\partial x_1} = \frac{\partial F}{\partial x_1} - \lambda\,\frac{\partial g}{\partial x_1},
+\quad
+\frac{\partial \mathcal{L}}{\partial x_2} = \frac{\partial F}{\partial x_2} - \lambda\,\frac{\partial g}{\partial x_2},
+\quad
+\frac{\partial \mathcal{L}}{\partial \lambda} = b - g(x_1, x_2),
+$$
+
+e zerar essas três derivadas reproduz tanto a tangência quanto a restrição. Em outras palavras: **o problema restrito de duas variáveis se converte num problema irrestrito de três variáveis**, em que o multiplicador $\lambda$ entra como variável endógena adicional.
+
+A leitura do termo $\lambda\,[b - g(x_1, x_2)]$ é direta: a Lagrangeana adiciona à função-objetivo uma "penalidade" proporcional ao quanto a restrição é violada, com $\lambda$ sendo o "preço-sombra" da restrição. Quando $g = b$, a penalidade é zero e a Lagrangeana coincide com $F$; fora disso, $\lambda$ é justamente o ganho marginal de relaxar a restrição (veremos isto formalmente no problema do consumidor).
+
+## Exemplo: Restrição Linear sobre Forma Quadrática
+
+Considere
+
+$$
+\max_{x_1, x_2}\; F(x_1, x_2) = -x_1^2 - x_2^2 \quad\text{sujeito a}\quad x_1 + x_2 = 2.
+$$
+
+O ótimo **irrestrito** está em $(0, 0)$ — basta zerar o gradiente. Mas $(0, 0)$ não satisfaz $x_1 + x_2 = 2$. Usando a Lagrangeana:
+
+$$
+\mathcal{L}(x_1, x_2, \lambda) = -x_1^2 - x_2^2 + \lambda\,(2 - x_1 - x_2).
+$$
+
+**CPO:**
+
+$$
+\frac{\partial \mathcal{L}}{\partial x_1} = -2x_1 - \lambda = 0,
+\quad
+\frac{\partial \mathcal{L}}{\partial x_2} = -2x_2 - \lambda = 0,
+\quad
+\frac{\partial \mathcal{L}}{\partial \lambda} = 2 - x_1 - x_2 = 0.
+$$
+
+Das duas primeiras, $-2x_1 = -2x_2 \Rightarrow x_1 = x_2$. Substituindo na restrição: $2x_1 = 2 \Rightarrow x_1 = x_2 = 1$, e $\lambda = -2$.
+
+#### Visualização: 3D e Curvas de Nível
+
+Duas vistas complementam a intuição. A **3D** mostra a função-objetivo como superfície (paraboloide invertido) e a restrição como curva traçada sobre ela: o ótimo restrito é o **ponto mais alto** dessa curva. A vista por **curvas de nível** projeta o mesmo cenário no plano $(x_1, x_2)$: o ótimo é onde a maior curva de nível ainda tangencia a reta $x_1 + x_2 = 2$.
+
+```{r}
+#| label: fig-restrita-3d
+#| fig-cap: "Vista 3D: superfície $F(x_1, x_2) = -x_1^2 - x_2^2$ (paraboloide invertido), restrição $x_1+x_2=2$ traçada sobre a superfície (curva vermelha), ótimo irrestrito $(0,0,0)$ em azul e ótimo restrito $(1,1,-2)$ em verde — ponto mais alto da curva vermelha."
+#| fig-align: center
+#| fig-width: 6.5
+#| fig-height: 5
+
+# Grade da superfície
+x1 <- seq(-1, 3, length.out = 60)
+x2 <- seq(-1, 3, length.out = 60)
+z  <- outer(x1, x2, function(a, b) -a^2 - b^2)
+
+op <- par(mar = c(0.5, 0.5, 0.5, 0.5))
+pp <- persp(x1, x2, z,
+            theta = 35, phi = 25,
+            col = "lightblue", border = "grey55",
+            shade = 0.35,
+            ticktype = "detailed",
+            xlab = "x1", ylab = "x2", zlab = "F",
+            cex.axis = 0.7, cex.lab = 0.8)
+
+# Curva da restrição sobre a superfície:
+# parametrização x1 = t, x2 = 2 - t, z = -t^2 - (2 - t)^2
+t        <- seq(-1, 3, length.out = 250)
+curve_x1 <- t
+curve_x2 <- 2 - t
+curve_z  <- -t^2 - (2 - t)^2
+lines(trans3d(curve_x1, curve_x2, curve_z, pp),
+      col = "#d62728", lwd = 2.5)
+
+# Ótimo irrestrito (0, 0, 0) — vértice do paraboloide
+points(trans3d(0, 0, 0, pp),
+       col = "#1f77b4", pch = 19, cex = 1.4)
+
+# Ótimo restrito (1, 1, -2) — ponto mais alto da curva vermelha
+points(trans3d(1, 1, -2, pp),
+       col = "#2ca02c", pch = 19, cex = 1.4)
+
+par(op)
+```
+
+```{r}
+#| label: fig-restrita-1
+#| fig-cap: "Vista 2D (curvas de nível) de $F = -x_1^2 - x_2^2$ (círculos concêntricos centrados em $(0,0)$, ótimo irrestrito) e a restrição $x_1+x_2=2$. O ótimo restrito $(1,1)$ é o ponto onde a curva de nível mais alta toca a reta — tangência."
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 5
+
+library(ggplot2)
+
+grid <- expand.grid(x1 = seq(-1, 3, length.out = 200),
+                    x2 = seq(-1, 3, length.out = 200))
+grid$F <- -grid$x1^2 - grid$x2^2
+
+ggplot(grid, aes(x1, x2, z = F)) +
+  geom_contour(bins = 12, color = "grey60", linewidth = 0.4) +
+  geom_abline(intercept = 2, slope = -1,
+              color = "#d62728", linewidth = 0.9) +
+  annotate("point", x = 0, y = 0, color = "#1f77b4", size = 3) +
+  annotate("point", x = 1, y = 1, color = "#2ca02c", size = 3) +
+  annotate("text", x = 0.05, y = -0.25, label = "irrestrito (0,0)",
+           hjust = 0, size = 3.5) +
+  annotate("text", x = 1.05, y = 1.25, label = "restrito (1,1)",
+           hjust = 0, size = 3.5) +
+  coord_fixed() +
+  labs(x = expression(x[1]), y = expression(x[2])) +
+  theme_minimal(base_size = 12)
+```
+
+Em Python:
+
+```{python}
+import numpy as np
+from scipy.optimize import minimize
+
+def negF(x):
+    return x[0]**2 + x[1]**2  # minimizar -F = x1² + x2²
+
+cons = ({'type': 'eq', 'fun': lambda x: x[0] + x[1] - 2})
+
+res = minimize(negF, x0=[0.5, 0.5], constraints=cons)
+print(f"x1* = {res.x[0]:.4f}, x2* = {res.x[1]:.4f}, F* = {-res.fun:.4f}")
+```
+
+## Condições de Segunda Ordem: o Hessiano Orlado
+
+A CPO do Lagrangeano é necessária mas não suficiente. Precisamos garantir que o ponto crítico é um máximo (e não um mínimo ou ponto de sela), e a condição de 2ª ordem precisa ser **adaptada** porque os deslocamentos $(\Delta x_1, \Delta x_2)$ admissíveis estão **restritos** à curva $g(x_1, x_2) = b$.
+
+### Forma Quadrática Restrita
+
+A expansão de Taylor de 2ª ordem da Lagrangeana, no ponto crítico, dá a forma quadrática usual:
+
+$$
+\mathcal{L}_{11}\,\Delta x_1^2 + 2\,\mathcal{L}_{12}\,\Delta x_1 \Delta x_2 + \mathcal{L}_{22}\,\Delta x_2^2,
+$$
+
+onde $\mathcal{L}_{ij} = \partial^2 \mathcal{L}/\partial x_i \partial x_j$ avaliada no ponto crítico (note que, como $\mathcal{L} = F - \lambda(g - b)$, tem-se $\mathcal{L}_{ij} = F_{ij} - \lambda\,g_{ij}$). Para que o ponto seja um **máximo restrito**, exigimos que essa forma quadrática seja **negativa** para todos os deslocamentos $(\Delta x_1, \Delta x_2)$ **admissíveis**, isto é, que satisfaçam (em primeira ordem) a restrição:
+
+$$
+g_1\,\Delta x_1 + g_2\,\Delta x_2 = 0 \;\Longleftrightarrow\; \Delta x_2 = -\Delta x_1\,\frac{g_1}{g_2},
+$$
+
+com $g_i := \partial g/\partial x_i$. Substituindo $\Delta x_2$ na forma quadrática:
+
+$$
+\mathcal{L}_{11}\,\Delta x_1^2 - 2\,\mathcal{L}_{12}\,\frac{g_1}{g_2}\,\Delta x_1^2 + \mathcal{L}_{22}\,\frac{g_1^2}{g_2^2}\,\Delta x_1^2 < 0,
+$$
+
+ou, reagrupando e multiplicando por $g_2^2 > 0$,
+
+$$
+\mathcal{L}_{11}\,g_2^2 - 2\,\mathcal{L}_{12}\,g_1\,g_2 + \mathcal{L}_{22}\,g_1^2 < 0.
+$$
+
+### O Determinante do Hessiano Orlado
+
+O lado esquerdo dessa desigualdade é, com sinal trocado, exatamente o determinante da seguinte matriz $3 \times 3$, chamada **Hessiano orlado**:
+
+$$
+\bar H \;=\; \begin{pmatrix} \mathcal{L}_{11} & \mathcal{L}_{12} & g_1 \\ \mathcal{L}_{21} & \mathcal{L}_{22} & g_2 \\ g_1 & g_2 & 0 \end{pmatrix}.
+$$
+
+Expandindo $|\bar H|$ pela última linha (cofatores):
+
+$$
+|\bar H| = g_1\,(\mathcal{L}_{12}\,g_2 - \mathcal{L}_{22}\,g_1) - g_2\,(\mathcal{L}_{11}\,g_2 - \mathcal{L}_{12}\,g_1)
+        = -\bigl(\mathcal{L}_{11}\,g_2^2 - 2\,\mathcal{L}_{12}\,g_1 g_2 + \mathcal{L}_{22}\,g_1^2\bigr).
+$$
+
+Logo:
+
+| Caso (n = 2, r = 1) | Forma quadrática restrita | $\lvert \bar H \rvert$ |
+|----------------------|--------------------------|-------------------------|
+| **Máximo restrito**  | $< 0$                    | $> 0$                   |
+| **Mínimo restrito**  | $> 0$                    | $< 0$                   |
+
+### Caso Geral
+
+Para $n$ variáveis e $r$ restrições, monta-se o Hessiano orlado completo (com $r$ linhas/colunas extras correspondentes às restrições), e analisa-se o **sinal** dos determinantes dos menores principais líderes orlados a partir de uma certa ordem:
+
+- **Máximo restrito:** os $n - r$ últimos menores orlados **alternam de sinal**, com $|\bar H_n|$ tendo o sinal de $(-1)^n$.
+- **Mínimo restrito:** os $n - r$ últimos menores orlados têm **todos o mesmo sinal**, especificamente $(-1)^r$.
+
+No caso $n = 2$, $r = 1$, tem-se $(-1)^n = +1$ (máximo) e $(-1)^r = -1$ (mínimo), recuperando a tabela acima.
+
+## Aplicação: Maximização de Utilidade do Consumidor
+
+O consumidor escolhe quantidades $x_1, x_2 \geq 0$ de dois bens para maximizar a utilidade $U(x_1, x_2)$ sujeito à **restrição orçamentária** $p_1 x_1 + p_2 x_2 = R$, onde $p_1, p_2 > 0$ são preços e $R > 0$ é a renda. A função utilidade é estritamente crescente nos dois argumentos ($U_1, U_2 > 0$) e **côncava** ou **quase-côncava** ($U_{11}, U_{22} < 0$, $U_{12} > 0$ — bens são complementares na utilidade).
+
+A Lagrangeana é
+
+$$
+\mathcal{L}(x_1, x_2, \lambda) = U(x_1, x_2) + \lambda\,\bigl[R - p_1 x_1 - p_2 x_2\bigr].
+$$
+
+**CPO:**
+
+$$
+U_1(x_1, x_2) - \lambda\,p_1 = 0, \qquad
+U_2(x_1, x_2) - \lambda\,p_2 = 0, \qquad
+R - p_1 x_1 - p_2 x_2 = 0.
+$$
+
+Dividindo as duas primeiras:
+
+$$
+\boxed{\;\frac{U_1}{U_2} = \frac{p_1}{p_2}.\;}
+$$
+
+A leitura econômica é a **igualdade entre a Taxa Marginal de Substituição (TMS) e a razão de preços**: na cesta ótima, o consumidor está disposto a abrir mão de bens 2 por bem 1 exatamente na proporção em que o mercado oferece essa troca. Geometricamente, é a tangência entre a curva de indiferença ($U = \bar U$) e a reta orçamentária — que tem inclinação $-p_1/p_2$.
+
+O multiplicador $\lambda$ tem interpretação direta: das CPOs, $\lambda = U_1/p_1 = U_2/p_2 = $ utilidade marginal **por unidade monetária gasta** em qualquer bem. É a **utilidade marginal da renda**: quanto a utilidade ótima aumentaria se a renda subisse marginalmente.
+
+## Exemplo Numérico: $U = x_1\,x_2$
+
+Tome $U(x_1, x_2) = x_1\,x_2$, com $p_1 = 1$, $p_2 = 4$, $R = 16$. A Lagrangeana:
+
+$$
+\mathcal{L} = x_1\,x_2 + \lambda\,(16 - x_1 - 4 x_2).
+$$
+
+**CPO:**
+
+$$
+x_2 - \lambda = 0,\qquad x_1 - 4\lambda = 0,\qquad 16 - x_1 - 4 x_2 = 0.
+$$
+
+Das duas primeiras: $x_1 = 4\lambda$ e $x_2 = \lambda$, logo $x_1 = 4 x_2$. Substituindo na restrição: $4 x_2 + 4 x_2 = 16 \Rightarrow x_2^* = 2$, $x_1^* = 8$, $\lambda^* = 2$.
+
+**CSO via Hessiano orlado.** Como $\mathcal{L}_{11} = 0$, $\mathcal{L}_{22} = 0$, $\mathcal{L}_{12} = \mathcal{L}_{21} = 1$, $g_1 = p_1 = 1$, $g_2 = p_2 = 4$:
+
+$$
+\bar H = \begin{pmatrix} 0 & 1 & 1 \\ 1 & 0 & 4 \\ 1 & 4 & 0 \end{pmatrix},
+\qquad |\bar H| = 0\cdot(0 - 16) - 1\cdot(0 - 4) + 1\cdot(4 - 0) = 4 + 4 = 8 > 0.
+$$
+
+Como $|\bar H| > 0$, a CSO de **máximo** é satisfeita.
+
+```{r}
+# Solução analítica via Lagrange
+p1 <- 1; p2 <- 4; R <- 16
+
+# Sistema: x1 = 4 lambda, x2 = lambda, x1 + 4 x2 = 16
+x2 <- R / (2 * p2)         # = 2
+x1 <- R / (2 * p1)         # = 8
+lam <- x2                  # = 2
+U_star <- x1 * x2
+
+cat(sprintf("x1* = %.2f, x2* = %.2f, lambda* = %.2f, U* = %.2f\n",
+            x1, x2, lam, U_star))
+
+# Verificação da CSO via Hessiano orlado
+Hbar <- matrix(c(0, 1, 1,
+                 1, 0, 4,
+                 1, 4, 0), nrow = 3, byrow = TRUE)
+cat(sprintf("|H_bar| = %.0f (esperado > 0 para máximo)\n", det(Hbar)))
+```
+
+```{python}
+import numpy as np
+from scipy.optimize import minimize
+
+p1, p2, R = 1, 4, 16
+
+# Solução analítica
+x1 = R / (2 * p1)
+x2 = R / (2 * p2)
+lam = x2
+print(f"x1* = {x1:.2f}, x2* = {x2:.2f}, λ* = {lam:.2f}, U* = {x1*x2:.2f}")
+
+# Verificação numérica
+def negU(x): return -x[0] * x[1]
+cons = ({'type': 'eq', 'fun': lambda x: p1*x[0] + p2*x[1] - R})
+res = minimize(negU, x0=[1, 1], constraints=cons,
+               bounds=[(1e-6, None), (1e-6, None)])
+print(f"Numérico: x1 = {res.x[0]:.4f}, x2 = {res.x[1]:.4f}")
+
+# Hessiano orlado
+Hbar = np.array([[0, 1, 1],
+                 [1, 0, 4],
+                 [1, 4, 0]])
+print(f"|H_bar| = {np.linalg.det(Hbar):.0f} (> 0 → máximo)")
+```
+
+```{r}
+#| label: fig-consumidor
+#| fig-cap: "Problema do consumidor com $U = x_1 x_2$, $p_1 = 1$, $p_2 = 4$, $R = 16$. Curvas de indiferença (cinza) e reta orçamentária (vermelha). A escolha ótima $(x_1^*, x_2^*) = (8, 2)$ (verde) é o ponto de tangência."
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 5
+
+library(ggplot2)
+
+grid <- expand.grid(x1 = seq(0.1, 16, length.out = 200),
+                    x2 = seq(0.1, 5, length.out = 200))
+grid$U <- grid$x1 * grid$x2
+
+# Reta orçamentária: x1 + 4 x2 = 16  →  x2 = (16 - x1)/4
+orc <- data.frame(x1 = c(0, 16), x2 = c(4, 0))
+
+ggplot(grid, aes(x1, x2, z = U)) +
+  geom_contour(breaks = c(4, 8, 16, 24, 32), color = "grey55",
+               linewidth = 0.4) +
+  geom_line(data = orc, aes(x = x1, y = x2),
+            inherit.aes = FALSE, color = "#d62728", linewidth = 0.9) +
+  annotate("point", x = 8, y = 2, color = "#2ca02c", size = 3) +
+  annotate("text", x = 8.4, y = 2.25, label = "(8, 2)",
+           hjust = 0, size = 3.5) +
+  labs(x = expression(x[1]), y = expression(x[2])) +
+  theme_minimal(base_size = 12)
+```
+
+## Estática Comparativa do Consumidor
+
+As três CPOs do problema do consumidor formam um **sistema de funções implícitas** com endógenas $(x_1, x_2, \lambda)$ e exógenas $(p_1, p_2, R)$. Diferenciando totalmente e avaliando no ponto crítico, obtemos:
+
+$$
+\begin{aligned}
+U_{11}\,dx_1 + U_{12}\,dx_2 - p_1\,d\lambda - \lambda\,dp_1 &= 0, \\
+U_{21}\,dx_1 + U_{22}\,dx_2 - p_2\,d\lambda - \lambda\,dp_2 &= 0, \\
+-p_1\,dx_1 - p_2\,dx_2 \phantom{- p_2\,d\lambda} &= -dR + x_1\,dp_1 + x_2\,dp_2.
+\end{aligned}
+$$
+
+Em forma matricial:
+
+$$
+\underbrace{\begin{pmatrix} U_{11} & U_{12} & -p_1 \\ U_{21} & U_{22} & -p_2 \\ -p_1 & -p_2 & 0 \end{pmatrix}}_{=\;\bar H}
+\begin{pmatrix} dx_1 \\ dx_2 \\ d\lambda \end{pmatrix}
+=
+\begin{pmatrix} \lambda \\ 0 \\ x_1 \end{pmatrix} dp_1
++ \begin{pmatrix} 0 \\ \lambda \\ x_2 \end{pmatrix} dp_2
++ \begin{pmatrix} 0 \\ 0 \\ -1 \end{pmatrix} dR.
+$$
+
+Note que a matriz dos coeficientes é exatamente o **Hessiano orlado** $\bar H$. Pela CSO de máximo, $|\bar H| > 0$, logo o sistema tem solução única para qualquer choque exógeno, e podemos usar **regra de Cramer** para isolar cada multiplicador.
+
+**Efeito de uma variação na renda ($dp_1 = dp_2 = 0$, $dR \neq 0$):**
+
+$$
+\frac{\partial x_1}{\partial R} \;=\; \frac{1}{|\bar H|}\,\det\!\begin{pmatrix} 0 & U_{12} & -p_1 \\ 0 & U_{22} & -p_2 \\ -1 & -p_2 & 0 \end{pmatrix}
+\;=\; \frac{U_{12}\,p_2 - U_{22}\,p_1}{|\bar H|}.
+$$
+
+O numerador é **positivo** (porque $U_{12} > 0$ e $U_{22} < 0$); o denominador é positivo pela CSO. Logo $\partial x_1/\partial R > 0$: aumento de renda eleva o consumo de $x_1$ (o bem é **normal**).
+
+**Efeito de uma variação no preço próprio ($dp_2 = dR = 0$, $dp_1 \neq 0$):**
+
+$$
+\frac{\partial x_1}{\partial p_1} \;=\; \frac{1}{|\bar H|}\,\det\!\begin{pmatrix} \lambda & U_{12} & -p_1 \\ 0 & U_{22} & -p_2 \\ x_1 & -p_2 & 0 \end{pmatrix}
+\;=\; \frac{-U_{12}\,p_2\,x_1 + U_{22}\,p_1\,x_1 - \lambda\,p_2^2}{|\bar H|}.
+$$
+
+Os três termos do numerador são negativos (lembrando $U_{12} > 0$, $U_{22} < 0$ multiplica $p_1 x_1 > 0$, $\lambda > 0$), logo $\partial x_1/\partial p_1 < 0$: a curva de demanda própria é **decrescente**, sem necessidade de hipóteses adicionais.
+
+## Demanda Cobb-Douglas
+
+Para a utilidade Cobb-Douglas $U(x_1, x_2) = x_1^\alpha x_2^{1-\alpha}$ com $\alpha \in (0, 1)$, a condição de tangência $U_1/U_2 = p_1/p_2$ dá
+
+$$
+\frac{\alpha\,x_1^{\alpha - 1} x_2^{1-\alpha}}{(1-\alpha)\,x_1^\alpha x_2^{-\alpha}} = \frac{\alpha}{1-\alpha}\,\frac{x_2}{x_1} = \frac{p_1}{p_2}
+\;\Longrightarrow\; x_2 = \frac{(1-\alpha)\,p_1\,x_1}{\alpha\,p_2}.
+$$
+
+Substituindo na restrição orçamentária $p_1 x_1 + p_2 x_2 = R$:
+
+$$
+p_1 x_1 + p_2 \cdot \frac{(1-\alpha)\,p_1\,x_1}{\alpha\,p_2} = R
+\;\Longrightarrow\; p_1 x_1\,\Bigl[1 + \frac{1-\alpha}{\alpha}\Bigr] = R
+\;\Longrightarrow\; \frac{p_1 x_1}{\alpha} = R.
+$$
+
+Logo as **funções de demanda Cobb-Douglas** são
+
+$$
+\boxed{\;x_1^*(p_1, p_2, R) = \frac{\alpha\,R}{p_1}, \qquad x_2^*(p_1, p_2, R) = \frac{(1 - \alpha)\,R}{p_2}.\;}
+$$
+
+A leitura econômica é elegante: o consumidor com utilidade Cobb-Douglas gasta uma **fração fixa** $\alpha$ da renda no bem 1 e $(1-\alpha)$ no bem 2 — independentemente dos preços. Esta é a razão pela qual Cobb-Douglas é tão usada em modelagem econômica: dá origem a frações de gasto constantes, propriedade rara em outras especificações.
+
+```{r}
+# Demandas Cobb-Douglas (frações fixas da renda)
+demanda_cobb <- function(alpha, p1, p2, R) {
+  c(x1 = alpha * R / p1, x2 = (1 - alpha) * R / p2)
+}
+
+alpha <- 0.4
+p1 <- 2; p2 <- 5; R <- 100
+
+dm <- demanda_cobb(alpha, p1, p2, R)
+cat(sprintf("x1* = %.3f  (gasto p1*x1 = %.2f = α·R = %.2f)\n",
+            dm["x1"], p1*dm["x1"], alpha*R))
+cat(sprintf("x2* = %.3f  (gasto p2*x2 = %.2f = (1−α)·R = %.2f)\n",
+            dm["x2"], p2*dm["x2"], (1-alpha)*R))
+cat(sprintf("Soma de gastos = %.2f  (= R = %.0f)\n",
+            p1*dm["x1"] + p2*dm["x2"], R))
+```
+
+```{python}
+def demanda_cobb(alpha, p1, p2, R):
+    return alpha * R / p1, (1 - alpha) * R / p2
+
+alpha = 0.4
+p1, p2, R = 2, 5, 100
+x1, x2 = demanda_cobb(alpha, p1, p2, R)
+print(f"x1* = {x1:.3f} (gasto p1·x1 = {p1*x1:.2f} = α·R = {alpha*R:.2f})")
+print(f"x2* = {x2:.3f} (gasto p2·x2 = {p2*x2:.2f} = (1−α)·R = {(1-alpha)*R:.2f})")
+```
+
+A condição $|\bar H| > 0$ pode ser verificada diretamente para Cobb-Douglas no ponto ótimo, mas decorre alternativamente da quase-concavidade da utilidade — propriedade preservada pela transformação monotônica $\ln U = \alpha \ln x_1 + (1-\alpha) \ln x_2$, que é estritamente côncava em $(\ln x_1, \ln x_2)$.
+
+A maximização de utilidade s.a. restrição orçamentária — junto com a maximização de lucro do capítulo anterior — forma o núcleo da microeconomia neoclássica. Os mesmos passos (Lagrangeano, CPO, Hessiano orlado, estática comparativa) reaparecem em todos os problemas restritos: minimização de despesa do consumidor, minimização de custo da firma, problemas de portfolio em finanças, etc.

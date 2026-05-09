@@ -125,27 +125,83 @@ $$\mu(t)\,x = \int \mu(t)\,q(t)\,dt + C \;\Rightarrow\;$$
 
 $$\boxed{x(t) = \frac{1}{\mu(t)}\!\left[\int \mu(t)\,q(t)\,dt + C\right].}$$
 
-### Exemplo — $\dot{x} + 2t\,x = t^2$
+### Exemplos Resolvidos — Coeficiente Variável
 
-**Identificação:** $p(t) = 2t$, $q(t) = t^2$.
+#### Exemplo 1 — $\dot{x} + 2t\,x = t$, $x_0 = 1$
 
-**Fator integrante:**
+**Identificação:** $p(t) = 2t$, $q(t) = t$.
 
-$$\mu(t) = e^{\int 2t\,dt} = e^{t^2}.$$
+**Fator integrante:** $\int 2t\,dt = t^2 \Rightarrow \mu(t) = e^{t^2}$.
 
 **Equação transformada:**
 
-$$\frac{d}{dt}\bigl[e^{t^2}x\bigr] = t^2 e^{t^2}.$$
+$$\frac{d}{dt}\bigl[e^{t^2}x\bigr] = t\,e^{t^2}.$$
 
-**Integração** (por partes, com $u = t$, $dv = t\,e^{t^2}\,dt \Rightarrow v = \tfrac{1}{2}e^{t^2}$):
+**Integração** (substituição $u = t^2$, $du = 2t\,dt$):
 
-$$\int t^2 e^{t^2}\,dt = \frac{t}{2}e^{t^2} - \int \frac{1}{2}e^{t^2}\,dt = \frac{t}{2}e^{t^2} - \frac{1}{2}\int e^{t^2}\,dt.$$
+$$\int t\,e^{t^2}\,dt = \frac{1}{2}\int e^u\,du = \frac{1}{2}e^{t^2}.$$
 
-A integral $\int e^{t^2}\,dt$ não tem forma fechada em funções elementares, mas a solução geral é:
+Logo $e^{t^2}x = \tfrac{1}{2}e^{t^2} + C$, ou seja,
 
-$$e^{t^2}x = \frac{t}{2}e^{t^2} - \frac{1}{2}\int e^{t^2}\,dt + C \;\Rightarrow\; x(t) = \frac{t}{2} - \frac{e^{-t^2}}{2}\int e^{t^2}\,dt + Ce^{-t^2}.$$
+$$x(t) = \frac{1}{2} + C\,e^{-t^2}.$$
 
-**Observação:** Este exemplo ilustra que, mesmo com coeficientes variáveis simples, a solução pode envolver integrais não elementares. O método do fator integrante garante a solução formal; em problemas aplicados, $q(t)$ costuma ser escolhido para que a integral seja computável.
+**Condição inicial** $x_0 = 1$: $1 = \tfrac{1}{2} + C \Rightarrow C = \tfrac{1}{2}$. Portanto,
+
+$$\boxed{x(t) = \frac{1}{2}\bigl(1 + e^{-t^2}\bigr).}$$
+
+**Verificação:** $\dot{x} = -t\,e^{-t^2}$ e $\dot{x} + 2tx = -t\,e^{-t^2} + 2t \cdot \tfrac{1}{2}(1 + e^{-t^2}) = t.\;\checkmark$
+
+---
+
+#### Exemplo 2 — $\dot{x} + 2x = t\,e^{-2t}$, $x_0 = -1$
+
+**Identificação:** $p(t) = 2$, $q(t) = t\,e^{-2t}$.
+
+**Fator integrante:** $\mu(t) = e^{2t}$.
+
+**Equação transformada:**
+
+$$\frac{d}{dt}\bigl[e^{2t}x\bigr] = e^{2t} \cdot t\,e^{-2t} = t.$$
+
+**Integração:** $e^{2t}x = \tfrac{t^2}{2} + C$, ou seja,
+
+$$x(t) = \left(\frac{t^2}{2} + C\right)e^{-2t}.$$
+
+**Condição inicial** $x_0 = -1$: $-1 = C$. Portanto,
+
+$$\boxed{x(t) = \left(\frac{t^2}{2} - 1\right)e^{-2t}.}$$
+
+---
+
+#### Exemplo 3 — $\dot{x} + \dfrac{3}{t}x = t^2$, $x(1) = 3$
+
+**Identificação:** $p(t) = 3/t$, $q(t) = t^2$ (definida para $t > 0$).
+
+**Fator integrante:**
+
+$$\int \frac{3}{t}\,dt = 3\ln|t| = \ln t^3 \;\Rightarrow\; \mu(t) = e^{\ln t^3} = t^3.$$
+
+**Equação transformada:**
+
+$$\frac{d}{dt}\bigl[t^3 x\bigr] = t^3 \cdot t^2 = t^5.$$
+
+**Integração:** $t^3 x = \tfrac{t^6}{6} + C$, ou seja,
+
+$$x(t) = \frac{t^3}{6} + \frac{C}{t^3}.$$
+
+**Condição inicial** $x(1) = 3$: $3 = \tfrac{1}{6} + C \Rightarrow C = \tfrac{17}{6}$. Portanto,
+
+$$\boxed{x(t) = \frac{t^3}{6} + \frac{17}{6\,t^3}.}$$
+
+---
+
+#### Observação — Quando a integral não fecha em forma elementar
+
+Trocando $q(t) = t$ por $q(t) = t^2$ no Exemplo 1, obtemos $\dot{x} + 2tx = t^2$. O fator integrante continua $\mu = e^{t^2}$, mas agora a integral envolve
+
+$$\int t^2 e^{t^2}\,dt = \tfrac{t}{2}e^{t^2} - \tfrac{1}{2}\int e^{t^2}\,dt,$$
+
+e $\int e^{t^2}\,dt$ não admite primitiva em funções elementares (relaciona-se com a função erro imaginária). O método do fator integrante garante a solução formal, mas o cálculo explícito exige funções especiais. Em problemas de prova, $q(t)$ costuma ser escolhido de modo que $\int \mu(t)\,q(t)\,dt$ seja computável.
 
 ---
 
@@ -459,6 +515,38 @@ A solução exibe **oscilações amortecidas**: a amplitude $\tfrac{2\sqrt{3}}{3
 
 ---
 
+### Exemplo 4 — $\Delta = 0$ com termo constante e condição em $t \neq 0$
+
+**EDO:** $2\ddot{x} + 2\dot{x} + \dfrac{x}{2} = e$, $\;x(0) = 2e$, $\;\dot{x}(-2) = 2e^2$.
+
+**Forma padrão** (dividindo por $2$): $\ddot{x} + \dot{x} + \tfrac{1}{4}x = \tfrac{e}{2}$, com $a = 1$, $b = \tfrac{1}{4}$, $c = \tfrac{e}{2}$.
+
+**Discriminante:** $\Delta = 1 - 4 \cdot \tfrac{1}{4} = 0 \Rightarrow \lambda = -\tfrac{a}{2} = -\tfrac{1}{2}$.
+
+**Solução particular** (caso constante): $x^* = c/b = (e/2)/(1/4) = 2e$.
+
+**Solução geral:**
+
+$$x(t) = (k_1 + k_2 t)\,e^{-t/2} + 2e.$$
+
+**Condição** $x(0) = 2e$: $k_1 + 2e = 2e \Rightarrow k_1 = 0$, portanto $x(t) = k_2\,t\,e^{-t/2} + 2e$.
+
+**Derivada:**
+
+$$\dot{x}(t) = k_2\,e^{-t/2} - \tfrac{1}{2}k_2\,t\,e^{-t/2} = k_2\,e^{-t/2}\!\left(1 - \tfrac{t}{2}\right).$$
+
+**Condição** $\dot{x}(-2) = 2e^2$: substituindo $t = -2$,
+
+$$k_2 \cdot e^{1} \cdot (1 + 1) = 2k_2\,e = 2e^2 \;\Rightarrow\; k_2 = e.$$
+
+Portanto:
+
+$$\boxed{x(t) = t\,e^{1 - t/2} + 2e.}$$
+
+**Observação — condição inicial em $t \neq 0$.** Quando a condição é dada em $t = t_0 \neq 0$, basta avaliar $x(t)$ ou $\dot{x}(t)$ no ponto $t_0$ correspondente — o procedimento é idêntico ao caso $t_0 = 0$, mudando apenas o argumento na hora de impor a condição.
+
+---
+
 ## Estabilidade das EDOs de 2ª Ordem
 
 Para a EDO homogênea $\ddot{x} + a\dot{x} + bx = 0$, a solução converge para zero (equilíbrio estável) se e somente se a parte real de todas as raízes for negativa. Pelas fórmulas:
@@ -529,3 +617,81 @@ p3 <- ggplot() +
 
 p1 + p2 + p3
 ```
+
+## Sistemas de EDOs de 1ª Ordem
+
+Até aqui tratamos uma única variável dinâmica de cada vez. Em economia, é comum que **várias** variáveis estado evoluam **simultaneamente** e se influenciem mutuamente — produto e taxa de juros num modelo IS-LM dinâmico, capital e consumo no problema de Ramsey, salário e desemprego em modelos de busca. A formulação natural é um **sistema** linear de EDOs de 1ª ordem.
+
+### Forma Geral
+
+Para duas variáveis $x(t)$ e $y(t)$:
+
+$$
+\begin{pmatrix} \dot y \\ \dot x \end{pmatrix} = \underbrace{\begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}}_{A}\begin{pmatrix} y \\ x \end{pmatrix} + \begin{pmatrix} b_1 \\ b_2 \end{pmatrix}.
+$$
+
+A matriz $A$ codifica a interação entre as variáveis; o vetor $\mathbf{b}$ é o termo independente. Em notação compacta, $\dot{\mathbf{z}} = A\mathbf{z} + \mathbf{b}$ com $\mathbf{z} = (y, x)^\top$.
+
+### Conexão com EDO de 2ª Ordem: Toda 2ª Ordem é um Sistema 2×1
+
+A EDO de 2ª ordem $\ddot x + a\dot x + bx = c$ pode ser **reescrita** como sistema de 1ª ordem por uma troca de variáveis. Defina $y := \dot x$. Então $\dot y = \ddot x = -a\dot x - bx + c = -ay - bx + c$, e a equação $\dot x = y$ é tautológica. Logo:
+
+$$
+\begin{cases} \dot y = -a\,y - b\,x + c, \\ \dot x = y, \end{cases}
+\quad\Longleftrightarrow\quad
+\begin{pmatrix} \dot y \\ \dot x \end{pmatrix} = \underbrace{\begin{pmatrix} -a & -b \\ 1 & 0 \end{pmatrix}}_{A}\begin{pmatrix} y \\ x \end{pmatrix} + \begin{pmatrix} c \\ 0 \end{pmatrix}.
+$$
+
+O ponto crucial: a **mesma solução** que obteríamos resolvendo a EDO de 2ª ordem reaparece se resolvermos o sistema. A fórmula da equação característica da EDO de 2ª ordem é, na verdade, a fórmula dos **autovalores** dessa matriz $A$:
+
+$$
+\lambda_{1,2} \;=\; \frac{-a \pm \sqrt{a^2 - 4b}}{2} \;=\; \frac{\operatorname{tr}A \pm \sqrt{(\operatorname{tr}A)^2 - 4|A|}}{2},
+$$
+
+já que $\operatorname{tr}A = -a$ e $|A| = (-a)\cdot 0 - (-b)\cdot 1 = b$.
+
+### Estabilidade via Traço e Determinante
+
+Para um sistema linear $\dot{\mathbf z} = A\mathbf{z} + \mathbf{b}$ com $A$ invertível, o **equilíbrio** é $\mathbf{z}^* = -A^{-1}\mathbf{b}$ (resolvendo $\dot{\mathbf z} = 0$). A estabilidade depende dos autovalores de $A$: o equilíbrio é assintoticamente estável se e somente se ambos os autovalores têm **parte real negativa**.
+
+Em $2 \times 2$, isso é equivalente a um par de condições simples sobre traço e determinante:
+
+$$
+\boxed{\;\operatorname{tr}A < 0 \quad\text{e}\quad |A| > 0.\;}
+$$
+
+De fato: como $\lambda_1 + \lambda_2 = \operatorname{tr}A$ e $\lambda_1 \lambda_2 = |A|$, ter $|A| > 0$ garante que os autovalores tenham o mesmo sinal (caso reais) ou parte real comum (caso complexos), e $\operatorname{tr}A < 0$ força esse sinal/parte real a ser negativo. No caso da matriz vinda da EDO de 2ª ordem, $\operatorname{tr}A < 0 \Leftrightarrow a > 0$ e $|A| > 0 \Leftrightarrow b > 0$ — recuperamos exatamente a condição de estabilidade da seção anterior.
+
+### Por que Importa: Sistemas Genuinamente Acoplados
+
+A vantagem real do enfoque por sistema aparece quando $A$ tem **estrutura genérica** (não vinda de uma 2ª ordem): qualquer interação $a_{ij}$ é admissível, e o método unifica EDOs escalares de qualquer ordem com sistemas multivariados acoplados. Os mesmos critérios — autovalores, traço, determinante — classificam todos esses casos.
+
+### Exemplo Numérico
+
+Considere a EDO $\ddot x + 3\dot x + 2x = 0$ (Δ=1>0, raízes $-1$ e $-2$). Reescrita como sistema:
+
+$$
+A = \begin{pmatrix} -3 & -2 \\ 1 & 0 \end{pmatrix}, \qquad \operatorname{tr}A = -3, \quad |A| = 2.
+$$
+
+Como $\operatorname{tr}A < 0$ e $|A| > 0$, o equilíbrio $(0,0)$ é estável.
+
+```{r}
+A <- matrix(c(-3, 1, -2, 0), nrow = 2, byrow = FALSE)
+cat(sprintf("tr(A) = %.0f, |A| = %.0f\n", sum(diag(A)), det(A)))
+cat("Autovalores de A:", round(eigen(A)$values, 3), "\n")
+cat("Raízes do polinômio característico de 2ª ordem:",
+    round((-3 + c(-1, 1) * sqrt(9 - 8))/2, 3), "\n")
+```
+
+```{python}
+import numpy as np
+
+A = np.array([[-3, -2],
+              [ 1,  0]])
+print(f"tr(A) = {np.trace(A)}, |A| = {np.linalg.det(A):.0f}")
+print(f"Autovalores de A: {np.linalg.eigvals(A)}")
+print(f"Raízes pelo polinômio característico: {(-3 + np.array([-1, 1]) * np.sqrt(1)) / 2}")
+```
+
+Os autovalores de $A$ coincidem exatamente com as raízes da equação característica $\lambda^2 + 3\lambda + 2 = 0$: $\lambda_1 = -1$, $\lambda_2 = -2$. A solução $x(t)$ que sairia da EDO escalar — combinação linear de $e^{-t}$ e $e^{-2t}$ — é a segunda componente do vetor-solução do sistema.

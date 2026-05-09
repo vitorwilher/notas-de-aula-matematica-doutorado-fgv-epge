@@ -1,0 +1,271 @@
+---
+title: |
+  \includegraphics[width=3.8cm]{AM.png}\par\vspace{1em}
+  Monitoria 9
+author: "Vitor Wilher\\footnote{Bacharel e Mestre em Economia pela UFF, Candidato ao PhD em Economia pela EPGE/FGV. É Especialista em Ciências de Dados e Inteligência Artificial Generativa pela PUC-Rio. Atualmente, exerce a função de Data Tech Lead na Análise Macro (\\url{http://analisemacro.com.br}). Saiba mais em \\url{https://github.com/vitorwilher}.}"
+subtitle: |
+  Notas de Aula -- Matemática para Doutorado em Economia, EPGE/FGV
+
+  Professora: Silvia Matos
+date: ""
+---
+
+# Monitoria 9
+
+## Resumo das Regras de Derivação
+
+| Regra | Fórmula |
+|-------|---------|
+| D₁ — Soma | $(f \pm g)' = f' \pm g'$ |
+| D₂ — Constante | $(k\,f)' = k\,f'$ |
+| D₃ — Produto | $(f\cdot g)' = f'g + f g'$ |
+| D₄ — Quociente | $\bigl(f/g\bigr)' = (f'g - f g')/g^2$ |
+| D₅ — Cadeia | $\bigl(f(g)\bigr)' = f'(g)\cdot g'$ |
+| D₆ — Exponencial | $(e^f)' = e^f\cdot f'$ |
+| D₇ — Logaritmo | $(\ln f)' = f'/f$ |
+| D₈ — Potência geral | $(f^g)' = f^g\bigl(g\,\ln f\bigr)'= f^g\!\left(g'\ln f + g\,\dfrac{f'}{f}\right)$ |
+
+A regra D₈ é a forma compacta da **diferenciação logarítmica**, ferramenta central nesta lista: sempre que aparecer base e/ou expoente variando, aplicamos $\ln$ antes de derivar.
+
+---
+
+## Exercício 1 — Parte (a)
+
+Calcule a derivada de
+
+$$
+f(x) = \frac{5^{x^3}}{\sqrt{x^x}}.
+$$
+
+### Estratégia: simplificar antes de derivar
+
+Reescrevemos $\sqrt{x^x} = x^{x/2}$ (para $x > 0$), de modo que
+
+$$
+f(x) = 5^{x^3} \cdot x^{-x/2}.
+$$
+
+Tomando logaritmo,
+
+$$
+\ln f(x) = x^3 \ln 5 - \tfrac{x}{2}\,\ln x.
+$$
+
+Diferenciando ambos os lados (à esquerda, regra D₇; à direita, derivadas conhecidas):
+
+$$
+\frac{f'(x)}{f(x)} = 3x^2 \ln 5 - \left[\tfrac{1}{2}\ln x + \tfrac{x}{2}\cdot\tfrac{1}{x}\right] = 3x^2 \ln 5 - \frac{\ln x + 1}{2}.
+$$
+
+Multiplicando por $f(x)$:
+
+$$
+\boxed{\;f'(x) = \dfrac{5^{x^3}}{\sqrt{x^x}}\left[3x^2 \ln 5 - \dfrac{\ln x + 1}{2}\right].\;}
+$$
+
+**Verificação dos sinais:** para $x$ grande, o termo $3x^2 \ln 5$ domina e $f'$ é positivo — coerente com $5^{x^3}$ explodindo muito mais rápido que $x^{x/2}$. Perto de $x = 1$, o termo $-(\ln x + 1)/2 = -1/2$ é o que conta, e $f'(1) = 5(3\ln 5 - 1/2) \approx 5 \cdot 4{,}33 \approx 21{,}66$.
+
+---
+
+## Exercício 1 — Parte (b)
+
+Calcule a derivada de
+
+$$
+f(x) = x^2\,3^x + \sqrt[3]{x^{e^x} - \ln x^{e^x}}.
+$$
+
+### Termo 1: $x^2\,3^x$
+
+Aplicando a regra do produto D₃, com $(3^x)' = 3^x \ln 3$:
+
+$$
+(x^2\,3^x)' = 2x\,3^x + x^2\,3^x \ln 3 = x\,3^x(2 + x\ln 3).
+$$
+
+### Termo 2: $\sqrt[3]{x^{e^x} - \ln x^{e^x}}$
+
+**Simplificação preliminar:** $\ln x^{e^x} = e^x \ln x$ (propriedade do logaritmo). Logo o radicando é $w(x) := x^{e^x} - e^x \ln x$.
+
+**Derivada de $x^{e^x}$** (D₈ via log diff.): $\ln(x^{e^x}) = e^x \ln x$, então
+
+$$
+\frac{(x^{e^x})'}{x^{e^x}} = e^x \ln x + e^x\cdot\frac{1}{x} = e^x\!\left(\ln x + \frac{1}{x}\right).
+$$
+
+Portanto $(x^{e^x})' = x^{e^x}\,e^x(\ln x + 1/x)$.
+
+**Derivada de $e^x \ln x$** (regra do produto): $(e^x\ln x)' = e^x \ln x + e^x/x = e^x(\ln x + 1/x)$.
+
+**Logo:**
+
+$$
+w'(x) = x^{e^x}\,e^x\!\left(\ln x + \tfrac{1}{x}\right) - e^x\!\left(\ln x + \tfrac{1}{x}\right) = e^x\!\left(\ln x + \tfrac{1}{x}\right)\bigl(x^{e^x} - 1\bigr).
+$$
+
+Como $\sqrt[3]{w} = w^{1/3}$, pela regra da cadeia D₅:
+
+$$
+\bigl(w^{1/3}\bigr)' = \tfrac{1}{3}\,w^{-2/3}\,w'(x) = \frac{w'(x)}{3\sqrt[3]{w^2}}.
+$$
+
+### Resposta final
+
+$$
+\boxed{\;
+f'(x) = x\,3^x(2 + x\ln 3) + \dfrac{e^x\!\left(\ln x + \dfrac{1}{x}\right)\bigl(x^{e^x} - 1\bigr)}{3\sqrt[3]{\bigl(x^{e^x} - e^x \ln x\bigr)^{\!2}}}.\;}
+$$
+
+---
+
+## Questão 02 — Exame 2025
+
+Calcule a derivada de
+
+$$
+f(x) = \left[\frac{e^{x^2}\,\ln\!\bigl(2^{3x + x^x} + (\ln x)^2\bigr)}{4x^5 + \sqrt{x^3 + 1}}\right]^{x}.
+$$
+
+A função tem a forma $f(x) = f_1(x)^x$ — base composta e expoente variando. Aplicamos D₈ e depois decompomos $f_1$ modularmente.
+
+### Passo 1 — Diferenciação logarítmica do envelope $f^x$
+
+Pela regra D₈ com $g(x) = x$:
+
+$$
+f'(x) = f_1(x)^{x}\,\bigl(x\,\ln f_1(x)\bigr)' = f_1(x)^{x}\!\left[\ln f_1(x) + x\cdot\frac{f_1'(x)}{f_1(x)}\right].
+$$
+
+Resta calcular $f_1'(x)$, onde
+
+$$
+f_1(x) = \frac{f_2(x)\cdot f_3(x)}{f_4(x)}, \quad
+\begin{cases}
+f_2(x) = e^{x^2},\\[2pt]
+f_3(x) = \ln\!\bigl(2^{3x + x^x} + (\ln x)^2\bigr),\\[2pt]
+f_4(x) = 4x^5 + \sqrt{x^3 + 1}.
+\end{cases}
+$$
+
+### Passo 2 — Derivada de $f_1$ pela regra do quociente e do produto
+
+Pela combinação de D₃ (no numerador) e D₄:
+
+$$
+f_1'(x) = \frac{\bigl(f_2'(x) f_3(x) + f_2(x) f_3'(x)\bigr)\,f_4(x) - f_2(x) f_3(x)\,f_4'(x)}{f_4(x)^{2}}.
+$$
+
+### Passo 3 — Derivadas de cada bloco
+
+**$f_2'(x)$:** pela regra D₆, $f_2'(x) = e^{x^2}\cdot 2x = 2x\,e^{x^2}$.
+
+**$f_4'(x)$:** soma direta com cadeia na raiz,
+
+$$
+f_4'(x) = 20\,x^4 + \frac{3x^2}{2\sqrt{x^3 + 1}}.
+$$
+
+**$f_3'(x)$:** denotando $h(x) = 2^{3x + x^x} + (\ln x)^2$, temos $f_3 = \ln h$, logo $f_3' = h'/h$. Para $h'$:
+
+- Para $2^{3x + x^x}$, aplicamos D₈ com base constante $= 2$: $\bigl(2^{p(x)}\bigr)' = 2^{p(x)}\ln 2 \cdot p'(x)$, com $p(x) = 3x + x^x$.
+  - Pela regra D₈ aplicada a $x^x$: $(x^x)' = x^x(\ln x + 1)$, donde $p'(x) = 3 + x^x(\ln x + 1)$.
+  - Portanto $\bigl(2^{3x + x^x}\bigr)' = 2^{3x + x^x}\,\ln 2\,\bigl[3 + x^x(\ln x + 1)\bigr]$.
+
+- Para $(\ln x)^2$, pela regra da cadeia: $\bigl((\ln x)^2\bigr)' = 2\ln x \cdot (1/x) = 2\ln x / x$.
+
+Juntando,
+
+$$
+h'(x) = 2^{3x + x^x}\,\ln 2\,\bigl[3 + x^x(\ln x + 1)\bigr] + \frac{2\ln x}{x}.
+$$
+
+E portanto
+
+$$
+f_3'(x) = \frac{h'(x)}{h(x)} = \frac{2^{3x + x^x}\,\ln 2\,\bigl[3 + x^x(\ln x + 1)\bigr] + \dfrac{2\ln x}{x}}{2^{3x + x^x} + (\ln x)^2}.
+$$
+
+### Passo 4 — Montagem final
+
+Substituindo $f_2'$, $f_3'$ e $f_4'$ em $f_1'$, e em seguida $f_1$ e $f_1'$ na expressão de $f'$ do Passo 1, obtém-se a derivada explícita:
+
+$$
+\boxed{\;
+f'(x) = f_1(x)^{x}\!\left[\ln f_1(x) + x\cdot\frac{f_1'(x)}{f_1(x)}\right],\;}
+$$
+
+com $f_1, f_1'$ dados pelas fórmulas acima. **Não vale a pena** expandir esta expressão simbolicamente: ela ocupa várias linhas e o ganho pedagógico se perde no algebrismo. O que importa é o **mapa de derivação**:
+
+1. envelope $f^x$ → D₈;
+2. $f_1$ é quociente → D₄, com numerador via D₃;
+3. $f_2 = e^{x^2}$ → cadeia em $e$;
+4. $f_3 = \ln h$ → D₇;
+5. dentro de $h$: termo $2^{p(x)}$ com $p = 3x + x^x$ → D₈ aninhada;
+6. $f_4$ → soma com cadeia na raiz.
+
+Cada passo aplica uma regra elementar — a dificuldade é puramente **organizacional**, e o domínio dessa decomposição modular é o que a questão testa.
+
+---
+
+## Verificação Numérica
+
+Comparamos a derivada analítica do Exercício 1(a) com a aproximação por diferenças centrais $\bigl(f(x+h) - f(x-h)\bigr)/(2h)$.
+
+```{r}
+f1 <- function(x) 5^(x^3) / sqrt(x^x)
+f1p_analitica <- function(x) {
+  f1(x) * (3 * x^2 * log(5) - (log(x) + 1) / 2)
+}
+
+dif_central <- function(f, x, h = 1e-5) (f(x + h) - f(x - h)) / (2 * h)
+
+xs <- c(0.5, 1, 1.5, 2)
+data.frame(
+  x         = xs,
+  analitica = sapply(xs, f1p_analitica),
+  numerica  = sapply(xs, function(x) dif_central(f1, x)),
+  erro      = sapply(xs, function(x) abs(f1p_analitica(x) - dif_central(f1, x)))
+)
+```
+
+```{python}
+import numpy as np
+
+def f1(x):  return 5.0**(x**3) / np.sqrt(x**x)
+def f1p(x): return f1(x) * (3 * x**2 * np.log(5) - (np.log(x) + 1) / 2)
+
+xs = np.array([0.5, 1.0, 1.5, 2.0])
+h  = 1e-5
+ana = f1p(xs)
+num = (f1(xs + h) - f1(xs - h)) / (2 * h)
+
+print(f"{'x':>6} {'analítica':>15} {'numérica':>15} {'erro':>12}")
+for x, a, n in zip(xs, ana, num):
+    print(f"{x:>6.2f} {a:>15.6f} {n:>15.6f} {abs(a - n):>12.2e}")
+```
+
+```{r}
+#| label: fig-monitoria9
+#| fig-cap: "Monitoria 9: $f(x) = 5^{x^3}/\\sqrt{x^x}$ (sólida) e sua derivada $f'(x)$ (tracejada). Em escala logarítmica, ambas crescem rapidamente; a derivada é positiva em todo o intervalo, refletindo o domínio de $5^{x^3}$ sobre $x^{x/2}$ no denominador."
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 4.5
+
+library(ggplot2)
+
+f1     <- function(x) 5^(x^3) / sqrt(x^x)
+f1_lin <- function(x) 3 * x^2 * log(5) - (log(x) + 1) / 2
+
+x  <- seq(0.3, 1.6, length.out = 400)
+df <- data.frame(x = x, f = f1(x), fp = f1(x) * f1_lin(x))
+
+ggplot(df, aes(x)) +
+  geom_line(aes(y = f,  color = "f(x)"),  linewidth = 1.1) +
+  geom_line(aes(y = fp, color = "f'(x)"), linewidth = 1.1, linetype = "dashed") +
+  scale_y_log10() +
+  scale_color_manual(values = c("f(x)" = "#440154", "f'(x)" = "#31688e")) +
+  labs(x = "x", y = "valor (log)", color = NULL,
+       title = expression(f(x) == 5^{x^3}/sqrt(x^x))) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```

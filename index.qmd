@@ -130,6 +130,10 @@ execute:
 
 \newpage
 
+{{< include monitorias/monitoria_9.qmd >}}
+
+\newpage
+
 {{< include testes/teste2.qmd >}}
 
 \newpage
@@ -142,7 +146,23 @@ execute:
 
 \newpage
 
+{{< include monitorias/monitoria_10.qmd >}}
+
+\newpage
+
 {{< include aulas/funcoes_varias_variaveis.qmd >}}
+
+\newpage
+
+{{< include aulas/algebra_linear.qmd >}}
+
+\newpage
+
+{{< include aulas/otimizacao.qmd >}}
+
+\newpage
+
+{{< include aulas/otimizacao_com_restricao.qmd >}}
 
 \newpage
 

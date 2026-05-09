@@ -1,0 +1,1733 @@
+# Álgebra Linear
+
+## Motivação Econômica
+
+A Álgebra Linear é a linguagem natural de uma boa parte da Economia moderna — sempre que o problema envolve **vários objetos relacionados de forma linear**, ela aparece:
+
+- **Sistemas lineares e equilíbrio:** o modelo de Leontief de insumo-produto, $(I - A)x = d$, descreve a produção de $n$ setores que se demandam mutuamente; encontrar $x$ exige resolver um sistema linear, e a existência de solução econômica não-negativa depende de propriedades espectrais da matriz $A$.
+
+- **Estática comparativa:** ao diferenciar implicitamente um sistema de equações de equilíbrio em torno de um ponto, obtém-se um sistema linear nas variações dos endógenos. A **regra de Cramer** fornece os sinais das respostas em termos de razões de determinantes — ferramenta central no apêndice matemático de Mas-Colell, Whinston e Green.
+
+- **Otimização:** as condições de segunda ordem em problemas com várias variáveis exigem analisar o sinal da **matriz Hessiana** via seus **menores principais** (determinantes), ou equivalentemente via seus **autovalores**. Toda a teoria de otimização côncava/convexa em Economia repousa sobre formas quadráticas.
+
+- **Dinâmica:** em sistemas dinâmicos lineares — $x_{t+1} = A x_t$ no caso discreto, $\dot{x} = Ax$ no contínuo — a estabilidade do equilíbrio é determinada pelos **autovalores** de $A$. Modelos de crescimento, ciclos de negócios e VARs em macroeconometria são todos analisados desta forma.
+
+- **Identificação econométrica:** estimar coeficientes em $y = X\beta + \varepsilon$ exige que $X^\top X$ seja **não-singular** (determinante diferente de zero), condição equivalente à ausência de colinearidade perfeita entre regressores.
+
+Neste capítulo desenvolvemos os blocos básicos: **determinantes**, **matrizes** (operações e inversão), **sistemas lineares** (regra de Cramer), **autovalores e autovetores**, e **formas quadráticas** — seguindo Shilov (Cap. 1) para a parte axiomática e Madala / Simon-Blume para o tratamento operacional.
+
+## Introdução
+
+Uma **matriz** é um arranjo retangular de números organizados em linhas e colunas:
+
+$$
+A = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{pmatrix}.
+$$
+
+Diz-se que $A$ é uma matriz $m \times n$ — $m$ linhas e $n$ colunas. Quando $m = n$, $A$ é **quadrada de ordem $n$**.
+
+Podemos ver matrizes de pelo menos três modos, todos úteis em Economia:
+
+1. **Tabela de coeficientes** de um sistema linear $Ax = b$;
+2. **Operador linear** $T : \mathbb{R}^n \to \mathbb{R}^m$, com $T(x) = Ax$;
+3. **Lista organizada** de vetores (linhas ou colunas).
+
+Dependendo do contexto, é mais útil pensar em uma ou outra interpretação. Por exemplo, ao discutir multicolinearidade em econometria, pensamos nas colunas de $X$ como vetores; ao calcular a Hessiana de uma função, pensamos na matriz como um operador que mede curvatura.
+
+Começamos pelo **determinante** — um número associado a cada matriz quadrada que codifica boa parte de suas propriedades estruturais.
+
+---
+
+## Determinantes
+
+### Definição Informal
+
+A cada matriz **quadrada** $A$ podemos associar um número real, o seu **determinante**, denotado por $\det A$ ou $|A|$. Para uma matriz $2 \times 2$:
+
+$$
+A = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}, \qquad |A| = a_{11}a_{22} - a_{12}a_{21}.
+$$
+
+Inspecionando essa fórmula, três fatos saltam aos olhos — e são, na verdade, os ingredientes estruturais que generalizam o conceito para qualquer ordem $n$:
+
+1. $|A|$ é uma **soma de termos**, cada um deles um **produto** de elementos da matriz;
+2. cada termo possui exatamente **um elemento de cada linha e um de cada coluna**, sem repetir;
+3. cada termo é precedido de um **sinal** ($+$ ou $-$) determinado por uma regra precisa.
+
+A questão é: quantos termos há, quais são, e qual é a regra dos sinais?
+
+### Contagem dos Termos
+
+Em uma matriz $n \times n$, escolher um termo significa selecionar **um elemento por linha**, sob a restrição de que **cada coluna seja usada exatamente uma vez**. Para a primeira linha, temos $n$ escolhas; para a segunda, $n - 1$; e assim por diante. O total é:
+
+$$
+n \cdot (n-1) \cdots 2 \cdot 1 = n!.
+$$
+
+| $n$ | $n!$ termos |
+|-----|-------------|
+| $2$ | $2$ |
+| $3$ | $6$ |
+| $4$ | $24$ |
+| $5$ | $120$ |
+
+Cada termo corresponde a uma **permutação** $(\sigma_1, \sigma_2, \ldots, \sigma_n)$ dos índices $\{1, 2, \ldots, n\}$: o elemento escolhido na coluna $j$ vem da linha $\sigma_j$. O termo é, portanto, $a_{\sigma_1, 1}\, a_{\sigma_2, 2} \cdots a_{\sigma_n, n}$.
+
+### A Regra dos Sinais: Inversões
+
+Resta saber qual é o sinal de cada termo. A regra é a seguinte: contamos o **número de inversões** $N(\sigma_1, \ldots, \sigma_n)$ da permutação — ou seja, o número de pares $(i, j)$ com $i < j$ tais que $\sigma_i > \sigma_j$ (a ordem está "trocada"). O sinal do termo é $(-1)^{N(\sigma_1, \ldots, \sigma_n)}$.
+
+Permutações com **0 inversões** (ordem natural $1 < 2 < \cdots < n$) entram com sinal $+$; permutações com 1 inversão entram com $-$; com 2 inversões, $+$; e assim por diante.
+
+### Definição Formal
+
+Reunindo os três ingredientes, obtemos a definição geral:
+
+$$
+\boxed{|A| = \sum_{\sigma \in S_n} (-1)^{N(\sigma_1, \ldots, \sigma_n)}\, a_{\sigma_1, 1}\, a_{\sigma_2, 2} \cdots a_{\sigma_n, n},}
+$$
+
+onde a soma percorre as $n!$ permutações $\sigma$ do conjunto $\{1, 2, \ldots, n\}$.
+
+### Caso $n = 3$: Enumerando as Permutações
+
+Para $n = 3$ há $3! = 6$ permutações:
+
+| $\sigma = (\sigma_1, \sigma_2, \sigma_3)$ | $N(\sigma)$ | Sinal | Termo |
+|-------------------------------------------|-------------|-------|-------|
+| $(1, 2, 3)$ | $0$ | $+$ | $a_{11}\, a_{22}\, a_{33}$ |
+| $(1, 3, 2)$ | $1$ | $-$ | $a_{11}\, a_{32}\, a_{23}$ |
+| $(2, 1, 3)$ | $1$ | $-$ | $a_{21}\, a_{12}\, a_{33}$ |
+| $(2, 3, 1)$ | $2$ | $+$ | $a_{21}\, a_{32}\, a_{13}$ |
+| $(3, 1, 2)$ | $2$ | $+$ | $a_{31}\, a_{12}\, a_{23}$ |
+| $(3, 2, 1)$ | $3$ | $-$ | $a_{31}\, a_{22}\, a_{13}$ |
+
+Somando os seis termos com seus sinais:
+
+$$
+|A| = a_{11}a_{22}a_{33} + a_{12}a_{23}a_{31} + a_{13}a_{21}a_{32} - a_{13}a_{22}a_{31} - a_{12}a_{21}a_{33} - a_{11}a_{23}a_{32}.
+$$
+
+### Regra de Sarrus ($n = 3$)
+
+A fórmula acima admite uma mnemônica gráfica conhecida como **regra de Sarrus**: repetimos as duas primeiras colunas à direita da matriz e somamos os produtos das três "diagonais descendentes" (sinal $+$) subtraindo os produtos das três "diagonais ascendentes" (sinal $-$):
+
+$$
+\begin{array}{|ccc|cc}
+a_{11} & a_{12} & a_{13} & a_{11} & a_{12} \\
+a_{21} & a_{22} & a_{23} & a_{21} & a_{22} \\
+a_{31} & a_{32} & a_{33} & a_{31} & a_{32}
+\end{array}
+$$
+
+$$
+|A| = \underbrace{a_{11}a_{22}a_{33} + a_{12}a_{23}a_{31} + a_{13}a_{21}a_{32}}_{\text{diagonais descendentes}} - \underbrace{a_{13}a_{22}a_{31} - a_{11}a_{23}a_{32} - a_{12}a_{21}a_{33}}_{\text{diagonais ascendentes}}.
+$$
+
+> **Atenção:** Sarrus funciona **apenas para $n = 3$** (e, com adaptações, para $n = 2$). Para $n \geq 4$ é necessário usar a definição geral por permutações ou — mais usualmente — a expansão de Laplace por cofatores (que veremos adiante).
+
+### Exemplo Numérico
+
+Calculemos o determinante de
+
+$$
+A = \begin{pmatrix} 2 & 1 & 3 \\ 0 & 4 & -1 \\ 5 & 2 & 1 \end{pmatrix}
+$$
+
+por Sarrus:
+
+$$
+\begin{aligned}
+|A| &= 2 \cdot 4 \cdot 1 + 1 \cdot (-1) \cdot 5 + 3 \cdot 0 \cdot 2 - 3 \cdot 4 \cdot 5 - 2 \cdot (-1) \cdot 2 - 1 \cdot 0 \cdot 1 \\
+    &= 8 - 5 + 0 - 60 + 4 - 0 \\
+    &= -53.
+\end{aligned}
+$$
+
+Confirmando computacionalmente em R:
+
+```{r}
+A <- matrix(c(2, 0, 5,
+              1, 4, 2,
+              3, -1, 1), nrow = 3, byrow = FALSE)
+det(A)
+```
+
+E em Python (`numpy.linalg.det`):
+
+```{python}
+import numpy as np
+
+A = np.array([[ 2,  1,  3],
+              [ 0,  4, -1],
+              [ 5,  2,  1]])
+np.linalg.det(A)
+```
+
+> **Observação numérica.** `np.linalg.det` retorna $-53.0000\ldots$ com pequena imprecisão de ponto flutuante (típica em fatorações LU). Para verificar igualdade exata, use `round(...)` ou compare com tolerância (`np.isclose`).
+
+---
+
+### Propriedades
+
+Listamos as propriedades fundamentais do determinante. Todas seguem diretamente da definição via permutações; as demonstrações estão em Shilov (Cap. 1).
+
+#### P1. Determinante da Transposta
+
+$$
+\boxed{|A^\top| = |A|.}
+$$
+
+**Consequência:** toda propriedade enunciada em termos de **linhas** vale também para **colunas**, e vice-versa. Não há assimetria entre linhas e colunas no determinante.
+
+*Esboço da ideia:* a transposição troca os papéis de linha e coluna em cada termo da soma; pode-se mostrar que o número de inversões da permutação correspondente é o mesmo, preservando todos os sinais.
+
+#### P2. Troca de Duas Linhas (ou Colunas) Inverte o Sinal
+
+Se $\tilde{A}$ resulta de $A$ pela troca de duas linhas (ou duas colunas) — adjacentes ou não —, então:
+
+$$
+\boxed{|\tilde{A}| = -|A|.}
+$$
+
+**Por quê:** trocar duas linhas equivale a aplicar uma transposição na permutação que indexa cada termo. Uma transposição (mesmo entre posições não-adjacentes) altera a paridade do número de inversões — pode-se decompor qualquer transposição como um número ímpar de transposições adjacentes —, portanto inverte o sinal de cada termo da soma, invertendo o sinal do determinante.
+
+#### P3. Linhas (ou Colunas) Iguais Anulam o Determinante
+
+Se $A$ tem duas linhas iguais (ou duas colunas iguais), então:
+
+$$
+\boxed{|A| = 0.}
+$$
+
+**Por quê:** trocando as duas linhas iguais, a matriz não se altera, mas pela P2 o determinante muda de sinal. Logo $|A| = -|A|$, de onde $|A| = 0$.
+
+**Generalização (visto adiante):** a propriedade vale, mais geralmente, para linhas (ou colunas) **linearmente dependentes** — daí a equivalência entre $|A| = 0$ e a singularidade de $A$.
+
+#### P4. Multilinearidade
+
+O determinante é **linear em cada linha (ou coluna) separadamente**, mantendo as demais fixas. Em particular, se uma das colunas é uma combinação linear $\lambda b + \mu c$ — onde $b$ e $c$ são vetores-coluna —, então:
+
+$$
+\boxed{|A| = \lambda\, |A_1| + \mu\, |A_2|,}
+$$
+
+em que $A_1$ e $A_2$ são as matrizes obtidas substituindo a coluna em questão por $b$ e $c$, respectivamente, mantendo as demais colunas inalteradas.
+
+Em forma matricial, suponha que a $j$-ésima coluna de $A$ é $\lambda b + \mu c$ e as demais colunas são $a_1, \ldots, a_{j-1}, a_{j+1}, \ldots, a_n$. Então:
+
+$$
+|a_1, \ldots, \lambda b + \mu c, \ldots, a_n| = \lambda\, |a_1, \ldots, b, \ldots, a_n| + \mu\, |a_1, \ldots, c, \ldots, a_n|.
+$$
+
+#### P5. Multiplicação de Toda a Matriz por um Escalar
+
+Multiplicar **todos** os elementos de $A$ por $\lambda$ equivale a multiplicar **cada uma das $n$ linhas** por $\lambda$. Como o determinante é linear em cada linha (P4), saem $n$ fatores $\lambda$:
+
+$$
+\boxed{|\lambda A| = \lambda^n\, |A|,}
+$$
+
+onde $n$ é a ordem da matriz.
+
+> **Cuidado.** Diferentemente do caso escalar, $|\lambda A| \neq \lambda |A|$. O fator $\lambda^n$ é uma armadilha frequente.
+
+#### Corolário. Linha (ou Coluna) de Zeros
+
+Se alguma linha (ou coluna) de $A$ é identicamente nula, então
+
+$$
+\boxed{|A| = 0.}
+$$
+
+**Por quê:** tomando $\lambda = 0$ em P4, fatoramos o $0$ para fora dessa linha (ou coluna), restando $0 \cdot |A'| = 0$. Equivalentemente, todo termo da definição via permutações contém exatamente um fator de cada linha — incluindo a linha nula —, e portanto é zero.
+
+#### P6. Adicionar a uma Linha (ou Coluna) um Múltiplo de Outra Não Altera o Determinante
+
+Se $\tilde{A}$ resulta de $A$ ao somar a uma linha (ou coluna) um múltiplo escalar de outra linha (ou coluna) **distinta**, então:
+
+$$
+\boxed{|\tilde{A}| = |A|.}
+$$
+
+**Por quê:** pela multilinearidade (P4), o determinante de $\tilde{A}$ se decompõe em $|A| + \lambda |A_1|$, onde $A_1$ tem duas linhas (ou colunas) iguais. Por P3, $|A_1| = 0$, e portanto $|\tilde{A}| = |A|$.
+
+**Importância prática:** esta é a propriedade que justifica o **escalonamento** (eliminação de Gauss) como método para calcular determinantes — fazemos operações de linha que não alteram $|A|$ até obter uma matriz triangular, cujo determinante é o produto dos elementos da diagonal.
+
+### Síntese das Propriedades
+
+| Operação na matriz | Efeito no determinante |
+|--------------------|------------------------|
+| Transpor | $|A^\top| = |A|$ |
+| Trocar duas linhas/colunas | Sinal trocado: $-|A|$ |
+| Duas linhas/colunas iguais | $|A| = 0$ |
+| Linha/coluna de zeros | $|A| = 0$ |
+| Multiplicar uma linha/coluna por $\lambda$ | $\lambda \, |A|$ |
+| Multiplicar **toda** a matriz por $\lambda$ | $\lambda^n\, |A|$ |
+| Somar a uma linha/coluna um múltiplo de outra | $|A|$ inalterado |
+
+### Aplicação: Cálculo Eficiente via Escalonamento
+
+Para matrizes de ordem maior, a definição via permutações é inviável ($n!$ cresce muito rápido). A combinação P2 + P6 sugere o método prático:
+
+1. Use operações elementares (P6) para zerar elementos abaixo da diagonal — sem alterar o determinante;
+2. A cada troca de linhas (P2), troque o sinal acumulado;
+3. Ao chegar em uma matriz **triangular**, $|A|$ é simplesmente o produto dos elementos da diagonal (todas as permutações exceto a identidade têm pelo menos um fator nulo).
+
+Implementado em qualquer biblioteca numérica (`det()` em R, `numpy.linalg.det` em Python), este algoritmo tem custo $O(n^3)$ — substancialmente melhor que o $O(n!)$ da definição direta.
+
+```{r}
+#| label: tbl-det-orderings
+#| tbl-cap: "Custo do cálculo do determinante: definição vs. escalonamento"
+
+n <- c(3, 5, 10, 20)
+data.frame(
+  n = n,
+  `n! (definição)` = factorial(n),
+  `n^3 (escalonamento)` = n^3,
+  check.names = FALSE
+)
+```
+
+### Expansão de Laplace por Cofatores
+
+A definição via permutações e a regra de Sarrus calculam o determinante para qualquer matriz quadrada, mas têm limitações: Sarrus só serve para $n = 3$, e enumerar $n!$ permutações é inviável para $n \geq 4$. A **expansão de Laplace** é uma fórmula recursiva que reduz o cálculo de um determinante de ordem $n$ a $n$ determinantes de ordem $n - 1$ — útil tanto computacionalmente quanto como ferramenta teórica para derivar a regra de Cramer e a fórmula da inversa.
+
+#### Menor e Cofator
+
+Dada uma matriz $A$ de ordem $n$, o **menor** $M_{ij}$ é o determinante da matriz $(n-1) \times (n-1)$ obtida ao **excluir a linha $i$ e a coluna $j$** de $A$:
+
+$$
+M_{ij} = \det\bigl(\text{submatriz de } A \text{ removendo linha } i \text{ e coluna } j\bigr).
+$$
+
+O **cofator** $A_{ij}$ é o menor com sinal:
+
+$$
+\boxed{A_{ij} = (-1)^{i+j}\, M_{ij}.}
+$$
+
+O sinal $(-1)^{i+j}$ alterna conforme um padrão de tabuleiro de xadrez:
+
+$$
+\begin{pmatrix}
++ & - & + & - & \cdots \\
+- & + & - & + & \cdots \\
++ & - & + & - & \cdots \\
+\vdots & \vdots & \vdots & \vdots & \ddots
+\end{pmatrix}
+$$
+
+Note que $A_{ij}$ é um **número** (o cofator), não uma submatriz.
+
+#### Fórmula da Expansão
+
+O determinante pode ser expandido **ao longo de qualquer linha $i$ fixa**:
+
+$$
+\boxed{|A| = \sum_{j=1}^n a_{ij}\, A_{ij}, \quad i \in \{1, \ldots, n\}.}
+$$
+
+Equivalentemente, **ao longo de qualquer coluna $j$ fixa**:
+
+$$
+\boxed{|A| = \sum_{i=1}^n a_{ij}\, A_{ij}, \quad j \in \{1, \ldots, n\}.}
+$$
+
+Pela P1 ($|A^\top| = |A|$), as duas expansões coincidem.
+
+#### Caso $n = 2$: Recuperando a Fórmula Conhecida
+
+Expandindo pela primeira linha:
+
+$$
+|A| = a_{11}\, A_{11} + a_{12}\, A_{12} = a_{11}\, M_{11} - a_{12}\, M_{12} = a_{11}\, a_{22} - a_{12}\, a_{21}.
+$$
+
+Aqui $M_{11} = a_{22}$ e $M_{12} = a_{21}$ — determinantes de matrizes $1 \times 1$, que são apenas seus únicos elementos.
+
+#### Caso $n = 3$: Expansão pela Primeira Coluna
+
+$$
+|A| = a_{11}\, A_{11} + a_{21}\, A_{21} + a_{31}\, A_{31},
+$$
+
+onde:
+
+$$
+A_{11} = +\begin{vmatrix} a_{22} & a_{23} \\ a_{32} & a_{33} \end{vmatrix} = a_{22}a_{33} - a_{32}a_{23},
+$$
+
+$$
+A_{21} = -\begin{vmatrix} a_{12} & a_{13} \\ a_{32} & a_{33} \end{vmatrix} = -(a_{12}a_{33} - a_{32}a_{13}),
+$$
+
+$$
+A_{31} = +\begin{vmatrix} a_{12} & a_{13} \\ a_{22} & a_{23} \end{vmatrix} = a_{12}a_{23} - a_{22}a_{13}.
+$$
+
+Substituindo e expandindo, recupera-se a mesma fórmula obtida via permutações.
+
+#### Estratégia: Linha ou Coluna com Mais Zeros
+
+Cada zero na linha (ou coluna) escolhida **anula** o termo correspondente na expansão. Na prática, escolha sempre a linha ou coluna com o **maior número de zeros** — o cálculo cai linearmente com o número de zeros.
+
+#### Exemplo: Mesmo Determinante, Por Laplace
+
+Calculemos novamente $|A|$ para
+
+$$
+A = \begin{pmatrix} 2 & 1 & 3 \\ 0 & 4 & -1 \\ 5 & 2 & 1 \end{pmatrix}
+$$
+
+expandindo pela **primeira coluna** (que tem um zero):
+
+$$
+|A| = 2 \cdot A_{11} + 0 \cdot A_{21} + 5 \cdot A_{31},
+$$
+
+onde:
+
+$$
+A_{11} = +\begin{vmatrix} 4 & -1 \\ 2 & 1 \end{vmatrix} = 4 \cdot 1 - 2 \cdot (-1) = 6,
+$$
+
+$$
+A_{31} = +\begin{vmatrix} 1 & 3 \\ 4 & -1 \end{vmatrix} = 1 \cdot (-1) - 4 \cdot 3 = -13.
+$$
+
+(O cofator $A_{21}$ aparece multiplicado por $0$, então não precisa ser calculado.)
+
+$$
+|A| = 2 \cdot 6 + 5 \cdot (-13) = 12 - 65 = -53.
+$$
+
+Bate com o resultado obtido por Sarrus.
+
+#### Determinante de Matriz Triangular
+
+Uma matriz é **triangular superior** se $a_{ij} = 0$ para $i > j$ (zeros abaixo da diagonal); analogamente para triangular inferior. Para qualquer matriz triangular,
+
+$$
+\boxed{|A| = a_{11}\, a_{22}\, \cdots\, a_{nn},}
+$$
+
+ou seja, o determinante é o **produto dos elementos da diagonal principal**.
+
+**Demonstração por indução via Laplace.** Considere $A$ triangular superior de ordem $n$. Expandindo pela primeira coluna, todos os elementos abaixo de $a_{11}$ são nulos, restando
+
+$$
+|A| = a_{11} \cdot M_{11},
+$$
+
+onde $M_{11}$ é o determinante da submatriz $(n-1) \times (n-1)$ obtida ao remover a primeira linha e a primeira coluna — que continua triangular superior. Aplicando a mesma redução recursivamente,
+
+$$
+|A| = a_{11}\, a_{22}\, M_{11}^{(2)} = a_{11}\, a_{22}\, a_{33}\, M_{11}^{(3)} = \cdots = a_{11}\, a_{22}\, \cdots\, a_{nn}.
+$$
+
+O caso triangular inferior segue por P1 (transposta).
+
+**Por que isso importa.** Esta é a justificativa rigorosa do método de escalonamento descrito na seção anterior: as operações P6 transformam $A$ em triangular sem alterar $|A|$, eventuais trocas de linhas (P2) apenas invertem o sinal acumulado, e a fórmula acima fecha o cálculo em $O(n^3)$.
+
+#### Determinante de Vandermonde
+
+Dados $n$ números $x_1, x_2, \ldots, x_n$, a **matriz de Vandermonde** é
+
+$$
+V(x_1, \ldots, x_n) = \begin{pmatrix}
+1 & x_1 & x_1^2 & \cdots & x_1^{n-1} \\
+1 & x_2 & x_2^2 & \cdots & x_2^{n-1} \\
+\vdots & \vdots & \vdots & & \vdots \\
+1 & x_n & x_n^2 & \cdots & x_n^{n-1}
+\end{pmatrix}.
+$$
+
+Seu determinante admite a fórmula fechada
+
+$$
+\boxed{|V(x_1, \ldots, x_n)| = \prod_{1 \leq i < j \leq n} (x_j - x_i).}
+$$
+
+**Esboço da demonstração (argumento polinomial).** Encare $|V|$ como polinômio nas variáveis $x_1, \ldots, x_n$. Se $x_i = x_j$ para algum par $i \neq j$, então duas linhas de $V$ são iguais e $|V| = 0$ por P3. Logo, $(x_j - x_i)$ divide o polinômio $|V|$ para cada par $i < j$. O produto $\prod_{i<j}(x_j - x_i)$ tem grau total $\binom{n}{2}$ — exatamente o grau total de $|V|$ visto como polinômio nas $n$ variáveis — e o mesmo coeficiente líder (verificado pela permutação identidade na definição). Portanto, os dois polinômios coincidem.
+
+**Corolário (não-singularidade).** $|V| \neq 0$ se, e somente se, os pontos $x_1, \ldots, x_n$ são **dois a dois distintos**.
+
+**Aplicação: interpolação polinomial.** Encontrar um polinômio $p(x) = c_0 + c_1 x + \cdots + c_{n-1} x^{n-1}$ que passe por $n$ pontos $(x_1, y_1), \ldots, (x_n, y_n)$ equivale a resolver o sistema linear $V c = y$. O corolário acima garante que, com abscissas distintas, esse sistema tem **solução única** — existe um único polinômio de grau $\leq n - 1$ interpolando os dados. É a base teórica de quadraturas, splines e do encaixe de séries históricas em modelos econométricos paramétricos.
+
+#### Relação de Ortogonalidade
+
+Há uma identidade adicional, fundamental para a regra de Cramer e para a fórmula da matriz inversa: se substituirmos os elementos da linha $i$ pelos cofatores de uma linha **diferente** $k \neq i$, a soma é zero:
+
+$$
+\boxed{\sum_{j=1}^n a_{kj}\, A_{ij} = 0 \quad \text{para } k \neq i.}
+$$
+
+A intuição é direta: essa soma é o determinante de uma matriz em que a linha $i$ foi **substituída** pela linha $k$ — uma matriz com duas linhas iguais, que tem determinante nulo (P3).
+
+Combinando com a expansão de Laplace, podemos resumir as duas identidades em uma só:
+
+$$
+\sum_{j=1}^n a_{kj}\, A_{ij} = |A|\, \delta_{ki}, \quad \text{onde } \delta_{ki} = \begin{cases} 1, & k = i, \\ 0, & k \neq i. \end{cases}
+$$
+
+Esta é a chave da derivação da **regra de Cramer**, na próxima seção.
+
+### Interpretação Geométrica (Adiantamento)
+
+Embora o determinante seja definido algebricamente, ele tem um significado geométrico claro que reaparecerá adiante: $|A|$ é o **fator pelo qual a transformação linear $x \mapsto Ax$ multiplica volumes** em $\mathbb{R}^n$, com sinal indicando se a orientação é preservada ($+$) ou invertida ($-$). Em particular:
+
+- $|A| = 0$ ⇔ a imagem de $A$ é um subespaço de dimensão estritamente menor que $n$ ⇔ $A$ é **singular** (não-invertível);
+- $|A| \neq 0$ ⇔ $A$ é **invertível** ⇔ o sistema $Ax = b$ tem solução única para todo $b$.
+
+Esta caracterização é o elo entre determinantes e sistemas lineares, que tratamos a seguir.
+
+---
+
+## Sistemas Lineares e Regra de Cramer
+
+### Motivação
+
+Modelos econômicos frequentemente formulam-se como **sistemas de equações simultâneas**: a determinação de equilíbrio em $n$ mercados, a alocação setorial num modelo de Leontief, a estática comparativa em torno de um equilíbrio diferenciável. Quando essas equações são lineares (ou linearizadas), obtemos um **sistema linear**:
+
+$$
+\begin{cases}
+a_{11}\, x_1 + a_{12}\, x_2 + \cdots + a_{1n}\, x_n = b_1, \\
+a_{21}\, x_1 + a_{22}\, x_2 + \cdots + a_{2n}\, x_n = b_2, \\
+\quad \vdots \\
+a_{n1}\, x_1 + a_{n2}\, x_2 + \cdots + a_{nn}\, x_n = b_n,
+\end{cases}
+$$
+
+ou, compactamente:
+
+$$
+\sum_{j=1}^n a_{ij}\, x_j = b_i, \quad i = 1, \ldots, n.
+$$
+
+### Forma Matricial
+
+Definindo
+
+$$
+A = \begin{pmatrix} a_{11} & \cdots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{n1} & \cdots & a_{nn} \end{pmatrix}, \qquad x = \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix}, \qquad b = \begin{pmatrix} b_1 \\ \vdots \\ b_n \end{pmatrix},
+$$
+
+o sistema reescreve-se como uma única equação matricial:
+
+$$
+\boxed{Ax = b.}
+$$
+
+A matriz $A$ é a **matriz dos coeficientes**, $x$ é o vetor de incógnitas e $b$ é o vetor dos termos independentes.
+
+### Classificação
+
+A relação entre $|A|$ e a estrutura da solução permite classificar todo sistema linear $n \times n$ em três categorias:
+
+| Caso | Determinante | Solução |
+|------|---------------|----------|
+| **Possível Determinado (PD)** | $\lvert A\rvert \neq 0$ | Solução única |
+| **Possível Indeterminado (PI)** | $\lvert A\rvert = 0$ e sistema compatível | Infinitas soluções |
+| **Impossível** | $\lvert A\rvert = 0$ e sistema incompatível | Sem solução |
+
+#### Possível Determinado
+
+$$
+\begin{cases} x + y = 10, \\ \quad\;\;\, 2y = 6. \end{cases}
+$$
+
+A matriz dos coeficientes é
+
+$$
+A = \begin{pmatrix} 1 & 1 \\ 0 & 2 \end{pmatrix}, \qquad |A| = 2 \neq 0.
+$$
+
+A segunda equação dá $y = 3$, e a primeira dá $x = 7$ — solução única em $(x, y) = (7, 3)$. Geometricamente, duas retas que se cruzam num único ponto.
+
+#### Possível Indeterminado
+
+$$
+\begin{cases} x - y = 0, \\ 2x - 2y = 0. \end{cases}
+$$
+
+A segunda equação é o dobro da primeira: ambas equivalem a $x = y$. A matriz dos coeficientes:
+
+$$
+A = \begin{pmatrix} 1 & -1 \\ 2 & -2 \end{pmatrix}, \qquad |A| = -2 + 2 = 0.
+$$
+
+Toda combinação $(t, t)$, $t \in \mathbb{R}$, é solução — uma reta inteira de soluções (as duas equações descrevem a **mesma reta**).
+
+#### Impossível
+
+$$
+\begin{cases} x + y = 1, \\ x + y = 2. \end{cases}
+$$
+
+A mesma combinação $x + y$ não pode valer $1$ e $2$ simultaneamente. Geometricamente, são **retas paralelas** que nunca se cruzam. A matriz $A$ tem $|A| = 0$, mas o sistema é inconsistente — não há solução.
+
+### Sistema Homogêneo
+
+Um sistema $Ax = b$ é **homogêneo** quando $b = 0$:
+
+$$
+Ax = 0.
+$$
+
+Sistemas homogêneos sempre admitem a **solução trivial** $x = 0$. A questão é se admitem outras:
+
+- $|A| \neq 0$: apenas a solução trivial $x = 0$;
+- $|A| = 0$: além da trivial, **infinitas soluções não-triviais**.
+
+A interpretação geométrica é direta: $|A| = 0$ significa que as colunas de $A$ são linearmente dependentes, e portanto há combinações lineares não-triviais delas que dão zero — exatamente as soluções não-triviais de $Ax = 0$.
+
+> **Importância em Economia.** Soluções não-triviais de sistemas homogêneos aparecem na busca por **autovetores** de uma matriz, $A v = \lambda v \Leftrightarrow (A - \lambda I) v = 0$, e no estudo de **espaços de soluções** de modelos com restrições redundantes.
+
+### Regra de Cramer
+
+Quando $|A| \neq 0$, há uma fórmula explícita para cada componente da solução:
+
+$$
+\boxed{x_k = \frac{|A_k|}{|A|}, \quad k = 1, \ldots, n,}
+$$
+
+onde $A_k$ é a matriz obtida **substituindo a $k$-ésima coluna de $A$ pelo vetor $b$**, mantendo as demais colunas inalteradas.
+
+#### Derivação
+
+Multiplique a $i$-ésima equação por $A_{ik}$ (cofator do elemento $a_{ik}$) e some sobre $i$:
+
+$$
+\sum_{i=1}^n A_{ik} \sum_{j=1}^n a_{ij}\, x_j = \sum_{i=1}^n A_{ik}\, b_i.
+$$
+
+Trocando a ordem das somas do lado esquerdo:
+
+$$
+\sum_{j=1}^n \left( \sum_{i=1}^n a_{ij}\, A_{ik} \right) x_j = \sum_{i=1}^n A_{ik}\, b_i.
+$$
+
+A relação de ortogonalidade dos cofatores diz que $\sum_i a_{ij}\, A_{ik} = |A|$ se $j = k$ e $0$ caso contrário. Assim, do lado esquerdo só sobrevive o termo $j = k$:
+
+$$
+|A|\, x_k = \sum_{i=1}^n A_{ik}\, b_i.
+$$
+
+A soma à direita é precisamente a expansão de Laplace de $|A_k|$ pela $k$-ésima coluna (que agora é $b$). Portanto:
+
+$$
+x_k = \frac{|A_k|}{|A|}.
+$$
+
+### Exemplo Numérico
+
+Resolvamos o sistema
+
+$$
+\begin{cases}
+\;\;\,x + 2y +\;\, z = 8, \\
+2x -\;\, y +\;\, z = 3, \\
+3x +\;\, y -\;\, z = 2.
+\end{cases}
+$$
+
+Em forma matricial:
+
+$$
+A = \begin{pmatrix} 1 & 2 & 1 \\ 2 & -1 & 1 \\ 3 & 1 & -1 \end{pmatrix}, \qquad b = \begin{pmatrix} 8 \\ 3 \\ 2 \end{pmatrix}.
+$$
+
+Pela regra de Sarrus:
+
+$$
+|A| = (1)(-1)(-1) + (2)(1)(3) + (1)(2)(1) - (1)(-1)(3) - (1)(1)(1) - (2)(2)(-1) = 1 + 6 + 2 + 3 - 1 + 4 = 15.
+$$
+
+Construímos $A_1, A_2, A_3$ substituindo as colunas 1, 2 e 3 por $b$, respectivamente:
+
+$$
+A_1 = \begin{pmatrix} 8 & 2 & 1 \\ 3 & -1 & 1 \\ 2 & 1 & -1 \end{pmatrix}, \quad
+A_2 = \begin{pmatrix} 1 & 8 & 1 \\ 2 & 3 & 1 \\ 3 & 2 & -1 \end{pmatrix}, \quad
+A_3 = \begin{pmatrix} 1 & 2 & 8 \\ 2 & -1 & 3 \\ 3 & 1 & 2 \end{pmatrix}.
+$$
+
+Calculando os determinantes:
+
+$$
+|A_1| = 15, \qquad |A_2| = 30, \qquad |A_3| = 45.
+$$
+
+Portanto:
+
+$$
+x = \frac{|A_1|}{|A|} = \frac{15}{15} = 1, \quad
+y = \frac{|A_2|}{|A|} = \frac{30}{15} = 2, \quad
+z = \frac{|A_3|}{|A|} = \frac{45}{15} = 3.
+$$
+
+Verificação:
+
+$$
+\begin{aligned}
+1 + 2(2) + 3 &= 8 \;\;\checkmark \\
+2(1) - 2 + 3 &= 3 \;\;\checkmark \\
+3(1) + 2 - 3 &= 2 \;\;\checkmark
+\end{aligned}
+$$
+
+Computacionalmente, em R:
+
+```{r}
+A <- matrix(c(1, 2, 3,
+              2, -1, 1,
+              1, 1, -1), nrow = 3, byrow = FALSE)
+b <- c(8, 3, 2)
+solve(A, b)
+```
+
+E em Python:
+
+```{python}
+import numpy as np
+
+A = np.array([[1,  2,  1],
+              [2, -1,  1],
+              [3,  1, -1]], dtype=float)
+b = np.array([8, 3, 2], dtype=float)
+np.linalg.solve(A, b)
+```
+
+Tanto `solve()` quanto `np.linalg.solve` resolvem o sistema diretamente via fatoração LU — bem mais eficiente que aplicar a regra de Cramer manualmente. Cramer fica reservado para análise teórica (sinais em estática comparativa) e para sistemas pequenos a mão.
+
+### Quando Usar Cramer?
+
+A regra de Cramer é teoricamente elegante e indispensável para análise de sinais em estática comparativa (onde tipicamente queremos saber o **sinal** das variações sem necessariamente computá-las). Computacionalmente, porém, ela tem custo $O(n!)$ ou $O(n \cdot n^3) = O(n^4)$ pela expansão de Laplace, ambos piores que o $O(n^3)$ da eliminação de Gauss. Para $n$ grande, prefira `solve()` no R ou `numpy.linalg.solve` no Python — ambos usam fatoração LU sob o capô.
+
+### Aplicação Econômica: Modelo de Insumo-Produto de Leontief
+
+O **modelo de Leontief** descreve uma economia em que cada setor consome insumos dos demais para produzir. Considere uma economia simplificada com 3 setores — **agricultura** (A), **indústria** (I) e **serviços** (S) — e seja $t_{ij}$ a quantidade do produto do setor $i$ necessária para produzir uma unidade monetária do setor $j$. A **matriz de coeficientes técnicos** é:
+
+$$
+T = \begin{pmatrix} 0{,}10 & 0{,}20 & 0{,}10 \\ 0{,}30 & 0{,}20 & 0{,}20 \\ 0{,}10 & 0{,}30 & 0{,}20 \end{pmatrix}.
+$$
+
+Lendo a coluna 2: para produzir R\$ 1{,}00 de **indústria**, são necessários R\$ 0{,}20 de agricultura, R\$ 0{,}20 de indústria (insumos intermediários do próprio setor) e R\$ 0{,}30 de serviços.
+
+Dado um vetor de **demanda final** $d = (d_A, d_I, d_S)^\top$ (consumo das famílias, governo, exportações líquidas), a produção total $x = (x_A, x_I, x_S)^\top$ deve atender simultaneamente à demanda final e aos requisitos de insumos intermediários $Tx$:
+
+$$
+x = T x + d \quad\Longleftrightarrow\quad \boxed{(I - T)\, x = d.}
+$$
+
+A matriz $I - T$ é a **matriz de Leontief**. Para que o sistema tenha solução única e econômica ($x \geq 0$ para todo $d \geq 0$), exige-se $|I - T| \neq 0$ (condição de Hawkins-Simon, em geral satisfeita em economias bem comportadas).
+
+Suponha demanda final $d = (100, 80, 90)^\top$ (em milhões de reais). Calculemos a produção total em R:
+
+```{r}
+T_mat <- matrix(c(0.10, 0.30, 0.10,
+                  0.20, 0.20, 0.30,
+                  0.10, 0.20, 0.20),
+                nrow = 3, byrow = FALSE,
+                dimnames = list(c("A", "I", "S"), c("A", "I", "S")))
+I3 <- diag(3)
+L  <- I3 - T_mat   # matriz de Leontief
+d  <- c(A = 100, I = 80, S = 90)
+
+det(L)             # diferente de zero ⇒ existe solução única
+x  <- solve(L, d)  # produção total por setor
+x
+```
+
+E em Python:
+
+```{python}
+import numpy as np
+
+T = np.array([[0.10, 0.20, 0.10],
+              [0.30, 0.20, 0.20],
+              [0.10, 0.30, 0.20]])
+I3 = np.eye(3)
+L  = I3 - T
+d  = np.array([100, 80, 90])
+
+print("det(L) =", round(np.linalg.det(L), 4))
+x  = np.linalg.solve(L, d)
+print("x =", np.round(x, 2))
+```
+
+A produção total **excede** a demanda final em cada setor — o excesso é o que circula como insumos intermediários entre os setores. A matriz $(I - T)^{-1}$, conhecida como **matriz inversa de Leontief**, fornece os **multiplicadores setoriais**: a entrada $(i, j)$ indica a produção total de $i$ requerida para entregar uma unidade adicional de demanda final em $j$ (efeitos diretos + indiretos via insumos intermediários).
+
+```{r}
+solve(L)   # matriz inversa de Leontief
+```
+
+### Aplicação Econômica: Equilíbrio IS-LM e Estática Comparativa
+
+Considere o modelo IS-LM em forma reduzida, com produto $Y$ e taxa de juros $r$ como endógenos. As equações de equilíbrio são:
+
+$$
+\begin{cases}
+\text{(IS)} & (1 - c_1)\, Y + b\, r = A_0, \\
+\text{(LM)} & -m_1\, Y + m_2\, r = -\dfrac{M^*}{P},
+\end{cases}
+$$
+
+onde $c_1$ é a propensão marginal a consumir, $b > 0$ a sensibilidade do investimento à taxa de juros, $m_1, m_2 > 0$ a sensibilidade da demanda por moeda à renda e à taxa de juros, $A_0 = c_0 - c_1 T_0 + I_0 + G$ o gasto autônomo, $M^*$ a oferta nominal de moeda e $P$ o nível de preços.
+
+Em forma matricial:
+
+$$
+\underbrace{\begin{pmatrix} 1 - c_1 & b \\ -m_1 & m_2 \end{pmatrix}}_{A} \begin{pmatrix} Y \\ r \end{pmatrix} = \begin{pmatrix} A_0 \\ -M^*/P \end{pmatrix}.
+$$
+
+O determinante é
+
+$$
+|A| = (1 - c_1)\, m_2 + b\, m_1 > 0,
+$$
+
+estritamente positivo sob hipóteses econômicas usuais — portanto o equilíbrio é **único**. Pela regra de Cramer:
+
+$$
+Y^* = \frac{m_2\, A_0 + b\,(M^*/P)}{|A|}, \qquad r^* = \frac{m_1\, A_0 - (1 - c_1)(M^*/P)}{|A|}.
+$$
+
+#### Multiplicadores: o Poder da Estática Comparativa
+
+A grande vantagem de Cramer aqui é que **diferenciar parcialmente em relação aos parâmetros** dá os multiplicadores macroeconômicos diretamente:
+
+| Multiplicador | Expressão | Sinal |
+|---------------|-----------|-------|
+| Fiscal: $\partial Y^* / \partial G$ | $m_2 / \lvert A\rvert$ | $> 0$ |
+| Monetário: $\partial Y^* / \partial(M^*/P)$ | $b / \lvert A\rvert$ | $> 0$ |
+| Crowding-out: $\partial r^* / \partial G$ | $m_1 / \lvert A\rvert$ | $> 0$ |
+| Juros via moeda: $\partial r^* / \partial(M^*/P)$ | $-(1 - c_1)/\lvert A\rvert$ | $< 0$ |
+
+Os sinais reproduzem exatamente os resultados qualitativos do livro-texto: expansão fiscal eleva $Y$ e $r$ (com crowding-out parcial); expansão monetária eleva $Y$ e reduz $r$. O ponto importante é que esses sinais **não exigem valores numéricos** — saem diretamente da álgebra dos sinais dos cofatores.
+
+#### Calibração e Equilíbrio Numérico
+
+Calibrando com valores típicos de livro-texto ($c_1 = 0{,}6$, $b = 200$, $m_1 = 0{,}25$, $m_2 = 100$, $A_0 = 1\,200$, $M^*/P = 600$):
+
+```{r}
+c1 <- 0.6;  b  <- 200
+m1 <- 0.25; m2 <- 100
+A0 <- 1200; mp <- 600
+
+A_islm <- matrix(c(1 - c1, -m1,
+                       b,   m2), nrow = 2, byrow = FALSE)
+b_islm <- c(A0, -mp)
+
+eq <- solve(A_islm, b_islm)
+names(eq) <- c("Y*", "r*")
+eq
+
+# Multiplicadores via Cramer
+det_A <- det(A_islm)
+mult  <- c(`∂Y/∂G` = m2 / det_A,
+           `∂Y/∂(M/P)` = b  / det_A,
+           `∂r/∂G` = m1 / det_A,
+           `∂r/∂(M/P)` = -(1 - c1) / det_A)
+mult
+```
+
+E em Python:
+
+```{python}
+import numpy as np
+
+c1, b  = 0.6, 200
+m1, m2 = 0.25, 100
+A0, mp = 1200, 600
+
+A_islm = np.array([[1 - c1,  b],
+                   [-m1,    m2]], dtype=float)
+b_islm = np.array([A0, -mp], dtype=float)
+
+Y, r = np.linalg.solve(A_islm, b_islm)
+print(f"Y* = {Y:.2f}, r* = {r:.4f}")
+
+det_A = np.linalg.det(A_islm)
+print(f"|A| = {det_A:.2f}")
+print(f"Multiplicador fiscal:    ∂Y/∂G       = {m2/det_A:.4f}")
+print(f"Multiplicador monetário: ∂Y/∂(M/P)   = {b/det_A:.4f}")
+print(f"Crowding-out:            ∂r/∂G       = {m1/det_A:.4f}")
+print(f"Juros via moeda:         ∂r/∂(M/P)   = {-(1-c1)/det_A:.4f}")
+```
+
+Esta é a essência da **estática comparativa** em macroeconomia: a regra de Cramer fornece tanto os sinais qualitativos (válidos sob hipóteses gerais) quanto as magnitudes numéricas (uma vez calibrados os parâmetros).
+
+---
+
+## Operações com Matrizes
+
+Antes de avançar para inversão e autovalores, é útil consolidar as operações fundamentais sobre matrizes — soma, produto e transposta — e algumas de suas propriedades algébricas.
+
+### Tipos de Matriz
+
+Antes de operar com matrizes, vale catalogar as principais classes que aparecem na prática. Uma matriz $A_{m \times n}$ é caracterizada pela relação entre suas dimensões e pelo padrão de seus elementos:
+
+| Nome | Definição | Exemplo |
+|------|-----------|---------|
+| **Vetor coluna** | $A_{m \times 1}$ — uma única coluna | $\begin{pmatrix} a_1 \\ \vdots \\ a_m \end{pmatrix}$ |
+| **Vetor linha** | $A_{1 \times n}$ — uma única linha | $\begin{pmatrix} a_1 & \cdots & a_n \end{pmatrix}$ |
+| **Quadrada** | $m = n$ | $\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$ |
+| **Diagonal** | quadrada com $a_{ij} = 0$ se $i \neq j$ | $\begin{pmatrix} a_{11} & 0 & 0 \\ 0 & a_{22} & 0 \\ 0 & 0 & a_{33} \end{pmatrix}$ |
+| **Triangular superior** | quadrada com $a_{ij} = 0$ se $i > j$ | $\begin{pmatrix} 1 & 2 & 3 \\ 0 & 4 & 5 \\ 0 & 0 & 6 \end{pmatrix}$ |
+| **Simétrica** | quadrada com $a_{ij} = a_{ji}$, isto é, $A^\top = A$ | $\begin{pmatrix} 1 & 5 & -2 \\ 5 & 3 & 4 \\ -2 & 4 & 7 \end{pmatrix}$ |
+| **Identidade** $I_n$ | diagonal com $a_{ii} = 1$ | $I_3 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}$ |
+| **Nula** $0$ | todos os elementos iguais a zero | $\begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}$ |
+
+A **simetria**, em particular, é central em Economia: matrizes Hessianas de funções suaves são simétricas pelo teorema de Young, matrizes de variância-covariância são simétricas por construção, e a positividade-definição de matrizes simétricas governa as condições de segunda ordem em otimização. As matrizes **diagonais** comutam com qualquer outra matriz da mesma ordem e simplificam radicalmente o cálculo de potências, exponenciais e inversas — por isso, **diagonalizar** uma matriz (via autovalores) é uma das ferramentas mais poderosas da álgebra linear aplicada.
+
+### Soma e Multiplicação por Escalar
+
+Para matrizes $A, B$ de mesma ordem $m \times n$ e escalar $\lambda \in \mathbb{R}$:
+
+$$
+(A + B)_{ij} = a_{ij} + b_{ij}, \qquad (\lambda A)_{ij} = \lambda\, a_{ij}.
+$$
+
+A soma é comutativa e associativa; a multiplicação por escalar distribui sobre a soma. O conjunto das matrizes $m \times n$ com essas operações forma um **espaço vetorial** de dimensão $mn$.
+
+### Produto de Matrizes
+
+Para $A_{m \times r}$ e $B_{r \times n}$ (compatíveis: o número de colunas de $A$ deve igualar o de linhas de $B$), o produto $C = AB$ é uma matriz $m \times n$ com:
+
+$$
+\boxed{c_{ij} = \sum_{k=1}^r a_{ik}\, b_{kj}.}
+$$
+
+O elemento $c_{ij}$ é o produto interno da $i$-ésima linha de $A$ pela $j$-ésima coluna de $B$.
+
+> **Atenção.** O produto de matrizes **não é comutativo**: em geral $AB \neq BA$, e pode até ocorrer que $AB$ exista mas $BA$ não (se as dimensões forem incompatíveis).
+
+#### Exemplo Numérico
+
+Sejam
+
+$$
+A = \begin{pmatrix} 2 & 0 \\ 1 & 1 \\ 3 & 2 \end{pmatrix}_{3 \times 2}, \qquad B = \begin{pmatrix} 7 & 5 \\ 8 & 6 \end{pmatrix}_{2 \times 2}.
+$$
+
+As dimensões são compatíveis ($A$ tem $2$ colunas, $B$ tem $2$ linhas), e o produto $C = AB$ é $3 \times 2$. Calculando entrada a entrada,
+
+$$
+\begin{aligned}
+c_{11} &= 2\cdot 7 + 0\cdot 8 = 14, & c_{12} &= 2\cdot 5 + 0\cdot 6 = 10, \\
+c_{21} &= 1\cdot 7 + 1\cdot 8 = 15, & c_{22} &= 1\cdot 5 + 1\cdot 6 = 11, \\
+c_{31} &= 3\cdot 7 + 2\cdot 8 = 37, & c_{32} &= 3\cdot 5 + 2\cdot 6 = 27.
+\end{aligned}
+$$
+
+Logo,
+
+$$
+AB = \begin{pmatrix} 14 & 10 \\ 15 & 11 \\ 37 & 27 \end{pmatrix}.
+$$
+
+Note que $BA$ **não existe** — $B$ é $2 \times 2$ e $A$ é $3 \times 2$, e o número de colunas de $B$ ($= 2$) coincide com o número de linhas de $A$ ($= 3$) **só** se $2 = 3$, o que não é o caso. Este é um exemplo extremo da não-comutatividade: aqui a inversão sequer faz sentido dimensional.
+
+### Transposta
+
+A **transposta** $A^\top$ (ou $A'$) troca linhas por colunas: se $A$ é $m \times n$, então $A^\top$ é $n \times m$ com $(A^\top)_{ij} = a_{ji}$.
+
+Propriedades:
+
+| | |
+|--|--|
+| $(A^\top)^\top = A$ | involução |
+| $(A + B)^\top = A^\top + B^\top$ | linearidade |
+| $(\lambda A)^\top = \lambda A^\top$ | linearidade |
+| $(AB)^\top = B^\top A^\top$ | inversão da ordem no produto |
+
+A última propriedade — **inversão da ordem no produto sob transposição** — é menos óbvia e merece demonstração.
+
+#### Demonstração de $(AB)^\top = B^\top A^\top$
+
+Sejam $A_{m \times r}$ e $B_{r \times n}$, $C = AB$. Por definição do produto:
+
+$$
+c_{ij} = \sum_{k=1}^r a_{ik}\, b_{kj}.
+$$
+
+Logo, o elemento $(i, j)$ de $C^\top$ é:
+
+$$
+(C^\top)_{ij} = c_{ji} = \sum_{k=1}^r a_{jk}\, b_{ki}.
+$$
+
+Por outro lado, seja $D = B^\top A^\top$, com $B^\top$ de ordem $n \times r$ e $A^\top$ de ordem $r \times m$. Pelo produto:
+
+$$
+d_{ij} = \sum_{k=1}^r (B^\top)_{ik}\, (A^\top)_{kj} = \sum_{k=1}^r b_{ki}\, a_{jk} = \sum_{k=1}^r a_{jk}\, b_{ki}.
+$$
+
+Os dois resultados coincidem termo a termo, portanto $C^\top = D$, ou seja, $(AB)^\top = B^\top A^\top$. $\blacksquare$
+
+### Matriz Identidade
+
+A **matriz identidade** $I_n$ de ordem $n$ é a matriz quadrada com $1$ na diagonal principal e $0$ nas demais posições:
+
+$$
+I_n = \begin{pmatrix} 1 & 0 & \cdots & 0 \\ 0 & 1 & \cdots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \cdots & 1 \end{pmatrix}.
+$$
+
+Para qualquer matriz $A_{m \times n}$: $I_m\, A = A\, I_n = A$. A identidade desempenha o papel de "1" no produto matricial.
+
+### Traço
+
+Para uma matriz **quadrada** $A$ de ordem $n$, o **traço** é a soma dos elementos da diagonal principal:
+
+$$
+\boxed{\operatorname{tr}(A) = \sum_{i=1}^n a_{ii} = a_{11} + a_{22} + \cdots + a_{nn}.}
+$$
+
+**Propriedades.** Para $A, B$ quadradas de mesma ordem e $\lambda \in \mathbb{R}$:
+
+| | |
+|--|--|
+| $\operatorname{tr}(A + B) = \operatorname{tr}(A) + \operatorname{tr}(B)$ | linearidade |
+| $\operatorname{tr}(\lambda A) = \lambda\, \operatorname{tr}(A)$ | linearidade |
+| $\operatorname{tr}(A^\top) = \operatorname{tr}(A)$ | invariância sob transposição |
+| $\operatorname{tr}(AB) = \operatorname{tr}(BA)$ | invariância cíclica (mesmo se $AB \neq BA$) |
+
+A última propriedade — **invariância cíclica** — é menos óbvia. Se $A$ é $n \times m$ e $B$ é $m \times n$, ambos os produtos $AB$ e $BA$ são quadrados (de ordens $n$ e $m$ respectivamente), e
+
+$$
+\operatorname{tr}(AB) = \sum_{i=1}^n (AB)_{ii} = \sum_{i=1}^n \sum_{k=1}^m a_{ik}\, b_{ki} = \sum_{k=1}^m \sum_{i=1}^n b_{ki}\, a_{ik} = \sum_{k=1}^m (BA)_{kk} = \operatorname{tr}(BA).
+$$
+
+**Conexão com autovalores.** Adiantando o que se verá na seção de autovalores: o traço é a **soma dos autovalores** de $A$ (contados com multiplicidade), assim como o determinante é o seu **produto**. Por isso traço e determinante aparecem juntos na análise de estabilidade de sistemas dinâmicos lineares — eles são as duas "estatísticas" que resumem o espectro de $A$ no caso $2 \times 2$.
+
+---
+
+## A Matriz Inversa
+
+### Definição
+
+Uma matriz quadrada $A$ de ordem $n$ é **invertível** (ou **não-singular**) quando existe uma matriz $A^{-1}$ de mesma ordem tal que:
+
+$$
+\boxed{A^{-1}\, A = A\, A^{-1} = I_n.}
+$$
+
+A matriz $A^{-1}$, quando existe, é única e chama-se **inversa** de $A$.
+
+### Critério de Existência
+
+A condição **necessária e suficiente** para que $A$ seja invertível é:
+
+$$
+\boxed{|A| \neq 0.}
+$$
+
+Equivalentemente: $A$ é invertível ⇔ as colunas (ou linhas) de $A$ são linearmente independentes ⇔ o sistema $Ax = b$ tem solução única para todo $b$.
+
+### Fórmula via Matriz Adjunta
+
+Quando $|A| \neq 0$, a inversa é dada explicitamente pela fórmula:
+
+$$
+\boxed{A^{-1} = \frac{1}{|A|}\, \operatorname{adj}(A),}
+$$
+
+onde a **matriz adjunta** $\operatorname{adj}(A)$ é a transposta da matriz dos cofatores:
+
+$$
+\operatorname{adj}(A) = \bigl[\operatorname{cof}(A)\bigr]^\top, \qquad \bigl[\operatorname{cof}(A)\bigr]_{ij} = A_{ij} = (-1)^{i+j} M_{ij}.
+$$
+
+Em outras palavras, se a matriz dos cofatores é $\bigl(A_{ij}\bigr)_{n \times n}$, então:
+
+$$
+\operatorname{adj}(A) = \begin{pmatrix} A_{11} & A_{21} & \cdots & A_{n1} \\ A_{12} & A_{22} & \cdots & A_{n2} \\ \vdots & \vdots & \ddots & \vdots \\ A_{1n} & A_{2n} & \cdots & A_{nn} \end{pmatrix}.
+$$
+
+(Note a transposição: cofator $A_{ij}$ aparece na linha $j$, coluna $i$ da adjunta.)
+
+### Demonstração da Fórmula
+
+Mostremos que $\dfrac{1}{|A|}\, \operatorname{adj}(A) \cdot A = I_n$. O elemento $(i, k)$ do produto $\operatorname{adj}(A) \cdot A$ é:
+
+$$
+\bigl[\operatorname{adj}(A) \cdot A\bigr]_{ik} = \sum_{j=1}^n A_{ji}\, a_{jk}.
+$$
+
+Pela relação de ortogonalidade dos cofatores (vista anteriormente):
+
+$$
+\sum_{j=1}^n A_{ji}\, a_{jk} = |A|\, \delta_{ik},
+$$
+
+onde $\delta_{ik} = 1$ se $i = k$ e $0$ caso contrário. Multiplicando por $1/|A|$, recuperamos a identidade $I_n$. $\blacksquare$
+
+A demonstração de $A \cdot \operatorname{adj}(A)/|A| = I_n$ é análoga, usando a expansão de Laplace pela coluna.
+
+### Exemplo Numérico
+
+Calculemos a inversa da matriz de Vandermonde
+
+$$
+A = \begin{pmatrix} 1 & 1 & 1 \\ 1 & 2 & 3 \\ 1 & 4 & 9 \end{pmatrix}.
+$$
+
+**Determinante** (expansão pela 1ª linha):
+
+$$
+|A| = 1 \cdot (2\cdot 9 - 4\cdot 3) - 1 \cdot (1\cdot 9 - 1\cdot 3) + 1 \cdot (1\cdot 4 - 1\cdot 2) = 6 - 6 + 2 = 2.
+$$
+
+**Cofatores:**
+
+$$
+A_{11} = +(18 - 12) = 6, \quad A_{12} = -(9 - 3) = -6, \quad A_{13} = +(4 - 2) = 2,
+$$
+
+$$
+A_{21} = -(9 - 4) = -5, \quad A_{22} = +(9 - 1) = 8, \quad A_{23} = -(4 - 1) = -3,
+$$
+
+$$
+A_{31} = +(3 - 2) = 1, \quad A_{32} = -(3 - 1) = -2, \quad A_{33} = +(2 - 1) = 1.
+$$
+
+**Adjunta** (transposta da matriz dos cofatores):
+
+$$
+\operatorname{adj}(A) = \begin{pmatrix} 6 & -5 & 1 \\ -6 & 8 & -2 \\ 2 & -3 & 1 \end{pmatrix}.
+$$
+
+**Inversa:**
+
+$$
+A^{-1} = \frac{1}{2} \begin{pmatrix} 6 & -5 & 1 \\ -6 & 8 & -2 \\ 2 & -3 & 1 \end{pmatrix} = \begin{pmatrix} 3 & -2{,}5 & 0{,}5 \\ -3 & 4 & -1 \\ 1 & -1{,}5 & 0{,}5 \end{pmatrix}.
+$$
+
+Verificando computacionalmente, em R:
+
+```{r}
+A <- matrix(c(1, 1, 1,
+              1, 2, 3,
+              1, 4, 9), nrow = 3, byrow = TRUE)
+solve(A)             # inversa
+A %*% solve(A)       # confere = I
+```
+
+E em Python:
+
+```{python}
+import numpy as np
+
+A = np.array([[1, 1, 1],
+              [1, 2, 3],
+              [1, 4, 9]], dtype=float)
+
+A_inv = np.linalg.inv(A)
+print("A^(-1) =")
+print(A_inv)
+print("\nA · A^(-1) =")
+print(np.round(A @ A_inv, 10))   # confere = I
+```
+
+### Propriedades da Inversa
+
+Quando $A$ e $B$ são invertíveis (de mesma ordem), a inversa interage de forma previsível com as demais operações matriciais. As identidades a seguir são usadas o tempo todo em manipulações algébricas — por exemplo, na derivação dos estimadores de mínimos quadrados em econometria, ou ao isolar uma variável endógena em forma reduzida.
+
+| | |
+|--|--|
+| $(A^{-1})^{-1} = A$ | involução |
+| $(AB)^{-1} = B^{-1}\, A^{-1}$ | inversão da ordem no produto |
+| $(A^\top)^{-1} = (A^{-1})^\top$ | comuta com a transposição |
+| $(A^n)^{-1} = (A^{-1})^n$ | comuta com potências inteiras |
+| $(\lambda A)^{-1} = \dfrac{1}{\lambda}\, A^{-1}$, $\lambda \neq 0$ | inverso do escalar |
+| $|AB| = |A|\, |B|$ | determinante do produto |
+| $|A^{-1}| = \dfrac{1}{|A|}$ | corolário do anterior |
+
+#### Demonstração de $(AB)^{-1} = B^{-1}A^{-1}$
+
+Por definição, $(AB)^{-1}$ é a única matriz $X$ tal que $(AB)\, X = I$. Verifica-se diretamente que $X = B^{-1} A^{-1}$ satisfaz a identidade:
+
+$$
+(AB)(B^{-1} A^{-1}) = A\, (B B^{-1})\, A^{-1} = A\, I\, A^{-1} = A A^{-1} = I,
+$$
+
+usando associatividade do produto. Pela unicidade da inversa, $(AB)^{-1} = B^{-1} A^{-1}$. $\blacksquare$
+
+A inversão da ordem é análoga ao que ocorre com a transposta: ambas são operações que "invertem o sentido" do produto. A intuição operacional: se $AB$ representa "primeiro $B$, depois $A$", então **desfazer** essa composição exige primeiro desfazer $A$ (aplicar $A^{-1}$) e depois desfazer $B$ (aplicar $B^{-1}$).
+
+#### Demonstração de $(A^\top)^{-1} = (A^{-1})^\top$
+
+Tomando a transposta da identidade $A A^{-1} = I$ e usando $(XY)^\top = Y^\top X^\top$:
+
+$$
+(A A^{-1})^\top = (A^{-1})^\top\, A^\top = I^\top = I.
+$$
+
+Portanto, $(A^{-1})^\top$ é a inversa de $A^\top$, isto é, $(A^\top)^{-1} = (A^{-1})^\top$. $\blacksquare$
+
+#### Determinante do Produto e Sua Consequência
+
+A propriedade $|AB| = |A|\, |B|$ — que aceitamos aqui sem demonstração formal (resulta da multilinearidade e das propriedades dos determinantes vistas anteriormente) — tem um corolário imediato. De $A A^{-1} = I$ segue
+
+$$
+|A|\, |A^{-1}| = |I| = 1 \quad\Longrightarrow\quad |A^{-1}| = \frac{1}{|A|}.
+$$
+
+Em particular, $A$ é invertível se, e somente se, $|A| \neq 0$ — confirmando o critério visto anteriormente. E o determinante da inversa é o **inverso multiplicativo** do determinante de $A$: pequena coerência algébrica que aparece em muitos cálculos de estática comparativa.
+
+### Aplicação: Solução de Sistemas via Inversa
+
+Se $|A| \neq 0$, o sistema $Ax = b$ pode ser resolvido multiplicando ambos os lados por $A^{-1}$:
+
+$$
+A^{-1}\, A\, x = A^{-1}\, b \quad\Longrightarrow\quad \boxed{x = A^{-1}\, b.}
+$$
+
+Esta é a **solução fechada** do sistema. Embora teoricamente elegante, na prática é mais eficiente usar `solve(A, b)` (R) ou `np.linalg.solve(A, b)` (Python) — ambos resolvem o sistema diretamente via fatoração LU, sem calcular $A^{-1}$ explicitamente. Calcular $A^{-1}$ e depois multiplicar por $b$ envolve mais operações e mais erro numérico.
+
+### Aplicação Econômica: Inversa de Leontief Revisitada
+
+A matriz $(I - T)^{-1}$ do modelo de Leontief, vista anteriormente, agora ganha interpretação algébrica completa: cada entrada $\bigl[(I - T)^{-1}\bigr]_{ij}$ pode ser computada via cofatores e adjunta, e mede o **multiplicador setorial total** — quanto da produção do setor $i$ é necessária para entregar uma unidade adicional de demanda final do setor $j$, contabilizando todos os efeitos diretos e indiretos via insumos intermediários.
+
+Em modelos com muitos setores ($n$ grande), o cálculo via adjunta é inviável (complexidade $O(n^4)$ ou pior); usa-se algoritmos numéricos (`solve(I - T)` em R), porém a **interpretação econômica** dos elementos como cofatores normalizados permanece válida e é o que dá significado aos números.
+
+---
+
+## Formas Lineares e Quadráticas
+
+Boa parte da Economia trata de funções escalares de vetores: utilidades, lucros, custos, log-verossimilhanças. Quando a função é **polinomial de grau baixo** em $x \in \mathbb{R}^n$, ela admite uma representação matricial compacta — e suas derivadas se escrevem em forma fechada em termos da álgebra matricial. Esta seção fixa essa correspondência para os dois casos centrais: grau 1 (forma linear) e grau 2 (forma quadrática).
+
+### Forma Linear
+
+Dado um vetor coluna $a \in \mathbb{R}^n$, a **forma linear** associada é a função $L : \mathbb{R}^n \to \mathbb{R}$ definida por
+
+$$
+\boxed{L(x) = a^\top x = a_1 x_1 + a_2 x_2 + \cdots + a_n x_n.}
+$$
+
+É o produto interno entre $a$ e $x$ — o caso vetorial mais simples, linear em cada coordenada.
+
+**Gradiente.** Como $\partial L / \partial x_i = a_i$, o gradiente é simplesmente
+
+$$
+\boxed{\nabla L(x) = \frac{\partial L}{\partial x} = a.}
+$$
+
+O gradiente da forma linear é **constante** (não depende de $x$) e igual ao próprio vetor de coeficientes. É o análogo multivariado de $(ax)' = a$.
+
+### Forma Quadrática
+
+Dada uma matriz quadrada $A$ de ordem $n$, a **forma quadrática** associada é
+
+$$
+\boxed{Q(x) = x^\top A\, x = \sum_{i=1}^n \sum_{j=1}^n a_{ij}\, x_i\, x_j.}
+$$
+
+No caso $n = 2$, expandindo:
+
+$$
+Q(x_1, x_2) = \begin{pmatrix} x_1 & x_2 \end{pmatrix} \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} = a_{11} x_1^2 + (a_{12} + a_{21}) x_1 x_2 + a_{22} x_2^2.
+$$
+
+**Observação importante.** O termo cruzado depende apenas da soma $a_{12} + a_{21}$, não de cada elemento separadamente. Isso significa que **toda forma quadrática pode ser representada por uma matriz simétrica**: dada qualquer $A$, a forma $Q(x) = x^\top A x$ é idêntica à forma $Q(x) = x^\top \tilde A x$ com $\tilde A = \tfrac{1}{2}(A + A^\top)$ — esta sim simétrica. Por convenção, sempre tomamos $A$ **simétrica** ao representar uma forma quadrática.
+
+### Gradiente da Forma Quadrática
+
+Calculemos $\partial Q / \partial x_k$. Diferenciando $Q(x) = \sum_{i,j} a_{ij}\, x_i x_j$ em relação a $x_k$,
+
+$$
+\frac{\partial Q}{\partial x_k} = \sum_{j=1}^n a_{kj}\, x_j + \sum_{i=1}^n a_{ik}\, x_i = \sum_{j=1}^n (a_{kj} + a_{jk})\, x_j.
+$$
+
+(O primeiro somatório vem dos termos em que $i = k$; o segundo, dos termos em que $j = k$.) Em forma matricial,
+
+$$
+\boxed{\nabla Q(x) = \frac{\partial Q}{\partial x} = (A + A^\top)\, x.}
+$$
+
+**Caso simétrico.** Quando $A = A^\top$ (situação padrão), $A + A^\top = 2A$ e o gradiente simplifica para
+
+$$
+\boxed{\nabla Q(x) = 2\, A\, x.}
+$$
+
+É o análogo multivariado de $(a x^2)' = 2 a x$. Esta fórmula reaparecerá, por exemplo: (i) na **CPO da regressão linear** ($\partial / \partial \beta\, [(y - X\beta)^\top (y - X\beta)] = -2 X^\top (y - X\beta) = 0 \Rightarrow \beta = (X^\top X)^{-1} X^\top y$); (ii) na **expansão de Taylor de 2ª ordem** $f(x^* + \Delta x) \approx f(x^*) + \nabla f^\top \Delta x + \tfrac{1}{2} \Delta x^\top H \Delta x$, onde a matriz Hessiana $H$ é simétrica pelo teorema de Young.
+
+### Sinal da Forma Quadrática
+
+Quando $A$ é simétrica, a função $Q(x) = x^\top A x$ tem um **sinal característico**, classificado conforme se comporta para todo $x \in \mathbb{R}^n$, $x \neq 0$:
+
+| Forma quadrática | Definição | Tipo de $A$ |
+|------------------|-----------|-------------|
+| $x^\top A x > 0$ para todo $x \neq 0$ | **definida positiva** | $A \succ 0$ |
+| $x^\top A x < 0$ para todo $x \neq 0$ | **definida negativa** | $A \prec 0$ |
+| $x^\top A x \geq 0$ para todo $x$ | **semidefinida positiva** | $A \succeq 0$ |
+| $x^\top A x \leq 0$ para todo $x$ | **semidefinida negativa** | $A \preceq 0$ |
+| Assume valores positivos e negativos | **indefinida** | — |
+
+**Critérios práticos.** Há dois testes equivalentes para classificar $A$ simétrica:
+
+1. **Via menores principais líderes** $D_k = \det(A_{1:k, 1:k})$ — os determinantes das submatrizes superiores esquerdas:
+   - $A \succ 0$ ⇔ $D_1, D_2, \ldots, D_n > 0$ (todos positivos);
+   - $A \prec 0$ ⇔ $D_1 < 0$, $D_2 > 0$, $D_3 < 0$, $\ldots$ (sinais alternados começando em negativo).
+
+2. **Via autovalores** de $A$ (todos reais por simetria):
+   - $A \succ 0$ ⇔ todos os autovalores $> 0$;
+   - $A \prec 0$ ⇔ todos os autovalores $< 0$;
+   - $A$ indefinida ⇔ existem autovalores de sinais opostos.
+
+**Onde isso aparece.** A classificação do sinal de $x^\top A x$ é a ferramenta central das **condições de segunda ordem** em otimização: um ponto crítico $x^*$ de $f$ é mínimo local se $H_f(x^*) \succ 0$, máximo local se $H_f(x^*) \prec 0$, e ponto de sela se $H_f(x^*)$ for indefinida. O capítulo de otimização (sem e com restrição) retoma essa classificação sistematicamente.
+
+---
+
+## Autovalores e Autovetores
+
+### Motivação
+
+Já vimos que os autovalores de uma matriz $A$ governam a estabilidade de sistemas dinâmicos lineares: o sistema $\dot{z} = Az$ é assintoticamente estável quando todos os autovalores de $A$ têm parte real negativa. Mas autovalores aparecem em muitos outros contextos econômicos:
+
+- **Matrizes de covariância:** em finanças, decompor $\Sigma$ via autovalores produz os fatores principais de risco (PCA);
+- **Cadeias de Markov:** o autovalor $\lambda = 1$ de uma matriz estocástica corresponde à distribuição estacionária;
+- **Modelos VAR:** as raízes do polinômio característico (autovalores da matriz de coeficientes) determinam a persistência e estabilidade do processo;
+- **Forma quadrática e Hessiana:** o sinal dos autovalores da Hessiana caracteriza máximos, mínimos e selas em otimização — tópico do próximo capítulo.
+
+### Definição
+
+Dada uma matriz quadrada $A$ de ordem $n$, um número $\lambda \in \mathbb{R}$ (ou $\mathbb{C}$) é **autovalor** de $A$ se existe um vetor não-nulo $x \in \mathbb{R}^n$ tal que:
+
+$$
+\boxed{A\,x = \lambda\, x.}
+$$
+
+O vetor $x \neq 0$ é o **autovetor** associado a $\lambda$. Geometricamente, $A$ atua sobre $x$ apenas **escalando-o** pelo fator $\lambda$, sem mudar sua direção.
+
+### Equação Característica
+
+Reescrevendo $Ax = \lambda x$ como $(A - \lambda I)\, x = 0$, vemos que $\lambda$ é autovalor se e só se o sistema homogêneo $(A - \lambda I)x = 0$ admite **solução não-trivial**, o que requer:
+
+$$
+\boxed{\det(A - \lambda I) = 0.}
+$$
+
+Esta é a **equação característica** de $A$. O determinante $\det(A - \lambda I) = p_A(\lambda)$ é um polinômio de grau $n$ em $\lambda$, chamado **polinômio característico** de $A$. Pelo teorema fundamental da álgebra, $p_A$ tem exatamente $n$ raízes (contando multiplicidades) — possivelmente complexas conjugadas.
+
+### Caso $2 \times 2$
+
+Para $A = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}$:
+
+$$
+A - \lambda I = \begin{pmatrix} a_{11} - \lambda & a_{12} \\ a_{21} & a_{22} - \lambda \end{pmatrix},
+$$
+
+$$
+\det(A - \lambda I) = (a_{11} - \lambda)(a_{22} - \lambda) - a_{12}\, a_{21} = \lambda^2 - \text{tr}(A)\,\lambda + |A|.
+$$
+
+Os autovalores satisfazem (relações de Vieta):
+
+$$
+\lambda_1 + \lambda_2 = \text{tr}(A), \qquad \lambda_1 \cdot \lambda_2 = |A|.
+$$
+
+#### Discriminante: Tipos de Raízes
+
+Resolvendo $\lambda^2 - \operatorname{tr}(A)\,\lambda + |A| = 0$ pela fórmula de Bhaskara,
+
+$$
+\boxed{\lambda_{1,2} = \frac{\operatorname{tr}(A) \pm \sqrt{\Delta}}{2}, \qquad \Delta = \operatorname{tr}(A)^2 - 4\, |A|.}
+$$
+
+O sinal do discriminante $\Delta$ separa três regimes qualitativamente distintos.
+
+**1. $\Delta > 0$ — duas raízes reais distintas.**
+
+$$
+\lambda_1, \lambda_2 \in \mathbb{R}, \quad \lambda_1 \neq \lambda_2.
+$$
+
+A matriz é diagonalizável sobre $\mathbb{R}$, e os autovetores associados formam uma base de $\mathbb{R}^2$. Em sistemas dinâmicos lineares no plano, esse caso dá origem a **nós** (estável se ambos $\lambda_i < 0$, instável se ambos $> 0$) ou a **pontos de sela** (sinais opostos).
+
+**2. $\Delta = 0$ — raiz real repetida.**
+
+$$
+\lambda_1 = \lambda_2 = \frac{\operatorname{tr}(A)}{2}.
+$$
+
+Há um único autovalor com multiplicidade algébrica 2; pode haver um ou dois autovetores linearmente independentes (multiplicidade geométrica 1 ou 2, conforme a estrutura de $A$). Em sistemas dinâmicos, configura um **nó degenerado** — caso de fronteira entre nó e foco.
+
+**3. $\Delta < 0$ — par complexo conjugado.**
+
+$$
+\lambda_{1,2} = \frac{\operatorname{tr}(A) \pm i\, \sqrt{|\Delta|}}{2} = \alpha \pm i\,\beta,
+$$
+
+com parte real $\alpha = \operatorname{tr}(A)/2$ e parte imaginária $\beta = \sqrt{|\Delta|}/2$. Em sistemas dinâmicos, esse caso produz **focos** (estável se $\alpha < 0$, instável se $\alpha > 0$) ou **centros** (se $\alpha = 0$, isto é, $\operatorname{tr}(A) = 0$). As trajetórias são **espirais** ou **órbitas fechadas**, sempre com componente oscilatória de frequência angular $\beta$.
+
+**Síntese.**
+
+| Sinal de $\Delta$ | Raízes | Tipo no plano de fases |
+|---|---|---|
+| $\Delta > 0$ | duas reais distintas | nó (próprio) ou sela |
+| $\Delta = 0$ | uma real repetida | nó degenerado |
+| $\Delta < 0$ | par complexo conjugado | foco (espiral) ou centro |
+
+Essa trichotomia complementa a classificação por traço e determinante: enquanto $\operatorname{tr}(A)$ e $|A|$ determinam a **estabilidade** (convergência ou divergência), o sinal de $\Delta$ determina o **caráter** (monotônico ou oscilatório) da aproximação ao equilíbrio. Ambos serão revisitados na seção sobre sistemas de EDO.
+
+### Exemplo Resolvido
+
+Calculemos os autovalores e autovetores de
+
+$$
+A = \begin{pmatrix} 3 & 0 \\ 8 & -1 \end{pmatrix}.
+$$
+
+**Polinômio característico:**
+
+$$
+p_A(\lambda) = \det\begin{pmatrix} 3 - \lambda & 0 \\ 8 & -1 - \lambda \end{pmatrix} = (3 - \lambda)(-1 - \lambda) - 0 = 0.
+$$
+
+**Autovalores:**
+
+$$
+(3 - \lambda)(-1 - \lambda) = 0 \quad\Longrightarrow\quad \lambda_1 = 3, \quad \lambda_2 = -1.
+$$
+
+(Confere com $\lambda^2 - 2\lambda - 3 = 0$, $\Delta = 4 + 12 = 16$, $\lambda = (2 \pm 4)/2$.)
+
+**Autovetor para $\lambda_1 = 3$:** resolvemos $(A - 3I)\, x = 0$:
+
+$$
+\begin{pmatrix} 0 & 0 \\ 8 & -4 \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \quad\Longrightarrow\quad 8 x_1 - 4 x_2 = 0 \quad\Longrightarrow\quad x_2 = 2 x_1.
+$$
+
+Tomando $x_1 = 1$: o autovetor é $\boxed{v_1 = \begin{pmatrix} 1 \\ 2 \end{pmatrix}}$ (a menos de escalar).
+
+**Autovetor para $\lambda_2 = -1$:** resolvemos $(A + I)\, x = 0$:
+
+$$
+\begin{pmatrix} 4 & 0 \\ 8 & 0 \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \quad\Longrightarrow\quad 4 x_1 = 0 \quad\Longrightarrow\quad x_1 = 0,\; x_2 \text{ livre}.
+$$
+
+Tomando $x_2 = 1$: o autovetor é $\boxed{v_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}}$.
+
+Verificando computacionalmente em R:
+
+```{r}
+A <- matrix(c(3, 8,
+              0, -1), nrow = 2, byrow = FALSE)
+ev <- eigen(A)
+ev$values    # autovalores
+ev$vectors   # autovetores (em colunas, normalizados)
+```
+
+E em Python:
+
+```{python}
+import numpy as np
+
+A = np.array([[3,  0],
+              [8, -1]], dtype=float)
+
+vals, vecs = np.linalg.eig(A)
+print("Autovalores:", vals)
+print("Autovetores (colunas):")
+print(vecs)
+```
+
+> **Nota.** As funções `eigen()` e `np.linalg.eig` retornam autovetores **normalizados** (com norma 1), enquanto na demonstração a mão tomamos $v_1 = (1, 2)^\top$ e $v_2 = (0, 1)^\top$. As direções coincidem: por exemplo, `eigen()` retorna $v_1 \propto (0{,}447, 0{,}894)^\top$ e $0{,}447 \cdot \sqrt{5} \approx 1$, $0{,}894 \cdot \sqrt{5} \approx 2$.
+
+### Aplicação Econômica: Estabilidade da EDO de 2ª Ordem
+
+A matriz companheira da EDO $\ddot{x} + a\,\dot{x} + b\,x = 0$, vista anteriormente, é
+
+$$
+A = \begin{pmatrix} -a & -b \\ 1 & 0 \end{pmatrix},
+$$
+
+com polinômio característico
+
+$$
+p_A(\lambda) = \lambda^2 + a\,\lambda + b = 0.
+$$
+
+Esta é **exatamente** a equação característica da EDO escalar — confirmando que **autovalores da matriz companheira = raízes da equação característica da EDO**. O critério $\text{tr}(A) < 0$ e $|A| > 0$ usado anteriormente é, em essência, o teste de Routh-Hurwitz para garantir parte real negativa em ambos os autovalores.
+
+---
+
+## Aplicação: Sistemas de EDO Lineares e Estabilidade
+
+### Motivação
+
+Modelos macroeconômicos dinâmicos com mais de uma variável de estado dão origem a **sistemas de equações diferenciais**: o IS-LM em forma dinâmica acopla produto e taxa de juros; o crescimento de Solow-Swan com capital humano envolve duas variáveis dinâmicas; o overshooting cambial (Dornbusch) acopla preços e taxa de câmbio. Em todos esses casos, a estabilidade do equilíbrio depende de propriedades algébricas — **traço** e **determinante** — da matriz que descreve a dinâmica.
+
+### Sistema Linear de EDO de 1ª Ordem com Duas Variáveis
+
+Considere o sistema
+
+$$
+\begin{cases}
+\dot{y} = a_{11}\, y + a_{12}\, x + c_1, \\
+\dot{x} = a_{21}\, y + a_{22}\, x + c_2,
+\end{cases}
+$$
+
+onde $\dot{x} = dx/dt$ e $\dot{y} = dy/dt$. Em forma matricial:
+
+$$
+\boxed{\begin{pmatrix} \dot{y} \\ \dot{x} \end{pmatrix} = A \begin{pmatrix} y \\ x \end{pmatrix} + \begin{pmatrix} c_1 \\ c_2 \end{pmatrix}, \qquad A = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}.}
+$$
+
+Toda a análise de estabilidade — como veremos — gira em torno de duas quantidades associadas a $A$:
+
+$$
+\text{tr}(A) = a_{11} + a_{22}, \qquad |A| = a_{11}\,a_{22} - a_{12}\,a_{21}.
+$$
+
+### Da EDO de 2ª Ordem ao Sistema de 1ª Ordem
+
+Toda EDO escalar de 2ª ordem com coeficientes constantes pode ser reescrita como um sistema de duas EDOs de 1ª ordem. Considere:
+
+$$
+\ddot{x} + a\,\dot{x} + b\,x = c.
+$$
+
+Defina $y = \dot{x}$. Então $\dot{y} = \ddot{x}$, e a equação acima reescreve-se como:
+
+$$
+\dot{y} + a\,y + b\,x = c \quad\Longleftrightarrow\quad \dot{y} = -a\,y - b\,x + c.
+$$
+
+A definição $\dot{x} = y$ completa o sistema:
+
+$$
+\begin{cases}
+\dot{y} = -a\,y - b\,x + c, \\
+\dot{x} = y.
+\end{cases}
+$$
+
+A matriz dos coeficientes é a **matriz companheira**:
+
+$$
+A = \begin{pmatrix} -a & -b \\ 1 & 0 \end{pmatrix}, \qquad |A| = b, \qquad \text{tr}(A) = -a.
+$$
+
+Os coeficientes da EDO original aparecem diretamente como traço e determinante do sistema — o que motiva a próxima seção.
+
+### Estabilidade via Determinante e Traço
+
+Para a EDO escalar $\ddot{x} + a\dot{x} + bx = c$, a [seção sobre EDO de 2ª ordem](#estabilidade-das-edos-de-2-ordem) mostra que o equilíbrio é assintoticamente estável quando as raízes da equação característica
+
+$$
+\lambda^2 + a\,\lambda + b = 0, \qquad \lambda_{1,2} = \frac{-a \pm \sqrt{a^2 - 4b}}{2},
+$$
+
+têm ambas parte real negativa — condição que se verifica para $a > 0$ e $b > 0$.
+
+Para o sistema correspondente $\dot{z} = Az + c$, a equação característica de $A$ é
+
+$$
+\lambda^2 - \text{tr}(A)\,\lambda + |A| = 0,
+$$
+
+e suas raízes (autovalores de $A$) satisfazem as relações de Vieta:
+
+$$
+\lambda_1 + \lambda_2 = \text{tr}(A), \qquad \lambda_1 \cdot \lambda_2 = |A|.
+$$
+
+Substituindo $\text{tr}(A) = -a$ e $|A| = b$, obtemos $\lambda^2 + a\lambda + b = 0$ — exatamente a equação característica da EDO escalar. **A análise via traço e determinante é, portanto, idêntica.**
+
+A condição de estabilidade torna-se:
+
+$$
+\boxed{\text{tr}(A) < 0 \quad \text{e} \quad |A| > 0.}
+$$
+
+#### Tipologia dos Equilíbrios
+
+| Caso | Tipo de Equilíbrio | Comportamento |
+|------|---------------------|----------------|
+| $\text{tr}(A) < 0$ e $\lvert A\rvert > 0$ | Estável (nó ou foco) | Trajetórias convergem |
+| $\text{tr}(A) > 0$ e $\lvert A\rvert > 0$ | Instável (nó ou foco) | Trajetórias divergem |
+| $\lvert A\rvert < 0$ | **Ponto de sela** | Variedade estável + variedade instável |
+| $\lvert A\rvert = 0$ | Degenerado | Equilíbrio não isolado |
+
+Pontos de sela são especialmente importantes em macroeconomia: modelos de expectativas racionais (Dornbusch, Cagan, modelos de bolhas) tipicamente têm equilíbrios do tipo sela, e a unicidade da solução exige que a economia se localize sobre a **variedade estável** (saddle path).
+
+### Diagrama de Fase
+
+Para um sistema $2 \times 2$, a análise gráfica no plano $(x, y)$ — chamado **plano de fases** — fornece intuição imediata sobre a dinâmica.
+
+#### Construção das Isóclinas
+
+As **isóclinas** são as curvas onde uma das derivadas é nula:
+
+- Isóclina $\dot{y} = 0$: $a_{11}\,y + a_{12}\,x + c_1 = 0$, ou seja:
+
+$$
+y = -\frac{a_{12}}{a_{11}}\,x - \frac{c_1}{a_{11}}.
+$$
+
+- Isóclina $\dot{x} = 0$: $a_{21}\,y + a_{22}\,x + c_2 = 0$, ou seja:
+
+$$
+y = -\frac{a_{22}}{a_{21}}\,x - \frac{c_2}{a_{21}}.
+$$
+
+O **equilíbrio** $(\bar{x}, \bar{y})$ é a interseção das duas isóclinas — onde $\dot{x} = \dot{y} = 0$ simultaneamente.
+
+#### Direção das Trajetórias
+
+A direção do movimento em cada região é determinada pelo sinal de $\dot{x}$ e $\dot{y}$. Para entender essa direção, considere o efeito de um deslocamento $\Delta x$ a partir do equilíbrio $(\bar{x}, \bar{y})$:
+
+$$
+\dot{y} = a_{11}\,\bar{y} + a_{12}\,(\bar{x} + \Delta x) + c_1 = a_{12}\,\Delta x,
+$$
+
+(os outros termos somam zero pelo equilíbrio). Logo, o sinal de $\dot{y}$ depende do sinal de $a_{12} \cdot \Delta x$. Analogamente para $\dot{x}$ em relação a $\Delta y$:
+
+$$
+\dot{x} = a_{21}\,\Delta y.
+$$
+
+#### Estabilidade
+
+Quando $\text{tr}(A) < 0$ e $|A| > 0$, as setas em todas as quatro regiões delimitadas pelas isóclinas apontam para o equilíbrio — toda trajetória converge a $(\bar{x}, \bar{y})$. Quando $|A| < 0$ (ponto de sela), há duas regiões com setas que afastam do equilíbrio.
+
+#### Ilustração: Diagrama de Fase de um Equilíbrio Estável
+
+```{r}
+#| label: fig-fase-estavel
+#| fig-cap: "Diagrama de fase de um sistema linear estável: $\\dot{y} = -y + 0.5x + 1$, $\\dot{x} = -0.5y - x + 0.5$. Isóclinas em vermelho/azul, equilíbrio em $(\\bar{x}, \\bar{y}) = (0, 1)$ marcado em preto, trajetórias em cinza."
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 5
+
+library(ggplot2)
+
+a11 <- -1;   a12 <-  0.5; c1 <- 1
+a21 <- -0.5; a22 <- -1;   c2 <- 0.5
+
+# Equilíbrio: resolve A z = -c
+A_mat   <- matrix(c(a11, a21, a12, a22), 2, 2)
+eq      <- solve(A_mat, c(-c1, -c2))
+xbar    <- eq[2]; ybar <- eq[1]
+
+# Grade de pontos para vetores
+N    <- 16
+gx   <- seq(xbar - 2, xbar + 2, length.out = N)
+gy   <- seq(ybar - 2, ybar + 2, length.out = N)
+grid <- expand.grid(x = gx, y = gy)
+grid$dy <- a11 * grid$y + a12 * grid$x + c1
+grid$dx <- a21 * grid$y + a22 * grid$x + c2
+
+# Normaliza vetores para visualização
+norm <- sqrt(grid$dx^2 + grid$dy^2)
+sc   <- 0.18
+grid$xend <- grid$x + sc * grid$dx / norm
+grid$yend <- grid$y + sc * grid$dy / norm
+
+# Isóclinas
+xs    <- seq(xbar - 2.2, xbar + 2.2, length.out = 200)
+iso_y <- data.frame(x = xs, y = -(a12 * xs + c1) / a11, curva = "ẏ = 0")
+iso_x <- data.frame(x = xs, y = -(a22 * xs + c2) / a21, curva = "ẋ = 0")
+
+ggplot() +
+  geom_segment(data = grid,
+               aes(x = x, y = y, xend = xend, yend = yend),
+               color = "gray60",
+               arrow = arrow(length = unit(0.08, "cm")),
+               linewidth = 0.3) +
+  geom_line(data = iso_y, aes(x, y, color = curva), linewidth = 0.9) +
+  geom_line(data = iso_x, aes(x, y, color = curva), linewidth = 0.9) +
+  geom_point(aes(x = xbar, y = ybar), size = 3) +
+  scale_color_manual(values = c("ẏ = 0" = "#d62728", "ẋ = 0" = "#1f77b4"), name = NULL) +
+  coord_fixed(xlim = c(xbar - 2, xbar + 2), ylim = c(ybar - 2, ybar + 2)) +
+  labs(x = "x", y = "y",
+       title = "Equilíbrio estável: tr(A) = -2 < 0, |A| = 1.25 > 0") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+Para o sistema do exemplo, $A = \begin{pmatrix} -1 & 0.5 \\ -0.5 & -1 \end{pmatrix}$, com $\text{tr}(A) = -2$ e $|A| = 1 + 0.25 = 1.25$. Ambas as condições de estabilidade são satisfeitas — e o diagrama mostra todas as trajetórias convergindo ao equilíbrio.
+
+A versão Python do mesmo diagrama, usando `matplotlib.streamplot` (que integra automaticamente o campo vetorial e desenha as trajetórias):
+
+```{python}
+#| label: fig-fase-estavel-py
+#| fig-cap: "Mesmo diagrama de fase em Python — `matplotlib.streamplot` traça trajetórias suaves do campo $(\\dot{x}, \\dot{y})$."
+#| fig-align: center
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+a11, a12, c1 = -1.0,  0.5, 1.0
+a21, a22, c2 = -0.5, -1.0, 0.5
+
+# Equilíbrio: A z = -c
+A = np.array([[a11, a12],
+              [a21, a22]])
+ybar, xbar = np.linalg.solve(A, [-c1, -c2])
+
+# Grade
+xs = np.linspace(xbar - 2, xbar + 2, 30)
+ys = np.linspace(ybar - 2, ybar + 2, 30)
+X, Y = np.meshgrid(xs, ys)
+DY = a11 * Y + a12 * X + c1   # ẏ
+DX = a21 * Y + a22 * X + c2   # ẋ
+
+# Isóclinas
+xline   = np.linspace(xbar - 2.2, xbar + 2.2, 200)
+iso_y   = -(a12 * xline + c1) / a11    # ẏ = 0
+iso_x   = -(a22 * xline + c2) / a21    # ẋ = 0
+
+fig, ax = plt.subplots(figsize=(5.5, 5))
+ax.streamplot(X, Y, DX, DY, color="gray", density=1.2, linewidth=0.7,
+              arrowsize=0.9)
+ax.plot(xline, iso_y, color="#d62728", lw=1.5, label=r"$\dot{y}=0$")
+ax.plot(xline, iso_x, color="#1f77b4", lw=1.5, label=r"$\dot{x}=0$")
+ax.plot(xbar, ybar, "ko", markersize=7)
+ax.set_xlim(xbar - 2, xbar + 2)
+ax.set_ylim(ybar - 2, ybar + 2)
+ax.set_aspect("equal")
+ax.set_xlabel("x"); ax.set_ylabel("y")
+ax.set_title("Equilíbrio estável: tr(A) = -2, |A| = 1.25")
+ax.legend(loc="lower right")
+plt.tight_layout()
+plt.show()
+```
+
+### Aplicação Econômica: Versão Dinâmica do IS-LM
+
+A versão estática do IS-LM, vista anteriormente, fornece o **equilíbrio momentâneo** de $(Y, r)$. Em horizontes curtos, contudo, o produto e a taxa de juros não se ajustam instantaneamente — há defasagem. Modelos dinâmicos capturam essa transição supondo que cada variável se ajusta proporcionalmente ao seu desequilíbrio:
+
+$$
+\begin{cases}
+\dot{Y} = \alpha\bigl[\,(c_0 - c_1 T_0 + I_0 + G) - (1 - c_1)\,Y - b\,r\,\bigr], \\
+\dot{r} = \beta\bigl[\,m_1\,Y - m_2\,r - M^*/P\,\bigr],
+\end{cases}
+$$
+
+onde $\alpha, \beta > 0$ são velocidades de ajuste. Em forma matricial:
+
+$$
+\begin{pmatrix} \dot{Y} \\ \dot{r} \end{pmatrix} = \underbrace{\begin{pmatrix} -\alpha(1 - c_1) & -\alpha b \\ \beta m_1 & -\beta m_2 \end{pmatrix}}_{A_{\text{din}}} \begin{pmatrix} Y \\ r \end{pmatrix} + \begin{pmatrix} \alpha\,A_0 \\ -\beta\,M^*/P \end{pmatrix}.
+$$
+
+Pelas regras de estabilidade ($\text{tr}(A_{\text{din}}) < 0$ e $|A_{\text{din}}| > 0$):
+
+- **Traço:** $\text{tr}(A_{\text{din}}) = -\alpha(1 - c_1) - \beta m_2 < 0$ — sempre negativo (ambos os termos têm sinal correto);
+- **Determinante:** $|A_{\text{din}}| = \alpha\beta\bigl[(1-c_1) m_2 + b\, m_1\bigr] > 0$ — sempre positivo, por ser o produto de $\alpha\beta > 0$ pelo determinante da matriz IS-LM estática.
+
+Conclusão: **o equilíbrio IS-LM é dinamicamente estável** sob qualquer combinação de velocidades de ajuste $\alpha, \beta > 0$. Após um choque (fiscal ou monetário), a economia converge ao novo equilíbrio sem ciclos explosivos.
+
+Este resultado — estabilidade incondicional do IS-LM — é elementar porém poderoso: ele justifica analiticamente o uso da estática comparativa como aproximação válida do longo prazo, sem necessidade de modelar explicitamente a transição.
