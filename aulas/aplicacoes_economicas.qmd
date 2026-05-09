@@ -1,0 +1,645 @@
+# Aplicações Econômicas
+
+## Motivação
+
+Os dois capítulos anteriores desenvolveram o ferramental matemático da otimização: condições de primeira e segunda ordem para o caso **sem restrição** (Hessiana, formas quadráticas, critério de Sylvester) e para o caso **com restrição de igualdade** (Lagrangeana, Hessiano orlado). Este capítulo coleta as **aplicações econômicas** clássicas que dão sentido a esse ferramental: maximização de lucro de firmas competitivas e monopolistas, escolha de insumos no produtor neoclássico, e maximização de utilidade do consumidor sob restrição orçamentária.
+
+A organização segue as duas seções de teoria: primeiro problemas **sem restrição** (firma escolhe quantidade ou insumos para maximizar lucro), depois problemas **com restrição** (consumidor maximiza utilidade sujeito à renda). Cada bloco vai do caso concreto — com forma funcional explícita e cálculo numérico — para a generalização abstrata, encerrando com estática comparativa.
+
+---
+
+## Parte I — Aplicações Sem Restrição
+
+### Firma Competitiva: Caso Univariado
+
+Uma firma toma o preço $p$ como dado e escolhe a quantidade $q$ que maximiza o lucro:
+
+$$
+\pi(q) = p\,q - C(q),
+$$
+
+onde $C(q) = c_0 + c_1 q + \tfrac{1}{2}\,c_2\,q^2$ é uma função custo quadrática (custo marginal crescente, $c_2 > 0$).
+
+#### Resolução Analítica
+
+**CPO:**
+
+$$
+\pi'(q) = p - C'(q) = p - c_1 - c_2\,q = 0 \quad\Longrightarrow\quad q^* = \frac{p - c_1}{c_2}.
+$$
+
+**Interpretação econômica:** $p = C'(q^*)$ — preço igual ao custo marginal. Esta é a condição de primeira ordem clássica da firma competitiva.
+
+**CSO:**
+
+$$
+\pi''(q) = -C''(q) = -c_2 < 0,
+$$
+
+confirmando $q^*$ como **máximo**. Custo marginal crescente garante a concavidade do lucro.
+
+#### Verificação Numérica
+
+```{r}
+p  <- 50
+c0 <- 10; c1 <- 5; c2 <- 2
+
+pi_func   <- function(q) p*q - (c0 + c1*q + 0.5*c2*q^2)
+pi_prime  <- function(q) p - c1 - c2*q
+pi_2prime <- function(q) -c2
+
+q_star <- (p - c1) / c2
+cat(sprintf("q* = %.2f, π(q*) = %.2f, π''(q*) = %.2f\n",
+            q_star, pi_func(q_star), pi_2prime(q_star)))
+
+# Confirmar via optimize()
+opt <- optimize(pi_func, interval = c(0, 100), maximum = TRUE)
+cat(sprintf("Verificação numérica: q* = %.4f\n", opt$maximum))
+```
+
+```{python}
+from scipy.optimize import minimize_scalar
+
+p, c0, c1, c2 = 50, 10, 5, 2
+
+def neg_pi(q):  # minimize_scalar minimiza, então passamos -π
+    return -(p*q - (c0 + c1*q + 0.5*c2*q**2))
+
+q_star = (p - c1) / c2
+print(f"q* (analítico) = {q_star:.2f}")
+res = minimize_scalar(neg_pi, bounds=(0, 100), method="bounded")
+print(f"q* (numérico)  = {res.x:.4f}")
+```
+
+### O Monopolista
+
+Um monopolista enfrenta a curva de demanda inversa $p(q) = A - B\,q$ (com $A, B > 0$) e o mesmo custo $C(q) = c_0 + c_1 q + \tfrac{1}{2}\,c_2\,q^2$. Seu lucro é:
+
+$$
+\pi_M(q) = p(q)\,q - C(q) = (A - B\,q)\,q - c_0 - c_1\,q - \tfrac{1}{2}\,c_2\,q^2.
+$$
+
+**CPO:**
+
+$$
+\pi_M'(q) = A - 2 B\,q - c_1 - c_2\,q = 0 \quad\Longrightarrow\quad q_M = \frac{A - c_1}{2B + c_2}.
+$$
+
+A condição equivalente é **receita marginal = custo marginal** ($\text{RMg} = \text{CMg}$): a derivada da receita $R(q) = (A - Bq)q$ é $R'(q) = A - 2Bq$, e a derivada do custo é $C'(q) = c_1 + c_2 q$.
+
+**CSO:**
+
+$$
+\pi_M''(q) = -2B - c_2 < 0,
+$$
+
+confirmando máximo (curva de demanda decrescente combina com custo marginal crescente para garantir concavidade).
+
+**Comparação com o competitivo:** o competitivo trataria $p$ como dado e produziria $q^* = (p - c_1)/c_2$; o monopolista internaliza o efeito de seu output sobre o preço, produzindo **menos**, $q_M < q^*$ (para parâmetros equivalentes). Esta é a **distorção monopolística** clássica.
+
+```{r}
+A <- 100; B <- 1
+c0 <- 10; c1 <- 5; c2 <- 2
+
+# Lucro do monopolista
+pi_mono <- function(q) (A - B*q) * q - (c0 + c1*q + 0.5*c2*q^2)
+
+q_M <- (A - c1) / (2*B + c2)
+p_M <- A - B*q_M
+
+cat(sprintf("Monopolista: q_M = %.2f, p_M = %.2f, π = %.2f\n",
+            q_M, p_M, pi_mono(q_M)))
+
+# Comparação com competitivo (preço = p_M, mesmo custo)
+q_C <- (p_M - c1) / c2
+cat(sprintf("Competitivo (a p = p_M): q_C = %.2f\n", q_C))
+cat(sprintf("Distorção monopolística: q_C - q_M = %.2f\n", q_C - q_M))
+```
+
+```{python}
+A, B = 100, 1
+c0, c1, c2 = 10, 5, 2
+
+def pi_mono(q):
+    return (A - B*q) * q - (c0 + c1*q + 0.5*c2*q**2)
+
+q_M = (A - c1) / (2*B + c2)
+p_M = A - B*q_M
+q_C = (p_M - c1) / c2
+
+print(f"Monopolista: q_M = {q_M:.2f}, p_M = {p_M:.2f}, π = {pi_mono(q_M):.2f}")
+print(f"Competitivo (a p = p_M): q_C = {q_C:.2f}")
+print(f"Distorção monopolística: q_C - q_M = {q_C - q_M:.2f}")
+```
+
+### Monopolista com Discriminação de Preços
+
+Considere agora um monopolista que vende em **dois mercados separados** (sem arbitragem entre eles), com demandas inversas distintas e custo conjunto. Por exemplo:
+
+$$
+P_1 = 50 - 5\,Q_1, \qquad P_2 = 100 - 10\,Q_2, \qquad C(Q_1 + Q_2) = 90 + 20\,(Q_1 + Q_2).
+$$
+
+Como o monopolista escolhe quanto produzir para cada mercado, o problema é de duas variáveis:
+
+$$
+\max_{Q_1,\,Q_2}\; \pi(Q_1, Q_2) = P_1\,Q_1 + P_2\,Q_2 - C(Q_1 + Q_2).
+$$
+
+Substituindo,
+
+$$
+\pi(Q_1, Q_2) = 50\,Q_1 - 5\,Q_1^2 + 100\,Q_2 - 10\,Q_2^2 - 90 - 20\,(Q_1 + Q_2).
+$$
+
+**CPO:**
+
+$$
+\frac{\partial \pi}{\partial Q_1} = 50 - 10\,Q_1 - 20 = 0 \;\Longrightarrow\; Q_1^* = 3,
+$$
+
+$$
+\frac{\partial \pi}{\partial Q_2} = 100 - 20\,Q_2 - 20 = 0 \;\Longrightarrow\; Q_2^* = 4.
+$$
+
+A regra geral atrás dessas equações é **receita marginal de cada mercado = custo marginal comum**: $\text{RMg}_i(Q_i) = C'(Q_1 + Q_2)$ para $i = 1, 2$.
+
+**CSO:**
+
+$$
+H_\pi = \begin{pmatrix} -10 & 0 \\ 0 & -20 \end{pmatrix}, \qquad |H_\pi| = 200 > 0,\; \pi_{Q_1 Q_1} = -10 < 0,
+$$
+
+logo $(Q_1^*, Q_2^*) = (3, 4)$ é máximo. Os preços de equilíbrio são $P_1^* = 35$ e $P_2^* = 60$, e o lucro $\pi^* = 115$.
+
+**Interpretação econômica.** O preço é maior no mercado **mais inelástico**: em $(Q_2^*, P_2^*) = (4, 60)$ a elasticidade-preço da demanda é $|\varepsilon_2| = \frac{1}{10} \cdot \frac{60}{4} = 1{,}5$, enquanto em $(Q_1^*, P_1^*) = (3, 35)$ tem-se $|\varepsilon_1| = \frac{1}{5} \cdot \frac{35}{3} \approx 2{,}33$. Esta é a **discriminação de preços de terceiro grau**: cobra-se mais de quem reage menos ao preço.
+
+```{r}
+# Parâmetros
+a1 <- 50; b1 <- 5
+a2 <- 100; b2 <- 10
+c0 <- 90; c1 <- 20
+
+# Solução analítica via CPO: Q_i* = (a_i - c1) / (2 b_i)
+Q1 <- (a1 - c1) / (2 * b1)
+Q2 <- (a2 - c1) / (2 * b2)
+P1 <- a1 - b1 * Q1
+P2 <- a2 - b2 * Q2
+
+pi_disc <- function(Q1, Q2) {
+  (a1 - b1*Q1)*Q1 + (a2 - b2*Q2)*Q2 - (c0 + c1*(Q1 + Q2))
+}
+
+cat(sprintf("Q1* = %.0f, Q2* = %.0f, P1* = %.0f, P2* = %.0f, π* = %.0f\n",
+            Q1, Q2, P1, P2, pi_disc(Q1, Q2)))
+
+# Elasticidades no equilíbrio (|ε| = (1/b_i) * P_i / Q_i)
+eps1 <- (1 / b1) * P1 / Q1
+eps2 <- (1 / b2) * P2 / Q2
+cat(sprintf("|ε1| = %.2f, |ε2| = %.2f (mais inelástico tem preço maior)\n",
+            eps1, eps2))
+```
+
+```{python}
+a1, b1 = 50, 5
+a2, b2 = 100, 10
+c0, c1 = 90, 20
+
+Q1 = (a1 - c1) / (2 * b1)
+Q2 = (a2 - c1) / (2 * b2)
+P1 = a1 - b1 * Q1
+P2 = a2 - b2 * Q2
+
+def pi_disc(Q1, Q2):
+    return (a1 - b1*Q1)*Q1 + (a2 - b2*Q2)*Q2 - (c0 + c1*(Q1 + Q2))
+
+print(f"Q1* = {Q1:.0f}, Q2* = {Q2:.0f}, "
+      f"P1* = {P1:.0f}, P2* = {P2:.0f}, π* = {pi_disc(Q1, Q2):.0f}")
+
+eps1 = (1 / b1) * P1 / Q1
+eps2 = (1 / b2) * P2 / Q2
+print(f"|ε1| = {eps1:.2f}, |ε2| = {eps2:.2f} "
+      f"(mais inelástico tem preço maior)")
+```
+
+### Maximização de Lucro com Dois Insumos
+
+A firma combina capital $K$ e trabalho $L$ para produzir $Q = f(K, L)$, vendendo o produto ao preço $p$ e pagando $r$ pelo aluguel do capital e $w$ pelo trabalho — todos exógenos. O lucro é
+
+$$
+\pi(K, L) = p\,f(K, L) - r\,K - w\,L,
+$$
+
+e a firma escolhe $(K, L) \geq 0$ que maximiza $\pi$. Vamos primeiro tratar o caso concreto (Cobb-Douglas) para fixar o cálculo da Hessiana, depois generalizar para $f$ não-especificada com hipóteses sobre as derivadas, e fechar com estática comparativa.
+
+#### Caso Cobb-Douglas
+
+Tome $Q = f(K, L) = A\,K^{\alpha} L^{\beta}$ com $\alpha + \beta < 1$ (rendimentos decrescentes de escala — necessário para máximo interior). O lucro é
+
+$$
+\pi(K, L) = p\,A\,K^{\alpha} L^{\beta} - r\,K - w\,L.
+$$
+
+**CPO ($\nabla \pi = 0$):**
+
+$$
+\frac{\partial \pi}{\partial K} = p\,A\,\alpha\,K^{\alpha-1} L^{\beta} - r = 0,
+$$
+
+$$
+\frac{\partial \pi}{\partial L} = p\,A\,\beta\,K^{\alpha} L^{\beta-1} - w = 0.
+$$
+
+Em palavras: **valor do produto marginal = preço do fator** para cada insumo.
+
+Dividindo as duas equações:
+
+$$
+\frac{\alpha\,L}{\beta\,K} = \frac{r}{w} \quad\Longrightarrow\quad K = \frac{\alpha\,w}{\beta\,r}\,L,
+$$
+
+uma relação fixa entre capital e trabalho ótimos, dada a razão de preços.
+
+**CSO (Hessiana):**
+
+$$
+H_\pi = \begin{pmatrix}
+\alpha(\alpha - 1)\, p A K^{\alpha-2} L^{\beta} & \alpha\beta\, p A K^{\alpha-1} L^{\beta-1} \\
+\alpha\beta\, p A K^{\alpha-1} L^{\beta-1} & \beta(\beta - 1)\, p A K^{\alpha} L^{\beta-2}
+\end{pmatrix}.
+$$
+
+Para $\alpha, \beta \in (0, 1)$ e $\alpha + \beta < 1$:
+
+- $H_{\pi, KK} = \alpha(\alpha - 1)\,(\cdot) < 0$;
+- $|H_\pi| = (1 - \alpha - \beta)\,\alpha\beta\,(p A)^2\,K^{2\alpha - 2}\,L^{2\beta - 2} > 0$.
+
+Logo a Hessiana é **definida negativa** e qualquer ponto crítico é máximo. A condição $\alpha + \beta < 1$ é essencial: com rendimentos constantes ou crescentes, o lucro não tem máximo interior (a firma quer produzir indefinidamente ou nada).
+
+```{r}
+A <- 1; alpha <- 0.4; beta <- 0.4
+p <- 10; r <- 1; w <- 1.5
+
+# CPO ótimas: dK = αpAK^(α-1)L^β = r e dL = βpAK^αL^(β-1) = w
+# Razão dá K = (α w / β r) L
+# Substituindo na primeira: αpA · (αw/βr)^(α-1) · L^(α-1+β) = r
+# Resolver para L:
+exp_L <- 1 / (1 - alpha - beta)
+L_star <- (alpha * p * A * (alpha*w/(beta*r))^(alpha - 1) / r)^exp_L
+K_star <- (alpha * w / (beta * r)) * L_star
+Q_star <- A * K_star^alpha * L_star^beta
+pi_star <- p * Q_star - r * K_star - w * L_star
+
+cat(sprintf("K* = %.3f, L* = %.3f, Q* = %.3f, π* = %.3f\n",
+            K_star, L_star, Q_star, pi_star))
+
+# Verificação Hessiana
+HKK <- alpha*(alpha-1) * p*A * K_star^(alpha-2) * L_star^beta
+HLL <- beta*(beta-1)   * p*A * K_star^alpha     * L_star^(beta-2)
+HKL <- alpha*beta      * p*A * K_star^(alpha-1) * L_star^(beta-1)
+H   <- matrix(c(HKK, HKL, HKL, HLL), 2, 2)
+cat(sprintf("|H| = %.4f (esperado > 0), HKK = %.4f (esperado < 0)\n",
+            det(H), HKK))
+```
+
+```{python}
+import numpy as np
+
+A_, alpha, beta = 1, 0.4, 0.4
+p, r, w = 10, 1, 1.5
+
+exp_L = 1 / (1 - alpha - beta)
+L_star = (alpha * p * A_ * (alpha*w / (beta*r))**(alpha - 1) / r)**exp_L
+K_star = (alpha * w / (beta * r)) * L_star
+Q_star = A_ * K_star**alpha * L_star**beta
+pi_star = p*Q_star - r*K_star - w*L_star
+
+print(f"K* = {K_star:.3f}, L* = {L_star:.3f}, "
+      f"Q* = {Q_star:.3f}, π* = {pi_star:.3f}")
+
+HKK = alpha*(alpha-1) * p*A_ * K_star**(alpha-2) * L_star**beta
+HLL = beta*(beta-1)   * p*A_ * K_star**alpha     * L_star**(beta-2)
+HKL = alpha*beta      * p*A_ * K_star**(alpha-1) * L_star**(beta-1)
+H = np.array([[HKK, HKL],
+              [HKL, HLL]])
+print(f"|H| = {np.linalg.det(H):.4f} (esperado > 0)")
+print(f"H_KK = {HKK:.4f} (esperado < 0)")
+```
+
+#### Caso Geral
+
+Generalizando para $f(K, L)$ **não-especificada**, mas sob **hipóteses padrão sobre as derivadas parciais** — a forma usada em toda a teoria neoclássica.
+
+**Hipóteses sobre $f$** (produção neoclássica suave):
+
+- $f_K, f_L > 0$ — produtos marginais positivos;
+- $f_{KK}, f_{LL} < 0$ — produtos marginais decrescentes;
+- $f_{KL} > 0$ — capital e trabalho complementam-se na produção;
+- $f$ estritamente côncava: $f_{KK}\,f_{LL} - f_{KL}^2 > 0$.
+
+**CPO.** Mesma estrutura de qualquer maximização sem restrição:
+
+$$
+\frac{\partial \pi}{\partial K} = p\,f_K - r = 0, \qquad \frac{\partial \pi}{\partial L} = p\,f_L - w = 0,
+$$
+
+ou, equivalentemente,
+
+$$
+\boxed{f_K = \frac{r}{p}, \qquad f_L = \frac{w}{p}.}
+$$
+
+**Interpretação:** o **valor do produto marginal** de cada insumo (preço $\times$ produto marginal) iguala o preço do insumo. É a condição clássica de eficiência produtiva.
+
+**CSO.** A Hessiana do lucro é
+
+$$
+H_\pi = p\,\begin{pmatrix} f_{KK} & f_{KL} \\ f_{LK} & f_{LL} \end{pmatrix}, \qquad |H_\pi| = p^2\,\bigl(f_{KK}\,f_{LL} - f_{KL}^2\bigr).
+$$
+
+Pelas hipóteses, $\pi_{KK} = p\,f_{KK} < 0$ e $|H_\pi| > 0$. Logo $H_\pi$ é **definida negativa** e o ponto crítico é máximo local — global, pela concavidade de $\pi$. O caso Cobb-Douglas acima é uma instância concreta dessas hipóteses.
+
+**Interpretação geométrica.** No plano $(L, K)$, o ótimo é uma condição de **tangência** entre duas famílias de curvas:
+
+1. **Isoquantas** $f(K, L) = \bar Q$ — combinações que produzem $\bar Q$. Pela TFI, sua inclinação (taxa marginal de substituição técnica, TMST) é
+
+$$
+\left.\frac{dK}{dL}\right|_{f = \bar Q} = -\,\frac{f_L}{f_K}.
+$$
+
+2. **Isocustos** $w\,L + r\,K = \bar C$ — combinações com mesmo custo total. Diferenciando,
+
+$$
+\left.\frac{dK}{dL}\right|_{C = \bar C} = -\,\frac{w}{r}.
+$$
+
+A condição de tangência é
+
+$$
+\boxed{\frac{f_L}{f_K} = \frac{w}{r}.}
+$$
+
+**TMST iguala razão de preços.** Reorganizando, recuperam-se $f_K = r/p$ e $f_L = w/p$, com $p$ determinando o nível $\bar Q$ ótimo.
+
+#### Estática Comparativa
+
+Como $K^*$ e $L^*$ respondem a mudanças nos preços? Diferenciando totalmente as CPOs do caso geral:
+
+$$
+\begin{aligned}
+p\,f_{KK}\,dK + p\,f_{KL}\,dL &= dr - f_K\,dp, \\
+p\,f_{LK}\,dK + p\,f_{LL}\,dL &= dw - f_L\,dp.
+\end{aligned}
+$$
+
+Em forma matricial,
+
+$$
+p\,\begin{pmatrix} f_{KK} & f_{KL} \\ f_{LK} & f_{LL} \end{pmatrix} \begin{pmatrix} dK \\ dL \end{pmatrix} = \begin{pmatrix} dr - f_K\,dp \\ dw - f_L\,dp \end{pmatrix}.
+$$
+
+Como $|H_\pi| > 0$, aplica-se a regra de Cramer.
+
+**Multiplicador $\partial K/\partial r$** (com $p, w$ fixos):
+
+$$
+\frac{\partial K}{\partial r} = \frac{1}{|H_\pi|}\,\begin{vmatrix} 1 & p\,f_{KL} \\ 0 & p\,f_{LL} \end{vmatrix} = \frac{p\,f_{LL}}{p^2\,(f_{KK}\,f_{LL} - f_{KL}^2)} = \frac{f_{LL}}{p\,(f_{KK}\,f_{LL} - f_{KL}^2)}.
+$$
+
+Numerador $f_{LL} < 0$, denominador positivo $\Rightarrow \partial K/\partial r < 0$: encarecer o capital reduz a demanda por capital. Análogo $\partial L/\partial w < 0$.
+
+**Multiplicadores cruzados** $\partial K/\partial w$ e $\partial L/\partial r$ têm sinal de $-f_{KL}$. Com $f_{KL} > 0$ (complementaridade), encarecer um insumo **reduz** a demanda pelo outro — capital e trabalho são "complementos brutos" no sentido de Hicks. Sob $f_{KL} < 0$ seriam substitutos brutos.
+
+Os resultados qualitativos saem **diretamente das hipóteses de sinal**, sem qualquer especificação funcional — a álgebra dos cofatores é o que torna a análise robusta a especificações não-lineares.
+
+---
+
+## Parte II — Aplicações Com Restrição
+
+### Maximização de Utilidade do Consumidor
+
+O consumidor escolhe quantidades $x_1, x_2 \geq 0$ de dois bens para maximizar a utilidade $U(x_1, x_2)$ sujeito à **restrição orçamentária** $p_1 x_1 + p_2 x_2 = R$, onde $p_1, p_2 > 0$ são preços e $R > 0$ é a renda. A função utilidade é estritamente crescente nos dois argumentos ($U_1, U_2 > 0$) e **côncava** ou **quase-côncava** ($U_{11}, U_{22} < 0$, $U_{12} > 0$ — bens são complementares na utilidade).
+
+A Lagrangeana é
+
+$$
+\mathcal{L}(x_1, x_2, \lambda) = U(x_1, x_2) + \lambda\,\bigl[R - p_1 x_1 - p_2 x_2\bigr].
+$$
+
+**CPO:**
+
+$$
+U_1(x_1, x_2) - \lambda\,p_1 = 0, \qquad
+U_2(x_1, x_2) - \lambda\,p_2 = 0, \qquad
+R - p_1 x_1 - p_2 x_2 = 0.
+$$
+
+Dividindo as duas primeiras:
+
+$$
+\boxed{\;\frac{U_1}{U_2} = \frac{p_1}{p_2}.\;}
+$$
+
+A leitura econômica é a **igualdade entre a Taxa Marginal de Substituição (TMS) e a razão de preços**: na cesta ótima, o consumidor está disposto a abrir mão de bens 2 por bem 1 exatamente na proporção em que o mercado oferece essa troca. Geometricamente, é a tangência entre a curva de indiferença ($U = \bar U$) e a reta orçamentária — que tem inclinação $-p_1/p_2$.
+
+O multiplicador $\lambda$ tem interpretação direta: das CPOs, $\lambda = U_1/p_1 = U_2/p_2 = $ utilidade marginal **por unidade monetária gasta** em qualquer bem. É a **utilidade marginal da renda**: quanto a utilidade ótima aumentaria se a renda subisse marginalmente.
+
+#### Exemplo Numérico: $U = x_1\,x_2$
+
+Tome $U(x_1, x_2) = x_1\,x_2$, com $p_1 = 1$, $p_2 = 4$, $R = 16$. A Lagrangeana:
+
+$$
+\mathcal{L} = x_1\,x_2 + \lambda\,(16 - x_1 - 4 x_2).
+$$
+
+**CPO:**
+
+$$
+x_2 - \lambda = 0,\qquad x_1 - 4\lambda = 0,\qquad 16 - x_1 - 4 x_2 = 0.
+$$
+
+Das duas primeiras: $x_1 = 4\lambda$ e $x_2 = \lambda$, logo $x_1 = 4 x_2$. Substituindo na restrição: $4 x_2 + 4 x_2 = 16 \Rightarrow x_2^* = 2$, $x_1^* = 8$, $\lambda^* = 2$.
+
+**CSO via Hessiano orlado.** Como $\mathcal{L}_{11} = 0$, $\mathcal{L}_{22} = 0$, $\mathcal{L}_{12} = \mathcal{L}_{21} = 1$, $g_1 = p_1 = 1$, $g_2 = p_2 = 4$:
+
+$$
+\bar H = \begin{pmatrix} 0 & 1 & 1 \\ 1 & 0 & 4 \\ 1 & 4 & 0 \end{pmatrix},
+\qquad |\bar H| = 0\cdot(0 - 16) - 1\cdot(0 - 4) + 1\cdot(4 - 0) = 4 + 4 = 8 > 0.
+$$
+
+Como $|\bar H| > 0$, a CSO de **máximo** é satisfeita.
+
+```{r}
+# Solução analítica via Lagrange
+p1 <- 1; p2 <- 4; R <- 16
+
+# Sistema: x1 = 4 lambda, x2 = lambda, x1 + 4 x2 = 16
+x2 <- R / (2 * p2)         # = 2
+x1 <- R / (2 * p1)         # = 8
+lam <- x2                  # = 2
+U_star <- x1 * x2
+
+cat(sprintf("x1* = %.2f, x2* = %.2f, lambda* = %.2f, U* = %.2f\n",
+            x1, x2, lam, U_star))
+
+# Verificação da CSO via Hessiano orlado
+Hbar <- matrix(c(0, 1, 1,
+                 1, 0, 4,
+                 1, 4, 0), nrow = 3, byrow = TRUE)
+cat(sprintf("|H_bar| = %.0f (esperado > 0 para máximo)\n", det(Hbar)))
+```
+
+```{python}
+import numpy as np
+from scipy.optimize import minimize
+
+p1, p2, R = 1, 4, 16
+
+# Solução analítica
+x1 = R / (2 * p1)
+x2 = R / (2 * p2)
+lam = x2
+print(f"x1* = {x1:.2f}, x2* = {x2:.2f}, λ* = {lam:.2f}, U* = {x1*x2:.2f}")
+
+# Verificação numérica
+def negU(x): return -x[0] * x[1]
+cons = ({'type': 'eq', 'fun': lambda x: p1*x[0] + p2*x[1] - R})
+res = minimize(negU, x0=[1, 1], constraints=cons,
+               bounds=[(1e-6, None), (1e-6, None)])
+print(f"Numérico: x1 = {res.x[0]:.4f}, x2 = {res.x[1]:.4f}")
+
+# Hessiano orlado
+Hbar = np.array([[0, 1, 1],
+                 [1, 0, 4],
+                 [1, 4, 0]])
+print(f"|H_bar| = {np.linalg.det(Hbar):.0f} (> 0 → máximo)")
+```
+
+```{r}
+#| label: fig-consumidor
+#| fig-cap: "Problema do consumidor com $U = x_1 x_2$, $p_1 = 1$, $p_2 = 4$, $R = 16$. Curvas de indiferença (cinza) e reta orçamentária (vermelha). A escolha ótima $(x_1^*, x_2^*) = (8, 2)$ (verde) é o ponto de tangência."
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 5
+
+library(ggplot2)
+
+grid <- expand.grid(x1 = seq(0.1, 16, length.out = 200),
+                    x2 = seq(0.1, 5, length.out = 200))
+grid$U <- grid$x1 * grid$x2
+
+# Reta orçamentária: x1 + 4 x2 = 16  →  x2 = (16 - x1)/4
+orc <- data.frame(x1 = c(0, 16), x2 = c(4, 0))
+
+ggplot(grid, aes(x1, x2, z = U)) +
+  geom_contour(breaks = c(4, 8, 16, 24, 32), color = "grey55",
+               linewidth = 0.4) +
+  geom_line(data = orc, aes(x = x1, y = x2),
+            inherit.aes = FALSE, color = "#d62728", linewidth = 0.9) +
+  annotate("point", x = 8, y = 2, color = "#2ca02c", size = 3) +
+  annotate("text", x = 8.4, y = 2.25, label = "(8, 2)",
+           hjust = 0, size = 3.5) +
+  labs(x = expression(x[1]), y = expression(x[2])) +
+  theme_minimal(base_size = 12)
+```
+
+#### Estática Comparativa do Consumidor
+
+As três CPOs do problema do consumidor formam um **sistema de funções implícitas** com endógenas $(x_1, x_2, \lambda)$ e exógenas $(p_1, p_2, R)$. Diferenciando totalmente e avaliando no ponto crítico, obtemos:
+
+$$
+\begin{aligned}
+U_{11}\,dx_1 + U_{12}\,dx_2 - p_1\,d\lambda - \lambda\,dp_1 &= 0, \\
+U_{21}\,dx_1 + U_{22}\,dx_2 - p_2\,d\lambda - \lambda\,dp_2 &= 0, \\
+-p_1\,dx_1 - p_2\,dx_2 \phantom{- p_2\,d\lambda} &= -dR + x_1\,dp_1 + x_2\,dp_2.
+\end{aligned}
+$$
+
+Em forma matricial:
+
+$$
+\underbrace{\begin{pmatrix} U_{11} & U_{12} & -p_1 \\ U_{21} & U_{22} & -p_2 \\ -p_1 & -p_2 & 0 \end{pmatrix}}_{=\;\bar H}
+\begin{pmatrix} dx_1 \\ dx_2 \\ d\lambda \end{pmatrix}
+=
+\begin{pmatrix} \lambda \\ 0 \\ x_1 \end{pmatrix} dp_1
++ \begin{pmatrix} 0 \\ \lambda \\ x_2 \end{pmatrix} dp_2
++ \begin{pmatrix} 0 \\ 0 \\ -1 \end{pmatrix} dR.
+$$
+
+Note que a matriz dos coeficientes é exatamente o **Hessiano orlado** $\bar H$. Pela CSO de máximo, $|\bar H| > 0$, logo o sistema tem solução única para qualquer choque exógeno, e podemos usar **regra de Cramer** para isolar cada multiplicador.
+
+**Efeito de uma variação na renda ($dp_1 = dp_2 = 0$, $dR \neq 0$):**
+
+$$
+\frac{\partial x_1}{\partial R} \;=\; \frac{1}{|\bar H|}\,\det\!\begin{pmatrix} 0 & U_{12} & -p_1 \\ 0 & U_{22} & -p_2 \\ -1 & -p_2 & 0 \end{pmatrix}
+\;=\; \frac{U_{12}\,p_2 - U_{22}\,p_1}{|\bar H|}.
+$$
+
+O numerador é **positivo** (porque $U_{12} > 0$ e $U_{22} < 0$); o denominador é positivo pela CSO. Logo $\partial x_1/\partial R > 0$: aumento de renda eleva o consumo de $x_1$ (o bem é **normal**).
+
+**Efeito de uma variação no preço próprio ($dp_2 = dR = 0$, $dp_1 \neq 0$):**
+
+$$
+\frac{\partial x_1}{\partial p_1} \;=\; \frac{1}{|\bar H|}\,\det\!\begin{pmatrix} \lambda & U_{12} & -p_1 \\ 0 & U_{22} & -p_2 \\ x_1 & -p_2 & 0 \end{pmatrix}
+\;=\; \frac{-U_{12}\,p_2\,x_1 + U_{22}\,p_1\,x_1 - \lambda\,p_2^2}{|\bar H|}.
+$$
+
+Os três termos do numerador são negativos (lembrando $U_{12} > 0$, $U_{22} < 0$ multiplica $p_1 x_1 > 0$, $\lambda > 0$), logo $\partial x_1/\partial p_1 < 0$: a curva de demanda própria é **decrescente**, sem necessidade de hipóteses adicionais.
+
+#### Demanda Cobb-Douglas
+
+Para a utilidade Cobb-Douglas $U(x_1, x_2) = x_1^\alpha x_2^{1-\alpha}$ com $\alpha \in (0, 1)$, a condição de tangência $U_1/U_2 = p_1/p_2$ dá
+
+$$
+\frac{\alpha\,x_1^{\alpha - 1} x_2^{1-\alpha}}{(1-\alpha)\,x_1^\alpha x_2^{-\alpha}} = \frac{\alpha}{1-\alpha}\,\frac{x_2}{x_1} = \frac{p_1}{p_2}
+\;\Longrightarrow\; x_2 = \frac{(1-\alpha)\,p_1\,x_1}{\alpha\,p_2}.
+$$
+
+Substituindo na restrição orçamentária $p_1 x_1 + p_2 x_2 = R$:
+
+$$
+p_1 x_1 + p_2 \cdot \frac{(1-\alpha)\,p_1\,x_1}{\alpha\,p_2} = R
+\;\Longrightarrow\; p_1 x_1\,\Bigl[1 + \frac{1-\alpha}{\alpha}\Bigr] = R
+\;\Longrightarrow\; \frac{p_1 x_1}{\alpha} = R.
+$$
+
+Logo as **funções de demanda Cobb-Douglas** são
+
+$$
+\boxed{\;x_1^*(p_1, p_2, R) = \frac{\alpha\,R}{p_1}, \qquad x_2^*(p_1, p_2, R) = \frac{(1 - \alpha)\,R}{p_2}.\;}
+$$
+
+A leitura econômica é elegante: o consumidor com utilidade Cobb-Douglas gasta uma **fração fixa** $\alpha$ da renda no bem 1 e $(1-\alpha)$ no bem 2 — independentemente dos preços. Esta é a razão pela qual Cobb-Douglas é tão usada em modelagem econômica: dá origem a frações de gasto constantes, propriedade rara em outras especificações.
+
+```{r}
+# Demandas Cobb-Douglas (frações fixas da renda)
+demanda_cobb <- function(alpha, p1, p2, R) {
+  c(x1 = alpha * R / p1, x2 = (1 - alpha) * R / p2)
+}
+
+alpha <- 0.4
+p1 <- 2; p2 <- 5; R <- 100
+
+dm <- demanda_cobb(alpha, p1, p2, R)
+cat(sprintf("x1* = %.3f  (gasto p1*x1 = %.2f = α·R = %.2f)\n",
+            dm["x1"], p1*dm["x1"], alpha*R))
+cat(sprintf("x2* = %.3f  (gasto p2*x2 = %.2f = (1−α)·R = %.2f)\n",
+            dm["x2"], p2*dm["x2"], (1-alpha)*R))
+cat(sprintf("Soma de gastos = %.2f  (= R = %.0f)\n",
+            p1*dm["x1"] + p2*dm["x2"], R))
+```
+
+```{python}
+def demanda_cobb(alpha, p1, p2, R):
+    return alpha * R / p1, (1 - alpha) * R / p2
+
+alpha = 0.4
+p1, p2, R = 2, 5, 100
+x1, x2 = demanda_cobb(alpha, p1, p2, R)
+print(f"x1* = {x1:.3f} (gasto p1·x1 = {p1*x1:.2f} = α·R = {alpha*R:.2f})")
+print(f"x2* = {x2:.3f} (gasto p2·x2 = {p2*x2:.2f} = (1−α)·R = {(1-alpha)*R:.2f})")
+```
+
+A condição $|\bar H| > 0$ pode ser verificada diretamente para Cobb-Douglas no ponto ótimo, mas decorre alternativamente da quase-concavidade da utilidade — propriedade preservada pela transformação monotônica $\ln U = \alpha \ln x_1 + (1-\alpha) \ln x_2$, que é estritamente côncava em $(\ln x_1, \ln x_2)$.
+
+A maximização de utilidade s.a. restrição orçamentária — junto com a maximização de lucro do produtor visto na Parte I — forma o núcleo da microeconomia neoclássica. Os mesmos passos (Lagrangeano, CPO, Hessiano orlado, estática comparativa) reaparecem em todos os problemas restritos: minimização de despesa do consumidor, minimização de custo da firma, problemas de portfolio em finanças, etc.

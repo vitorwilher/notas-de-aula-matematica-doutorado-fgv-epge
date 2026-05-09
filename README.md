@@ -34,6 +34,7 @@ As notas são compiladas em um único PDF, atualizado ao longo do curso:
 | 13 | Álgebra Linear |
 | 14 | Otimização sem Restrição |
 | 15 | Otimização com Restrição de Igualdade |
+| 16 | Aplicações Econômicas |
 
 ### Monitorias
 
@@ -62,7 +63,7 @@ As notas são compiladas em um único PDF, atualizado ao longo do curso:
 ## Estrutura do Repositório
 
 ```
-aulas/          → notas de aula por tópico (15 arquivos .qmd)
+aulas/          → notas de aula por tópico (16 arquivos .qmd)
 monitorias/     → exercícios resolvidos das monitorias (9 arquivos .qmd)
 testes/         → provas anteriores com soluções (3 arquivos .qmd)
 index.qmd       → compilador geral — gera o index.pdf

@@ -166,6 +166,10 @@ execute:
 
 \newpage
 
+{{< include aulas/aplicacoes_economicas.qmd >}}
+
+\newpage
+
 # Referências
 
 ::: {#refs}
