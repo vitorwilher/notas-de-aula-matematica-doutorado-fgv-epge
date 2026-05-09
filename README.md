@@ -31,6 +31,9 @@ As notas são compiladas em um único PDF, atualizado ao longo do curso:
 | 10 | Integração por Partes |
 | 11 | Equações Diferenciais Ordinárias |
 | 12 | Funções de Várias Variáveis |
+| 13 | Álgebra Linear |
+| 14 | Otimização sem Restrição |
+| 15 | Otimização com Restrição de Igualdade |
 
 ### Monitorias
 
@@ -43,6 +46,8 @@ As notas são compiladas em um único PDF, atualizado ao longo do curso:
 | 5 | Integral definida e Teorema Fundamental do Cálculo |
 | 6 | Funções logarítmica, inversa e exponencial |
 | 7 | Diferenciação logarítmica e integração por partes |
+| 9 | Resumo das regras de derivação e exame 2025 |
+| 10 | EDO de 2ª ordem com coeficientes constantes — P1 2025 |
 
 ### Testes Anteriores
 
@@ -57,11 +62,11 @@ As notas são compiladas em um único PDF, atualizado ao longo do curso:
 ## Estrutura do Repositório
 
 ```
-aulas/        → notas de aula por tópico (12 arquivos .qmd)
-monitorias/   → exercícios resolvidos das monitorias (7 arquivos .qmd)
-testes/       → provas anteriores com soluções (3 arquivos .qmd)
-index.qmd     → compilador geral — gera o index.pdf
-index.pdf     → PDF completo com todas as notas, monitorias e testes
+aulas/          → notas de aula por tópico (15 arquivos .qmd)
+monitorias/     → exercícios resolvidos das monitorias (9 arquivos .qmd)
+testes/         → provas anteriores com soluções (3 arquivos .qmd)
+index.qmd       → compilador geral — gera o index.pdf
+index.pdf       → PDF completo com todas as notas, monitorias e testes
 referencias.bib → referências bibliográficas
 ```
 

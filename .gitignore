@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Quarto build artifacts
+/.quarto/
+*_files/
+*.html
+
+# Excecao: o PDF compilado e versionado
+!index.pdf
