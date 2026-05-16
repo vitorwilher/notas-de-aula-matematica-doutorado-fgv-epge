@@ -1,0 +1,836 @@
+---
+title: |
+  \includegraphics[width=3.8cm]{AM.png}\par\vspace{1em}
+  Testes Anteriores — Teste 4
+author: "Vitor Wilher\\footnote{Bacharel e Mestre em Economia pela UFF, Candidato ao PhD em Economia pela EPGE/FGV. É Especialista em Ciências de Dados e Inteligência Artificial Generativa pela PUC-Rio. Atualmente, exerce a função de Data Tech Lead na Análise Macro (\\url{http://analisemacro.com.br}). Saiba mais em \\url{https://github.com/vitorwilher}.}"
+subtitle: |
+  Notas de Aula -- Matemática para Doutorado em Economia, EPGE/FGV
+
+  Professora: Silvia Matos
+date: ""
+---
+
+# Testes Anteriores — Teste 4
+
+## Teste 4 (2025) — 28 de abril de 2025
+
+### Questão 1 — Derivadas Parciais até Segunda Ordem
+
+**Calcule todas as derivadas parciais até segunda ordem de $f(x,y) = x^{\ln(y)}$ e mostre que as derivadas cruzadas são iguais.**
+
+**Domínio.** A potência $x^{\ln y}$ exige $x > 0$ (para a definição clássica via $e^{\ln y \cdot \ln x}$); $\ln y$ exige $y > 0$. Tomamos $\mathrm{Dom}(f) = \{(x,y) : x > 0,\, y > 0\}$.
+
+**Reescrita.** Usando $a^b = e^{b\ln a}$:
+
+$$f(x,y) = e^{\ln(y)\,\ln(x)}.$$
+
+Esta forma será útil em todas as derivações.
+
+#### Derivadas de primeira ordem
+
+**$\partial f/\partial x$.** Derivando o expoente em $x$: $\partial_x[\ln(y)\ln(x)] = \ln(y)/x$. Logo:
+
+$$f_x = f \cdot \frac{\ln(y)}{x} = \frac{\ln(y)}{x}\,x^{\ln(y)} = \ln(y)\,x^{\ln(y)-1}.$$
+
+**$\partial f/\partial y$.** Derivando o expoente em $y$: $\partial_y[\ln(y)\ln(x)] = \ln(x)/y$. Logo:
+
+$$f_y = f \cdot \frac{\ln(x)}{y} = \frac{\ln(x)}{y}\,x^{\ln(y)}.$$
+
+$$\boxed{\;f_x = \ln(y)\,x^{\ln(y)-1}, \qquad f_y = \frac{\ln(x)}{y}\,x^{\ln(y)}.\;}$$
+
+#### Derivadas de segunda ordem
+
+**$\partial^2 f/\partial x^2$.** Diferenciamos $f_x = \ln(y)\,x^{\ln(y)-1}$ em $x$ (com $y$ fixo, $\ln(y)$ é constante):
+
+$$f_{xx} = \ln(y)\cdot (\ln(y)-1)\,x^{\ln(y)-2}.$$
+
+$$\boxed{\;f_{xx} = \ln(y)\bigl(\ln(y)-1\bigr)\,x^{\ln(y)-2}.\;}$$
+
+**$\partial^2 f/\partial y^2$.** Diferenciamos $f_y = \dfrac{\ln(x)\,x^{\ln(y)}}{y}$ em $y$ (com $x$ fixo, $\ln(x)$ é constante). Pela regra do quociente:
+
+$$f_{yy} = \ln(x)\cdot\frac{y\cdot\partial_y x^{\ln(y)} - x^{\ln(y)}}{y^2}.$$
+
+Como $\partial_y x^{\ln y} = x^{\ln y}\cdot \ln(x)/y$:
+
+$$f_{yy} = \ln(x)\cdot\frac{y\cdot x^{\ln y}\cdot\ln(x)/y - x^{\ln y}}{y^2} = \frac{\ln(x)\,x^{\ln(y)}\bigl[\ln(x)-1\bigr]}{y^2}.$$
+
+$$\boxed{\;f_{yy} = \frac{\ln(x)\bigl(\ln(x)-1\bigr)\,x^{\ln(y)}}{y^2}.\;}$$
+
+#### Derivadas cruzadas
+
+**$\partial^2 f/\partial y\,\partial x = (f_x)_y$.** Diferenciamos $f_x = \ln(y)\,x^{\ln(y)-1}$ em $y$. Tanto $\ln(y)$ quanto $x^{\ln(y)-1}$ dependem de $y$; aplicamos a regra do produto.
+
+Para $\partial_y x^{\ln(y)-1}$, escrevemos $x^{\ln(y)-1} = e^{(\ln(y)-1)\ln(x)}$:
+
+$$\partial_y x^{\ln(y)-1} = x^{\ln(y)-1}\cdot\frac{\ln(x)}{y}.$$
+
+Logo:
+
+$$(f_x)_y = \frac{1}{y}\,x^{\ln(y)-1} + \ln(y)\cdot x^{\ln(y)-1}\cdot\frac{\ln(x)}{y} = \frac{x^{\ln(y)-1}}{y}\bigl[1 + \ln(x)\ln(y)\bigr].$$
+
+**$\partial^2 f/\partial x\,\partial y = (f_y)_x$.** Diferenciamos $f_y = \dfrac{\ln(x)\,x^{\ln(y)}}{y}$ em $x$. O fator $1/y$ é constante; aplicamos a regra do produto a $\ln(x)\cdot x^{\ln(y)}$:
+
+$$\partial_x\!\bigl[\ln(x)\,x^{\ln(y)}\bigr] = \frac{1}{x}\,x^{\ln(y)} + \ln(x)\cdot\ln(y)\,x^{\ln(y)-1} = x^{\ln(y)-1}\bigl[1 + \ln(x)\ln(y)\bigr].$$
+
+Logo:
+
+$$(f_y)_x = \frac{x^{\ln(y)-1}\bigl[1 + \ln(x)\ln(y)\bigr]}{y}.$$
+
+**Igualdade das cruzadas:**
+
+$$\boxed{\;f_{xy} = f_{yx} = \frac{x^{\ln(y)-1}\bigl[1 + \ln(x)\ln(y)\bigr]}{y}.\;}$$
+
+**Comentário.** O resultado confirma o **Teorema de Schwarz/Clairaut**: como $f$ tem derivadas parciais de segunda ordem contínuas no domínio $x,y>0$, as cruzadas necessariamente coincidem. O cálculo explícito serve como verificação.
+
+```{r}
+#| label: fig-teste4-2025-q1
+#| fig-cap: "Verificação numérica das derivadas cruzadas de $f(x,y)=x^{\\ln(y)}$. Os dois painéis mostram $f_{xy}$ e $f_{yx}$ calculadas pela fórmula analítica $x^{\\ln y - 1}[1+\\ln(x)\\ln(y)]/y$ — visualmente idênticas, como exige Schwarz."
+#| fig-align: center
+#| fig-width: 11
+#| fig-height: 4.5
+
+library(ggplot2)
+library(patchwork)
+
+grid <- expand.grid(x = seq(0.5, 3, length.out = 120),
+                    y = seq(0.5, 3, length.out = 120))
+grid$fxy <- with(grid, x^(log(y)-1) * (1 + log(x)*log(y)) / y)
+grid$fyx <- grid$fxy  # iguais por Schwarz
+
+base_t <- theme_minimal(base_size = 12)
+
+p1 <- ggplot(grid, aes(x, y, z = fxy)) +
+  geom_contour_filled(alpha = 0.9) +
+  scale_fill_viridis_d(option = "D") +
+  coord_fixed() +
+  labs(title = expression(f[xy](x,y)), x = "x", y = "y", fill = NULL) +
+  base_t + theme(legend.position = "right",
+                  legend.text = element_text(size = 7),
+                  legend.key.size = unit(0.4, "cm"))
+
+p2 <- ggplot(grid, aes(x, y, z = fyx)) +
+  geom_contour_filled(alpha = 0.9) +
+  scale_fill_viridis_d(option = "D") +
+  coord_fixed() +
+  labs(title = expression(f[yx](x,y)), x = "x", y = "y", fill = NULL) +
+  base_t + theme(legend.position = "right",
+                  legend.text = element_text(size = 7),
+                  legend.key.size = unit(0.4, "cm"))
+
+p1 + p2
+```
+
+---
+
+### Questão 2 — Curvas de Nível de $f(x,y) = y/x^2$
+
+**Domínio.** $x^2 \neq 0 \Rightarrow x \neq 0$. Logo $\mathrm{Dom}(f) = \{(x,y) \in \mathbb{R}^2 : x \neq 0\}$.
+
+**Curvas de nível.** Para $f(x,y) = c$:
+
+$$\frac{y}{x^2} = c \;\Longleftrightarrow\; y = c\,x^2.$$
+
+Cada curva de nível é uma **parábola** com vértice na origem (mas com a própria origem excluída, já que $x=0$ não pertence ao domínio).
+
+**Classificação por sinal de $c$:**
+
+- **$c > 0$**: parábola com **concavidade para cima**, ramos no semiplano $y > 0$;
+- **$c < 0$**: parábola com **concavidade para baixo**, ramos no semiplano $y < 0$;
+- **$c = 0$**: a curva degenera para $y = 0$ (o eixo $x$, excluindo a origem).
+
+**Aspectos qualitativos.**
+
+- Todas as curvas passam (no limite) pela origem, exceto que a origem em si não pertence ao domínio.
+- Quanto maior $|c|$, mais "fechada" a parábola (cresce mais rápido).
+- O sinal de $c$ separa o plano em duas regiões: $y > 0$ (curvas de nível positivas) e $y < 0$ (negativas).
+- A função é **homogênea de grau zero** ao longo da direção $(\lambda x, \lambda^2 y)$: $f(\lambda x, \lambda^2 y) = \lambda^2 y / (\lambda x)^2 = y/x^2 = f(x,y)$.
+
+```{r}
+#| label: fig-teste4-2025-q2
+#| fig-cap: "Curvas de nível de $f(x,y)=y/x^2$ para vários $c$. Parábolas com vértice na origem (excluída do domínio): $c>0$ abrem para cima, $c<0$ abrem para baixo, $c=0$ degenera no eixo $x$."
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 5
+
+library(ggplot2)
+
+x  <- seq(-2.5, 2.5, length.out = 400)
+cs <- c(-2, -1, -0.5, 0, 0.5, 1, 2)
+
+df <- do.call(rbind, lapply(cs, function(c)
+  data.frame(x = x, y = c * x^2, c = sprintf("c = %.1f", c))))
+
+# remover ponto x=0 (não está no domínio)
+df <- subset(df, abs(df$x) > 0.05)
+
+ggplot(df, aes(x, y, color = c)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0, color = "gray70", linewidth = 0.4) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
+  scale_color_viridis_d(option = "D") +
+  coord_cartesian(xlim = c(-2.5, 2.5), ylim = c(-5, 5)) +
+  labs(x = "x", y = "y", color = NULL,
+       title = expression(f(x,y) == y/x^2)) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "right")
+```
+
+---
+
+### Questão 3 — Modelo IS-LM Não-Linear
+
+**Considere o modelo:**
+
+$$\begin{aligned}
+Y &= C + I + G, & C &= c(Y^d), & Y^d &= Y - T,\\
+I &= I_G + I_P, & I_P &= I_P(r), & M^s &= \overline{M}, & M^d &= M(Y, r),
+\end{aligned}$$
+
+**com $0 < c' < 1$, $I'_P < 0$, $M_Y > 0$, $M_r < 0$.**
+
+**Diferença em relação à versão 2023.** Aqui $I_P$ depende apenas do juro nominal $r$ (não há expectativa de inflação $\pi^e$). Estrutura mais simples, mas com a mesma mecânica de estática comparativa.
+
+#### (a) Forma do sistema e diferencial total
+
+**Forma reduzida.** Substituindo $C$, $I$, $Y^d$, $I_P$ e impondo $M^d = M^s$:
+
+$$\begin{cases}
+\text{IS:} & Y - c(Y - T) - I_G - I_P(r) - G = 0,\\[2pt]
+\text{LM:} & M(Y, r) - \overline{M} = 0.
+\end{cases}$$
+
+**Diferencial total.** Endógenas: $(Y, r)$. Exógenas: $(G, T, I_G, \overline{M})$.
+
+$$\begin{aligned}
+\text{IS:} \quad & dY - c'(dY - dT) - I_P'\,dr - dI_G - dG = 0,\\
+\text{LM:} \quad & M_Y\,dY + M_r\,dr - d\overline{M} = 0.
+\end{aligned}$$
+
+Reorganizando:
+
+$$\begin{aligned}
+(1 - c')\,dY - I_P'\,dr &= dG + dI_G - c'\,dT,\\
+M_Y\,dY + M_r\,dr &= d\overline{M}.
+\end{aligned}$$
+
+**Forma matricial:**
+
+$$\boxed{\;
+\underbrace{\begin{bmatrix} 1-c' & -I_P' \\ M_Y & M_r \end{bmatrix}}_{\mathbf{J}}
+\begin{bmatrix} dY \\ dr \end{bmatrix}
+=
+\begin{bmatrix} dG + dI_G - c'\,dT \\ d\overline{M} \end{bmatrix}.\;}$$
+
+**Determinante.**
+
+$$\Delta = (1-c')\,M_r + I_P'\,M_Y \;<\; 0,$$
+
+(soma de dois termos negativos). Pelo **Teorema da Função Implícita**, $(Y,r)$ são funções $C^1$ das exógenas em uma vizinhança do equilíbrio.
+
+#### (b) Aumento na oferta monetária ($d\overline{M} > 0$, demais fixos)
+
+$$\begin{bmatrix} 1-c' & -I_P' \\ M_Y & M_r \end{bmatrix}\begin{bmatrix} dY \\ dr \end{bmatrix} = \begin{bmatrix} 0 \\ d\overline{M} \end{bmatrix}.$$
+
+**Regra de Cramer:**
+
+$$\frac{dY}{d\overline{M}} = \frac{1}{\Delta}\det\!\begin{bmatrix} 0 & -I_P' \\ 1 & M_r \end{bmatrix} = \frac{I_P'}{\Delta} \;>\; 0,$$
+
+pois $I_P' < 0$ e $\Delta < 0$.
+
+$$\frac{dr}{d\overline{M}} = \frac{1}{\Delta}\det\!\begin{bmatrix} 1-c' & 0 \\ M_Y & 1 \end{bmatrix} = \frac{1-c'}{\Delta} \;<\; 0,$$
+
+pois $1-c' > 0$ e $\Delta < 0$.
+
+$$\boxed{\;\frac{dY}{d\overline{M}} > 0, \qquad \frac{dr}{d\overline{M}} < 0.\;}$$
+
+**Interpretação econômica.** Política monetária expansionista. Mais moeda na economia ⟹ juro de equilíbrio cai. A queda em $r$ estimula investimento privado (pois $I'_P < 0$), elevando demanda agregada e produto. LM desloca-se para a direita (ou para baixo, dependendo da orientação dos eixos).
+
+#### (c) Diminuição na taxação ($dT < 0$, demais fixos)
+
+$$\begin{bmatrix} 1-c' & -I_P' \\ M_Y & M_r \end{bmatrix}\begin{bmatrix} dY \\ dr \end{bmatrix} = \begin{bmatrix} -c'\,dT \\ 0 \end{bmatrix}.$$
+
+Observe que $-c'\,dT > 0$ quando $dT < 0$ (corte de imposto).
+
+**Regra de Cramer:**
+
+$$\frac{dY}{dT} = \frac{1}{\Delta}\det\!\begin{bmatrix} -c' & -I_P' \\ 0 & M_r \end{bmatrix} = \frac{-c'\,M_r}{\Delta}.$$
+
+Como $-c' < 0$, $M_r < 0$, $\Delta < 0$: $\dfrac{dY}{dT} = \dfrac{(+)}{(-)} < 0$. Logo $dT < 0 \Rightarrow dY > 0$.
+
+$$\frac{dr}{dT} = \frac{1}{\Delta}\det\!\begin{bmatrix} 1-c' & -c' \\ M_Y & 0 \end{bmatrix} = \frac{c'\,M_Y}{\Delta} \;<\; 0,$$
+
+pois $c'\,M_Y > 0$ e $\Delta < 0$. Logo $dT < 0 \Rightarrow dr > 0$.
+
+$$\boxed{\;dT < 0 \;\Longrightarrow\; dY > 0,\quad dr > 0.\;}$$
+
+**Interpretação econômica.** Corte de imposto é **política fiscal expansionista**: maior renda disponível $Y^d = Y - T$ eleva o consumo $c(Y^d)$, deslocando a IS para a direita. O produto sobe, mas o juro também — a maior renda aumenta a demanda por moeda, e com $\overline{M}$ fixa, $r$ tem que subir para reequilibrar o mercado monetário (mesmo efeito qualitativo de um aumento em $G$ visto em 2023).
+
+```{r}
+#| label: fig-teste4-2025-q3
+#| fig-cap: "Estática comparativa no diagrama IS-LM (2025). Esquerda: aumento de $\\overline{M}$ desloca LM ($Y\\uparrow$, $r\\downarrow$). Direita: diminuição de $T$ desloca IS à direita ($Y\\uparrow$, $r\\uparrow$)."
+#| fig-align: center
+#| fig-width: 11
+#| fig-height: 4.5
+
+library(ggplot2)
+library(patchwork)
+
+base_t <- theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom", legend.title = element_blank())
+
+Y <- seq(80, 200, length.out = 200)
+
+# Painel 1: choque em M (LM desce)
+IS1 <- function(Y) 12 - 0.05*Y
+LM1   <- function(Y) -3 + 0.04*Y
+LM1_n <- function(Y) -6 + 0.04*Y
+
+df1 <- rbind(
+  data.frame(Y = Y, r = IS1(Y),   curva = "IS"),
+  data.frame(Y = Y, r = LM1(Y),   curva = "LM"),
+  data.frame(Y = Y, r = LM1_n(Y), curva = "LM' (M̄↑)")
+)
+E1  <- c(Y = 15/0.09, r = LM1(15/0.09))
+E1n <- c(Y = 18/0.09, r = LM1_n(18/0.09))
+eq1 <- data.frame(Y = c(E1["Y"], E1n["Y"]),
+                  r = c(E1["r"], E1n["r"]),
+                  ponto = c("E", "E'"))
+
+p1 <- ggplot(df1, aes(Y, r, color = curva, linetype = curva)) +
+  geom_line(linewidth = 1) +
+  geom_point(data = eq1, aes(Y, r), color = "black",
+             inherit.aes = FALSE, size = 2.6) +
+  geom_text(data = eq1, aes(Y, r, label = ponto), color = "black",
+            inherit.aes = FALSE, vjust = -1.0, size = 4) +
+  scale_color_manual(values = c("IS" = "#440154",
+                                 "LM" = "#31688e", "LM' (M̄↑)" = "#31688e")) +
+  scale_linetype_manual(values = c("IS" = "solid",
+                                    "LM" = "solid", "LM' (M̄↑)" = "dashed")) +
+  labs(title = "Choque monetário: aumento de M̄",
+       x = "Y (produto)", y = "r (juros)") + base_t
+
+# Painel 2: choque em T (IS sobe — corte de imposto)
+IS2   <- function(Y) 12 - 0.05*Y
+IS2_n <- function(Y) 15 - 0.05*Y
+LM2   <- function(Y) -3 + 0.04*Y
+
+df2 <- rbind(
+  data.frame(Y = Y, r = IS2(Y),   curva = "IS"),
+  data.frame(Y = Y, r = IS2_n(Y), curva = "IS' (T↓)"),
+  data.frame(Y = Y, r = LM2(Y),   curva = "LM")
+)
+E2  <- c(Y = (12+3)/0.09, r = LM2((12+3)/0.09))
+E2n <- c(Y = (15+3)/0.09, r = LM2((15+3)/0.09))
+eq2 <- data.frame(Y = c(E2["Y"], E2n["Y"]),
+                  r = c(E2["r"], E2n["r"]),
+                  ponto = c("E", "E'"))
+
+p2 <- ggplot(df2, aes(Y, r, color = curva, linetype = curva)) +
+  geom_line(linewidth = 1) +
+  geom_point(data = eq2, aes(Y, r), color = "black",
+             inherit.aes = FALSE, size = 2.6) +
+  geom_text(data = eq2, aes(Y, r, label = ponto), color = "black",
+            inherit.aes = FALSE, vjust = -1.0, size = 4) +
+  scale_color_manual(values = c("IS" = "#440154", "IS' (T↓)" = "#440154",
+                                 "LM" = "#31688e")) +
+  scale_linetype_manual(values = c("IS" = "solid", "IS' (T↓)" = "dashed",
+                                    "LM" = "solid")) +
+  labs(title = "Choque fiscal: corte de imposto T",
+       x = "Y (produto)", y = "r (juros)") + base_t
+
+p1 + p2
+```
+
+---
+
+## Teste 4 (2024) — 20 de abril de 2024
+
+### Questão 1 — Equações Diferenciais
+
+**Resolva as seguintes equações diferenciais.**
+
+#### 1.1 — $y'' - 2y' - 4y = 20$
+
+**Estratégia.** EDO linear de 2ª ordem com coeficientes constantes e termo não-homogêneo constante. A solução geral é $y = y_h + y_p$, onde $y_h$ resolve a homogênea associada e $y_p$ é uma solução particular.
+
+**Solução homogênea.** Equação característica:
+
+$$r^2 - 2r - 4 = 0 \;\Longrightarrow\; r = \frac{2 \pm \sqrt{4+16}}{2} = 1 \pm \sqrt{5}.$$
+
+Raízes reais e distintas $r_1 = 1+\sqrt{5}$, $r_2 = 1-\sqrt{5}$, logo:
+
+$$y_h(x) = C_1\,e^{(1+\sqrt{5})x} + C_2\,e^{(1-\sqrt{5})x}.$$
+
+**Solução particular.** Como o termo independente é constante ($20$), tentamos $y_p = K$ constante. Então $y_p' = y_p'' = 0$, e a EDO fornece:
+
+$$-4K = 20 \;\Longrightarrow\; K = -5.$$
+
+**Solução geral:**
+
+$$\boxed{y(x) = C_1\,e^{(1+\sqrt{5})x} + C_2\,e^{(1-\sqrt{5})x} - 5.}$$
+
+**Verificação.** Para $y_p = -5$: $y_p'' - 2y_p' - 4y_p = 0 - 0 - 4(-5) = 20$. $\checkmark$
+
+---
+
+#### 1.2 — $y' + xy = x$
+
+**Estratégia.** EDO linear de 1ª ordem na forma padrão $y' + p(x)y = q(x)$ com $p(x) = q(x) = x$. Aplica-se a fórmula do fator integrante:
+
+$$y(x) = e^{-\int p(x)\,dx}\left[A + \int q(x)\,e^{\int p(x)\,dx}\,dx\right].$$
+
+**Cálculo do fator integrante.** $\int p(x)\,dx = \int x\,dx = \dfrac{x^2}{2}$, logo $e^{\int p\,dx} = e^{x^2/2}$.
+
+**Cálculo da integral interna.** Substituição $u = \dfrac{x^2}{2}$, $du = x\,dx$:
+
+$$\int x\,e^{x^2/2}\,dx = \int e^{u}\,du = e^{u} + C = e^{x^2/2} + C.$$
+
+**Aplicando a fórmula** com $A$ absorvendo a constante:
+
+$$y(x) = e^{-x^2/2}\!\left[A + e^{x^2/2}\right] = A\,e^{-x^2/2} + 1.$$
+
+$$\boxed{y(x) = 1 + A\,e^{-x^2/2}.}$$
+
+**Verificação.** $y' = -A x\,e^{-x^2/2}$ e $xy = x + A x\,e^{-x^2/2}$, logo $y' + xy = x$. $\checkmark$
+
+**Interpretação.** O termo $A\,e^{-x^2/2}$ é transitório (decai rapidamente para $|x|$ grande) e $y \to 1$ é a solução de equilíbrio (ponto fixo de $y' = x(1-y)$).
+
+```{r}
+#| label: fig-teste4-2024-q1
+#| fig-cap: "EDOs da Questão 1. Esquerda: solução geral de $y''-2y'-4y=20$ para vários $(C_1,C_2)$, todas convergindo localmente ao redor do equilíbrio $y_p=-5$. Direita: solução de $y'+xy=x$ para vários $A$, todas convergindo para $y=1$ quando $|x|\\to\\infty$."
+#| fig-align: center
+#| fig-width: 11
+#| fig-height: 4.2
+
+library(ggplot2)
+library(patchwork)
+
+base_t <- theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom", legend.title = element_blank())
+
+# Q1.1: y'' - 2y' - 4y = 20
+r1 <- 1 + sqrt(5); r2 <- 1 - sqrt(5)
+x  <- seq(-2, 1.5, length.out = 400)
+pars <- list(c( 0.1,  0.5), c(-0.1, -0.5), c( 0.2, -0.3), c(-0.2,  0.3))
+df1 <- do.call(rbind, lapply(seq_along(pars), function(i) {
+  p <- pars[[i]]
+  data.frame(x = x,
+             y = p[1]*exp(r1*x) + p[2]*exp(r2*x) - 5,
+             curva = sprintf("(C₁,C₂)=(%.1f,%.1f)", p[1], p[2]))
+}))
+df1 <- subset(df1, abs(df1$y) < 25)
+
+p1 <- ggplot(df1, aes(x, y, color = curva)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = -5, linetype = "dashed", color = "gray50") +
+  annotate("text", x = 1.2, y = -4.4, label = "y_p = -5",
+           color = "gray30", size = 3.5) +
+  labs(title = expression(y*second - 2*y*minute - 4*y == 20),
+       x = "x", y = "y(x)") + base_t
+
+# Q1.2: y' + xy = x
+x2 <- seq(-3.5, 3.5, length.out = 400)
+As <- c(-2, -1, 0, 1, 2)
+df2 <- do.call(rbind, lapply(As, function(A)
+  data.frame(x = x2, y = 1 + A*exp(-x2^2/2),
+             curva = sprintf("A=%d", A))))
+
+p2 <- ggplot(df2, aes(x, y, color = curva)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray50") +
+  annotate("text", x = 3, y = 1.25, label = "y = 1",
+           color = "gray30", size = 3.5) +
+  labs(title = expression(y*minute + x*y == x),
+       x = "x", y = "y(x)") + base_t
+
+p1 + p2
+```
+
+---
+
+### Questão 2 — Curvas de Nível
+
+**Seja $f(x,y) = x^2 - x - y$. Esboce as curvas de nível de $f$.**
+
+**Definição.** A curva de nível $c$ de $f$ é o conjunto $\{(x,y) \in \mathbb{R}^2 : f(x,y) = c\}$.
+
+Impondo $f(x,y) = c$:
+
+$$x^2 - x - y = c \;\Longleftrightarrow\; y = x^2 - x - c.$$
+
+**Caracterização.** Cada curva de nível é uma **parábola** com:
+
+- coeficiente líder $+1$ — concavidade para cima;
+- vértice em $x^* = \dfrac{1}{2}$ (zerando a derivada $2x-1$);
+- ordenada do vértice $y^* = \left(\tfrac{1}{2}\right)^2 - \tfrac{1}{2} - c = -\tfrac{1}{4} - c$.
+
+Ou seja, **todas as parábolas são translações verticais umas das outras**: aumentar $c$ desloca a curva para baixo (vértice em $-\tfrac{1}{4}-c$). Quanto maior $c$, mais baixa a parábola.
+
+**Interseções relevantes.**
+
+- Com o eixo $y$ ($x = 0$): $y = -c$.
+- Com o eixo $x$ ($y = 0$): $x^2 - x = c \Rightarrow x = \dfrac{1 \pm \sqrt{1+4c}}{2}$, real se $c \geq -\tfrac{1}{4}$.
+
+A curva especial $c = -\tfrac{1}{4}$ tangencia o eixo $x$ em $x = \tfrac{1}{2}$ — é a "curva de nível mais alta" no plano (o gráfico de $f$ atinge ali seu valor máximo ao longo do eixo $y = 0$).
+
+```{r}
+#| label: fig-teste4-2024-q2
+#| fig-cap: "Curvas de nível de $f(x,y)=x^2-x-y$ para vários valores de $c$. Todas são parábolas com vértice em $x=1/2$, deslocadas verticalmente: aumentar $c$ desce a curva."
+#| fig-align: center
+#| fig-width: 7
+#| fig-height: 5
+
+library(ggplot2)
+
+x  <- seq(-2, 3, length.out = 400)
+cs <- c(-2, -1, -0.25, 0, 1, 2)
+
+df <- do.call(rbind, lapply(cs, function(c)
+  data.frame(x = x, y = x^2 - x - c, c = sprintf("c = %.2f", c))))
+
+ggplot(df, aes(x, y, color = c)) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = 0.5, linetype = "dotted", color = "gray60") +
+  geom_hline(yintercept = 0, color = "gray70", linewidth = 0.4) +
+  geom_vline(xintercept = 0, color = "gray70", linewidth = 0.4) +
+  scale_color_viridis_d(option = "D") +
+  coord_cartesian(xlim = c(-2, 3), ylim = c(-3, 5)) +
+  labs(x = "x", y = "y", color = NULL,
+       title = expression(f(x,y) == x^2 - x - y)) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "right")
+```
+
+---
+
+### Questão 3 — Derivadas Parciais
+
+**Calcule as derivadas parciais da função:**
+
+$$f(x,y) = (x^2 + y^2)\,e^{-(x^2+y^2)} + y\,e^{x}\ln(y).$$
+
+**Estratégia.** Decompomos $f = g + h$ com $g(x,y) = (x^2+y^2)\,e^{-(x^2+y^2)}$ e $h(x,y) = y\,e^x\,\ln(y)$.
+
+#### Derivada $\partial f / \partial x$
+
+**Parcial de $g$.** Tratamos $y$ como constante. Pela regra do produto:
+
+$$\frac{\partial g}{\partial x} = (2x)\,e^{-(x^2+y^2)} + (x^2+y^2)\cdot e^{-(x^2+y^2)}\cdot(-2x).$$
+
+Fatorando $2x\,e^{-(x^2+y^2)}$:
+
+$$\frac{\partial g}{\partial x} = 2x\,e^{-(x^2+y^2)}\bigl[1 - (x^2+y^2)\bigr].$$
+
+**Parcial de $h$.** Como $y$ é constante:
+
+$$\frac{\partial h}{\partial x} = y\,e^{x}\,\ln(y).$$
+
+**Resultado:**
+
+$$\boxed{\frac{\partial f}{\partial x} = 2x\,e^{-(x^2+y^2)}\bigl[1-(x^2+y^2)\bigr] + y\,e^{x}\,\ln(y).}$$
+
+#### Derivada $\partial f / \partial y$
+
+**Parcial de $g$.** Por simetria em $x \leftrightarrow y$:
+
+$$\frac{\partial g}{\partial y} = 2y\,e^{-(x^2+y^2)}\bigl[1-(x^2+y^2)\bigr].$$
+
+**Parcial de $h$.** Regra do produto, $e^x$ constante em $y$:
+
+$$\frac{\partial h}{\partial y} = e^{x}\,\ln(y) + y\,e^{x}\cdot\frac{1}{y} = e^{x}\bigl[\ln(y) + 1\bigr].$$
+
+**Resultado:**
+
+$$\boxed{\frac{\partial f}{\partial y} = 2y\,e^{-(x^2+y^2)}\bigl[1-(x^2+y^2)\bigr] + e^{x}\bigl[\ln(y)+1\bigr].}$$
+
+**Comentário.** O fator $\bigl[1-(x^2+y^2)\bigr]$ muda de sinal no círculo $x^2+y^2=1$: dentro do círculo, $g$ cresce na direção radial; fora dele, $g$ decresce — o que faz sentido, já que $g(r) = r^2 e^{-r^2}$ tem máximo em $r=1$.
+
+---
+
+## Teste 4 (2023) — 11 de setembro de 2023
+
+### Questão 1 — Modelo IS-LM Não-Linear
+
+**Considere o modelo:**
+
+$$\begin{aligned}
+Y &= C + I + G, & C &= c(Y^d), & Y^d &= Y - T,\\
+I &= I_G + I_P, & I_P &= I_P(r - \pi^e), & M^s &= \overline{M}, & M^d &= M(Y, r),
+\end{aligned}$$
+
+**com $0 < c' < 1$, $I'_P < 0$, $M_Y > 0$, $M_r < 0$.** O equilíbrio ocorre quando demanda e oferta se igualam nos mercados de bens e de moeda.
+
+#### 1.1 — Forma matricial e diferencial total
+
+**Forma reduzida.** Substituindo $C$, $Y^d$, $I$, $I_P$ na identidade de produto, e impondo $M^d = M^s$, o equilíbrio é o par $(Y, r)$ que resolve:
+
+$$\begin{cases}
+\text{IS:} & Y - c(Y - T) - I_G - I_P(r - \pi^e) - G = 0,\\[2pt]
+\text{LM:} & M(Y, r) - \overline{M} = 0.
+\end{cases}$$
+
+**Diferenciando totalmente.** Tomando como **endógenas** $(Y, r)$ e como **exógenas** $(G, T, I_G, \overline{M}, \pi^e)$:
+
+$$\begin{aligned}
+\text{IS:} \quad & dY - c'\,(dY - dT) - I_P'\,(dr - d\pi^e) - dI_G - dG = 0,\\
+\text{LM:} \quad & M_Y\,dY + M_r\,dr - d\overline{M} = 0.
+\end{aligned}$$
+
+Reorganizando termos:
+
+$$\begin{aligned}
+(1 - c')\,dY - I_P'\,dr &= dG + dI_G - c'\,dT - I_P'\,d\pi^e,\\
+M_Y\,dY + M_r\,dr &= d\overline{M}.
+\end{aligned}$$
+
+**Forma matricial:**
+
+$$\boxed{\;
+\underbrace{\begin{bmatrix} 1-c' & -I_P' \\ M_Y & M_r \end{bmatrix}}_{\mathbf{J}}
+\begin{bmatrix} dY \\ dr \end{bmatrix}
+=
+\begin{bmatrix} dG + dI_G - c'\,dT - I_P'\,d\pi^e \\ d\overline{M} \end{bmatrix}.\;}$$
+
+**Determinante (Jacobiano).**
+
+$$\Delta = \det \mathbf{J} = (1-c')\,M_r - (-I_P')\,M_Y = \underbrace{(1-c')\,M_r}_{<\,0} + \underbrace{I_P'\,M_Y}_{<\,0} \;<\; 0,$$
+
+pois $1-c' > 0$, $M_r < 0$, $I_P' < 0$, $M_Y > 0$. A não-singularidade $\Delta \neq 0$ garante, pelo **Teorema da Função Implícita**, que $(Y, r)$ podem ser expressos como funções $C^1$ das exógenas em uma vizinhança do equilíbrio.
+
+#### 1.2 — Aumento no gasto do governo ($dG > 0$, demais fixos)
+
+O sistema reduz-se a:
+
+$$\begin{bmatrix} 1-c' & -I_P' \\ M_Y & M_r \end{bmatrix}
+\begin{bmatrix} dY \\ dr \end{bmatrix}
+=
+\begin{bmatrix} dG \\ 0 \end{bmatrix}.$$
+
+**Regra de Cramer:**
+
+$$\frac{dY}{dG} = \frac{1}{\Delta}\det\!\begin{bmatrix} 1 & -I_P' \\ 0 & M_r \end{bmatrix} = \frac{M_r}{\Delta} \;>\; 0,$$
+
+pois $M_r < 0$ e $\Delta < 0$.
+
+$$\frac{dr}{dG} = \frac{1}{\Delta}\det\!\begin{bmatrix} 1-c' & 1 \\ M_Y & 0 \end{bmatrix} = \frac{-M_Y}{\Delta} \;>\; 0,$$
+
+pois $M_Y > 0$ e $\Delta < 0$.
+
+**Conclusão:**
+
+$$\boxed{\;\frac{dY}{dG} > 0, \qquad \frac{dr}{dG} > 0.\;}$$
+
+**Interpretação econômica.** Aumento de $G$ desloca **IS para a direita**: maior demanda agregada → maior produto $Y$. O maior $Y$ eleva a demanda por moeda $M^d = M(Y,r)$; com oferta $\overline{M}$ fixa, o juro $r$ sobe para reequilibrar o mercado monetário. O efeito final em $Y$ é positivo, mas **parcialmente compensado** pelo *crowding out* via $r \uparrow$ (que reduz $I_P$).
+
+#### 1.3 — Aumento da oferta monetária ($d\overline{M} > 0$, demais fixos)
+
+$$\begin{bmatrix} 1-c' & -I_P' \\ M_Y & M_r \end{bmatrix}
+\begin{bmatrix} dY \\ dr \end{bmatrix}
+=
+\begin{bmatrix} 0 \\ d\overline{M} \end{bmatrix}.$$
+
+**Regra de Cramer:**
+
+$$\frac{dY}{d\overline{M}} = \frac{1}{\Delta}\det\!\begin{bmatrix} 0 & -I_P' \\ 1 & M_r \end{bmatrix} = \frac{I_P'}{\Delta} \;>\; 0,$$
+
+pois $I_P' < 0$ e $\Delta < 0$.
+
+$$\frac{dr}{d\overline{M}} = \frac{1}{\Delta}\det\!\begin{bmatrix} 1-c' & 0 \\ M_Y & 1 \end{bmatrix} = \frac{1-c'}{\Delta} \;<\; 0,$$
+
+pois $1-c' > 0$ e $\Delta < 0$.
+
+**Conclusão:**
+
+$$\boxed{\;\frac{dY}{d\overline{M}} > 0, \qquad \frac{dr}{d\overline{M}} < 0.\;}$$
+
+**Interpretação econômica.** Aumento de $\overline{M}$ desloca **LM para a direita/baixo**: com mais moeda disponível, o juro de equilíbrio cai. A queda em $r$ estimula $I_P$ (pois $I'_P < 0$), elevando demanda agregada e produto. É a política monetária expansionista padrão.
+
+```{r}
+#| label: fig-teste4-2023-q1
+#| fig-cap: "Estática comparativa no diagrama IS-LM. Esquerda: aumento de $G$ desloca IS à direita ($Y\\uparrow$, $r\\uparrow$). Direita: aumento de $\\overline{M}$ desloca LM à direita ($Y\\uparrow$, $r\\downarrow$)."
+#| fig-align: center
+#| fig-width: 11
+#| fig-height: 4.5
+
+library(ggplot2)
+library(patchwork)
+
+base_t <- theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom", legend.title = element_blank())
+
+# Curvas IS e LM lineares ilustrativas
+Y <- seq(80, 200, length.out = 200)
+
+# Painel 1: choque em G
+IS1   <- function(Y) 12 - 0.05*Y
+IS1_n <- function(Y) 15 - 0.05*Y
+LM1   <- function(Y) -3 + 0.04*Y
+
+df1 <- rbind(
+  data.frame(Y = Y, r = IS1(Y),   curva = "IS"),
+  data.frame(Y = Y, r = IS1_n(Y), curva = "IS' (G↑)"),
+  data.frame(Y = Y, r = LM1(Y),   curva = "LM")
+)
+
+E1   <- c(Y = (12+3)/0.09,    r = LM1((12+3)/0.09))
+E1n  <- c(Y = (15+3)/0.09,    r = LM1((15+3)/0.09))
+
+eq1 <- data.frame(Y = c(E1["Y"], E1n["Y"]),
+                  r = c(E1["r"], E1n["r"]),
+                  ponto = c("E", "E'"))
+
+p1 <- ggplot(df1, aes(Y, r, color = curva, linetype = curva)) +
+  geom_line(linewidth = 1) +
+  geom_point(data = eq1, aes(Y, r), color = "black",
+             inherit.aes = FALSE, size = 2.6) +
+  geom_text(data = eq1, aes(Y, r, label = ponto), color = "black",
+            inherit.aes = FALSE, vjust = -1.0, size = 4) +
+  scale_color_manual(values = c("IS" = "#440154", "IS' (G↑)" = "#440154",
+                                 "LM" = "#31688e")) +
+  scale_linetype_manual(values = c("IS" = "solid", "IS' (G↑)" = "dashed",
+                                    "LM" = "solid")) +
+  labs(title = "Choque fiscal: aumento de G",
+       x = "Y (produto)", y = "r (juros)") + base_t
+
+# Painel 2: choque em M
+IS2   <- function(Y) 12 - 0.05*Y
+LM2   <- function(Y) -3 + 0.04*Y
+LM2_n <- function(Y) -6 + 0.04*Y
+
+df2 <- rbind(
+  data.frame(Y = Y, r = IS2(Y),   curva = "IS"),
+  data.frame(Y = Y, r = LM2(Y),   curva = "LM"),
+  data.frame(Y = Y, r = LM2_n(Y), curva = "LM' (M↑)")
+)
+
+E2   <- c(Y = 15/0.09,    r = LM2(15/0.09))
+E2n  <- c(Y = 18/0.09,    r = LM2_n(18/0.09))
+
+eq2 <- data.frame(Y = c(E2["Y"], E2n["Y"]),
+                  r = c(E2["r"], E2n["r"]),
+                  ponto = c("E", "E'"))
+
+p2 <- ggplot(df2, aes(Y, r, color = curva, linetype = curva)) +
+  geom_line(linewidth = 1) +
+  geom_point(data = eq2, aes(Y, r), color = "black",
+             inherit.aes = FALSE, size = 2.6) +
+  geom_text(data = eq2, aes(Y, r, label = ponto), color = "black",
+            inherit.aes = FALSE, vjust = -1.0, size = 4) +
+  scale_color_manual(values = c("IS" = "#440154",
+                                 "LM" = "#31688e", "LM' (M↑)" = "#31688e")) +
+  scale_linetype_manual(values = c("IS" = "solid",
+                                    "LM" = "solid", "LM' (M↑)" = "dashed")) +
+  labs(title = "Choque monetário: aumento de M̄",
+       x = "Y (produto)", y = "r (juros)") + base_t
+
+p1 + p2
+```
+
+---
+
+### Questão 2 — Extremos Locais
+
+**Determine os valores máximos e mínimos locais da função:**
+
+$$f(x,y) = x^4 + y^4 - 4xy + 1.$$
+
+**Pontos críticos.** O gradiente é
+
+$$\nabla f = \bigl(4x^3 - 4y,\;\; 4y^3 - 4x\bigr).$$
+
+Impondo $\nabla f = 0$:
+
+$$\begin{cases} y = x^3,\\ x = y^3. \end{cases}$$
+
+Substituindo a primeira na segunda: $x = (x^3)^3 = x^9$, logo $x^9 - x = x(x^8 - 1) = 0$. As soluções reais são $x = 0$ ou $x^8 = 1 \Rightarrow x = \pm 1$.
+
+Em cada caso, $y = x^3$ fornece:
+
+- $x = 0 \Rightarrow y = 0$ → ponto crítico $P_0 = (0,0)$;
+- $x = 1 \Rightarrow y = 1$ → ponto crítico $P_1 = (1,1)$;
+- $x = -1 \Rightarrow y = -1$ → ponto crítico $P_2 = (-1,-1)$.
+
+**Hessiana.** Derivadas segundas:
+
+$$f_{xx} = 12x^2, \qquad f_{yy} = 12y^2, \qquad f_{xy} = -4.$$
+
+$$H(x,y) = \begin{bmatrix} 12x^2 & -4 \\ -4 & 12y^2 \end{bmatrix}, \qquad \det H = 144\,x^2 y^2 - 16.$$
+
+**Classificação.**
+
+| Ponto | $f_{xx}$ | $\det H$ | Tipo | $f$ |
+|-------|---------:|---------:|------|----:|
+| $P_0 = (0,0)$ | $0$ | $-16 < 0$ | **Sela** | $1$ |
+| $P_1 = (1,1)$ | $12 > 0$ | $128 > 0$ | **Mínimo local** | $-1$ |
+| $P_2 = (-1,-1)$ | $12 > 0$ | $128 > 0$ | **Mínimo local** | $-1$ |
+
+**Valores em $P_1, P_2$:** $f(\pm 1, \pm 1) = 1 + 1 - 4 + 1 = -1$.
+
+**Conclusão.**
+
+$$\boxed{\;\text{Mínimos locais em } (1,1) \text{ e } (-1,-1), \text{ ambos com } f = -1.\quad \text{Sela em } (0,0).\;}$$
+
+**Observação sobre o máximo.** Não há máximo local: como $x^4 + y^4$ domina o comportamento no infinito, $f(x,y) \to +\infty$ quando $\|(x,y)\| \to \infty$. Os dois mínimos são, na verdade, **mínimos globais**.
+
+```{r}
+#| label: fig-teste4-2023-q2
+#| fig-cap: "Função $f(x,y)=x^4+y^4-4xy+1$. Curvas de nível com os três pontos críticos: mínimos globais em $(\\pm 1,\\pm 1)$ com $f=-1$ e sela na origem com $f=1$. À direita, o perfil ao longo da reta $y=x$, $f(x,x)=2x^4-4x^2+1$, evidencia o duplo poço característico."
+#| fig-align: center
+#| fig-width: 11
+#| fig-height: 4.8
+
+library(ggplot2)
+library(patchwork)
+
+base_t <- theme_minimal(base_size = 12)
+
+# Painel 1: curvas de nível
+grid <- expand.grid(x = seq(-1.8, 1.8, length.out = 200),
+                    y = seq(-1.8, 1.8, length.out = 200))
+grid$z <- with(grid, x^4 + y^4 - 4*x*y + 1)
+
+criticos <- data.frame(
+  x = c(0, 1, -1),
+  y = c(0, 1, -1),
+  label = c("Sela (0,0)\nf=1", "Mín. (1,1)\nf=-1", "Mín. (-1,-1)\nf=-1"),
+  tipo  = c("Sela", "Mínimo", "Mínimo")
+)
+
+p1 <- ggplot(grid, aes(x, y, z = z)) +
+  geom_contour_filled(breaks = c(-1.5, -1, -0.5, 0, 1, 2, 4, 8, 16, 32),
+                      alpha = 0.85) +
+  geom_contour(breaks = c(-1, 0, 1, 2, 4, 8), color = "white",
+               linewidth = 0.25) +
+  geom_point(data = criticos, aes(x, y, color = tipo),
+             inherit.aes = FALSE, size = 3.2) +
+  geom_text(data = criticos, aes(x, y, label = label, color = tipo),
+            inherit.aes = FALSE, vjust = -0.6, size = 3, fontface = "bold") +
+  scale_fill_viridis_d(option = "D") +
+  scale_color_manual(values = c("Sela" = "white", "Mínimo" = "yellow")) +
+  coord_fixed(xlim = c(-1.8, 1.8), ylim = c(-1.8, 1.8)) +
+  labs(title = expression(f(x,y) == x^4 + y^4 - 4*x*y + 1),
+       x = "x", y = "y", fill = "f(x,y)") +
+  base_t + theme(legend.position = "right") +
+  guides(color = "none")
+
+# Painel 2: perfil ao longo de y = x
+t <- seq(-1.5, 1.5, length.out = 400)
+df_perfil <- data.frame(t = t, f = 2*t^4 - 4*t^2 + 1)
+crit_perfil <- data.frame(
+  t = c(-1, 0, 1),
+  f = c(-1, 1, -1),
+  label = c("Mín.", "Sela", "Mín.")
+)
+
+p2 <- ggplot(df_perfil, aes(t, f)) +
+  geom_line(color = "#440154", linewidth = 1.1) +
+  geom_hline(yintercept = 0, color = "gray70", linewidth = 0.3) +
+  geom_point(data = crit_perfil, aes(t, f), color = "#FDE725",
+             size = 3.2) +
+  geom_text(data = crit_perfil, aes(t, f, label = label),
+            vjust = -0.9, size = 3.5, color = "#440154") +
+  labs(title = expression(f(x,x) == 2*x^4 - 4*x^2 + 1),
+       x = "x", y = "f(x,x)") + base_t
+
+p1 + p2
+```

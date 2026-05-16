@@ -57,6 +57,7 @@ As notas são compiladas em um único PDF, atualizado ao longo do curso:
 | Teste 1 | Derivadas |
 | Teste 2 | Integrais |
 | Teste 3 | Derivadas e integrais |
+| Teste 4 | EDOs, curvas de nível, derivadas parciais, IS-LM e otimização em $\mathbb{R}^2$ |
 
 ---
 
@@ -65,7 +66,7 @@ As notas são compiladas em um único PDF, atualizado ao longo do curso:
 ```
 aulas/          → notas de aula por tópico (16 arquivos .qmd)
 monitorias/     → exercícios resolvidos das monitorias (9 arquivos .qmd)
-testes/         → provas anteriores com soluções (3 arquivos .qmd)
+testes/         → provas anteriores com soluções (4 arquivos .qmd)
 index.qmd       → compilador geral — gera o index.pdf
 index.pdf       → PDF completo com todas as notas, monitorias e testes
 referencias.bib → referências bibliográficas

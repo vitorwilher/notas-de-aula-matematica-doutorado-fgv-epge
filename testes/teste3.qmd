@@ -202,6 +202,183 @@ p1 + p2 + p3
 
 ---
 
+## Teste 3 (2025) — 14 de abril de 2025
+
+### Questão 1 — Derivadas
+
+**Encontre as derivadas das funções abaixo.**
+
+#### 1.1 — $f(x) = \dfrac{5^{x^3}}{\sqrt{x^x}}$
+
+**Estratégia.** Variável em base e expoente em ambos os fatores: diferenciação logarítmica. Reescrevemos $\sqrt{x^x} = x^{x/2}$, de modo que:
+
+$$f(x) = 5^{x^3}\cdot x^{-x/2}.$$
+
+Tomando o logaritmo:
+
+$$\ln f(x) = x^3\ln 5 - \tfrac{x}{2}\,\ln x.$$
+
+Derivando:
+
+$$\frac{f'(x)}{f(x)} = 3x^2\ln 5 - \tfrac{1}{2}(\ln x + 1).$$
+
+$$\boxed{\;f'(x) = \frac{5^{x^3}}{\sqrt{x^x}}\!\left[3x^2\ln 5 - \frac{\ln x + 1}{2}\right].\;}$$
+
+---
+
+#### 1.2 — $f(x) = x^3\cdot 3^x + \sqrt[3]{x^{e^x} - \ln(x^6)}$
+
+**Simplificação prévia.** $\ln(x^6) = 6\ln x$. Decompomos $f = A + B$ com:
+
+$$A(x) = x^3\cdot 3^x, \qquad B(x) = \bigl(x^{e^x} - 6\ln x\bigr)^{1/3}.$$
+
+**Parte A.** Regra do produto:
+
+$$A'(x) = 3x^2\cdot 3^x + x^3\cdot 3^x\ln 3 = x^2\,3^x\,(3 + x\ln 3).$$
+
+**Parte B.** Pela regra da cadeia, $B'(x) = \tfrac{1}{3}\,(x^{e^x}-6\ln x)^{-2/3}\cdot\bigl[x^{e^x} - 6\ln x\bigr]'$.
+
+Para $\bigl[x^{e^x}\bigr]'$, diferenciação logarítmica. Seja $u = x^{e^x}$: $\ln u = e^x\ln x$, logo:
+
+$$\frac{u'}{u} = e^x\ln x + \frac{e^x}{x} = e^x\!\left(\ln x + \frac{1}{x}\right) \;\Longrightarrow\; \bigl[x^{e^x}\bigr]' = x^{e^x}\,e^x\!\left(\ln x + \frac{1}{x}\right).$$
+
+E $[6\ln x]' = 6/x$. Portanto:
+
+$$B'(x) = \frac{1}{3\bigl(x^{e^x}-6\ln x\bigr)^{2/3}}\!\left[x^{e^x}\,e^x\!\left(\ln x + \frac{1}{x}\right) - \frac{6}{x}\right].$$
+
+**Derivada total** $f'(x) = A'(x) + B'(x)$:
+
+$$\boxed{\;f'(x) = x^2\,3^x\,(3 + x\ln 3) + \frac{x^{e^x}\,e^x(\ln x + 1/x) - 6/x}{3\bigl(x^{e^x}-6\ln x\bigr)^{2/3}}.\;}$$
+
+---
+
+### Questão 2 — Integrais
+
+#### 2.1 — $\displaystyle\int \ln^2(x)\,dx$
+
+**Integração por partes.** $u = \ln^2 x$, $dv = dx \Rightarrow du = \dfrac{2\ln x}{x}\,dx$, $v = x$:
+
+$$\int\ln^2(x)\,dx = x\ln^2(x) - \int 2\ln(x)\,dx.$$
+
+Para $\int\ln(x)\,dx$ (segunda IPP, fórmula padrão):
+
+$$\int\ln(x)\,dx = x\ln(x) - x + C.$$
+
+Substituindo:
+
+$$\int\ln^2(x)\,dx = x\ln^2(x) - 2\bigl[x\ln(x) - x\bigr] + C.$$
+
+$$\boxed{\;\int\ln^2(x)\,dx = x\bigl(\ln^2 x - 2\ln x + 2\bigr) + C.\;}$$
+
+**Verificação.** $[x(\ln^2 x - 2\ln x + 2)]' = \ln^2 x - 2\ln x + 2 + x\!\left(\tfrac{2\ln x}{x} - \tfrac{2}{x}\right) = \ln^2 x$. $\checkmark$
+
+---
+
+#### 2.2 — $\displaystyle\int x^3\,e^{x^2}\,dx$
+
+**Substituição.** $u = x^2$, $du = 2x\,dx$. Reescrevemos $x^3\,dx = x^2\cdot x\,dx = u\cdot\dfrac{du}{2}$:
+
+$$\int x^3\,e^{x^2}\,dx = \frac{1}{2}\int u\,e^{u}\,du.$$
+
+**Integração por partes** (fórmula padrão): $\int u\,e^u\,du = e^u(u-1) + C$.
+
+Voltando a $u = x^2$:
+
+$$\boxed{\;\int x^3\,e^{x^2}\,dx = \frac{1}{2}\,e^{x^2}\bigl(x^2 - 1\bigr) + C.\;}$$
+
+**Verificação.** $\left[\tfrac{1}{2}e^{x^2}(x^2-1)\right]' = \tfrac{1}{2}\bigl[2x\,e^{x^2}(x^2-1) + e^{x^2}\cdot 2x\bigr] = x\,e^{x^2}\,x^2 = x^3\,e^{x^2}$. $\checkmark$
+
+---
+
+### Questão 3 — EDOs
+
+#### 3.1 — $y'' - y' - y = 0$
+
+EDO linear homogênea de 2ª ordem com coeficientes constantes. Equação característica:
+
+$$r^2 - r - 1 = 0 \;\Longrightarrow\; r = \frac{1 \pm \sqrt{5}}{2}.$$
+
+Raízes reais e distintas $r_1 = \tfrac{1+\sqrt 5}{2}$ (razão áurea $\varphi$) e $r_2 = \tfrac{1-\sqrt 5}{2}$:
+
+$$\boxed{\;y(x) = C_1\,e^{\frac{1+\sqrt 5}{2}\,x} + C_2\,e^{\frac{1-\sqrt 5}{2}\,x}.\;}$$
+
+---
+
+#### 3.2 — $y'' - 4y' + 4y = 8$, com $y(0) = 3$, $y'(0) = 5$
+
+**Solução homogênea.** Equação característica $r^2 - 4r + 4 = (r-2)^2 = 0$ tem raiz dupla $r = 2$:
+
+$$y_h(x) = (C_1 + C_2 x)\,e^{2x}.$$
+
+**Solução particular.** Termo independente constante ($8$): tentamos $y_p = K$. Substituindo, $4K = 8 \Rightarrow K = 2$.
+
+**Solução geral:** $y(x) = (C_1 + C_2 x)\,e^{2x} + 2$.
+
+**Aplicando as condições iniciais.**
+
+$$y(0) = C_1 + 2 = 3 \;\Longrightarrow\; C_1 = 1.$$
+
+Calculando $y'(x)$:
+
+$$y'(x) = C_2\,e^{2x} + 2(C_1+C_2 x)\,e^{2x} = e^{2x}\bigl[(2C_1 + C_2) + 2C_2 x\bigr].$$
+
+$$y'(0) = 2C_1 + C_2 = 2 + C_2 = 5 \;\Longrightarrow\; C_2 = 3.$$
+
+$$\boxed{\;y(x) = (1 + 3x)\,e^{2x} + 2.\;}$$
+
+**Verificação.** $y(0) = 1 + 2 = 3$ $\checkmark$. $y'(0) = e^{0}(2\cdot 1 + 3) = 5$ $\checkmark$.
+
+$y'(x) = e^{2x}(5 + 6x)$, $y''(x) = e^{2x}(16 + 12x)$, então $y''-4y'+4y = e^{2x}(16+12x - 20 - 24x + 4 + 12x) + 8 = 0 + 8 = 8$. $\checkmark$
+
+```{r}
+#| label: fig-teste3-2025-q3
+#| fig-cap: "EDOs da Questão 3. Esquerda: famílias de soluções de $y''-y'-y=0$ para vários $(C_1,C_2)$. Direita: solução do PVI $y''-4y'+4y=8$, $y(0)=3$, $y'(0)=5$ — a parte transitória $(1+3x)e^{2x}$ explode rapidamente; em escala curta vê-se a condição inicial e a inclinação iniciais."
+#| fig-align: center
+#| fig-width: 11
+#| fig-height: 4.2
+
+library(ggplot2)
+library(patchwork)
+
+base_t <- theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom", legend.title = element_blank())
+
+# 3.1
+r1 <- (1 + sqrt(5))/2
+r2 <- (1 - sqrt(5))/2
+x  <- seq(-3, 2, length.out = 400)
+pars <- list(c( 0.2,  1.0), c(-0.2,  1.0), c( 0.2, -1.0), c(-0.2, -1.0))
+df1 <- do.call(rbind, lapply(pars, function(p)
+  data.frame(x = x,
+             y = p[1]*exp(r1*x) + p[2]*exp(r2*x),
+             curva = sprintf("(C₁,C₂)=(%.1f,%.1f)", p[1], p[2]))))
+df1 <- subset(df1, abs(df1$y) < 8)
+
+p1 <- ggplot(df1, aes(x, y, color = curva)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = 0, color = "gray70", linewidth = 0.4) +
+  labs(title = expression(y*second - y*minute - y == 0),
+       x = "x", y = "y(x)") + base_t
+
+# 3.2 — PVI
+x2 <- seq(-1.5, 0.5, length.out = 400)
+df2 <- data.frame(x = x2, y = (1 + 3*x2)*exp(2*x2) + 2)
+
+p2 <- ggplot(df2, aes(x, y)) +
+  geom_line(color = "#440154", linewidth = 1.2) +
+  geom_hline(yintercept = 2, linetype = "dashed", color = "gray50") +
+  geom_point(aes(x = 0, y = 3), color = "#FDE725", size = 3) +
+  annotate("text", x = 0.05, y = 3.4, label = "y(0)=3, y'(0)=5",
+           hjust = 0, size = 3.5, color = "#440154", fontface = "bold") +
+  annotate("text", x = -1.3, y = 2.25, label = "y_p = 2", color = "gray30", size = 3.5) +
+  labs(title = expression(y*second - 4*y*minute + 4*y == 8),
+       x = "x", y = "y(x)") + base_t
+
+p1 + p2
+```
+
+---
+
 ## Teste 3 (2024) — 13 de abril de 2024
 
 ### Questão 1 — Derivadas

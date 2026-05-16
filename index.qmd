@@ -170,6 +170,10 @@ execute:
 
 \newpage
 
+{{< include testes/teste4.qmd >}}
+
+\newpage
+
 # Referências
 
 ::: {#refs}
